@@ -1,0 +1,9 @@
+{
+  "name": "duet",
+  "version": "1.0.0",
+  "description": "Slash commands for Claude Code: git workflows, reflection, code quality, writing, and frontend design",
+  "author": {
+    "name": "tslater"
+  },
+  "keywords": ["git", "commit", "reflection", "code-quality", "writing", "frontend"]
+}
