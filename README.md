@@ -60,6 +60,18 @@ duet/
 
 Commands and skills both create slash commands. Use `commands/` for simple single-file commands; use `skills/` when you need supporting files or advanced features like `context: fork`.
 
+## Permissions
+
+Duet includes a permission set (`.claude/settings.json`) optimized for its workflows:
+
+| Tier | Operations |
+|------|------------|
+| **Allow** | `Read`, `git status/log/diff/branch/show`, `markdownlint`, `ls/cat/head/tail/wc` |
+| **Ask** | `Edit`, `git add/commit/push/checkout/restore/stash/merge/rebase` |
+| **Deny** | `rm -rf`, `git push --force`, `git reset --hard`, `.env`, `~/.ssh`, `~/.aws` |
+
+Conservative by design: all git writes prompt for confirmation. Customize as needed—project settings override user settings, and `deny` rules always win.
+
 ## Requirements
 
 - [Claude Code](https://claude.ai/code)

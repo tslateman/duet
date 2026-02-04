@@ -15,5 +15,5 @@ node_modules/
 *.tmp
 *.log
 
-# Claude local settings
-.claude/
+# Claude local settings (keep settings.json for shared permissions)
+.claude/settings.local.json
