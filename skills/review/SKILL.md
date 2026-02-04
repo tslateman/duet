@@ -1,6 +1,6 @@
 ---
 name: review
-description: Use when reviewing code, PRs, or changes. Triggers on "review this", "review PR", "code review", "what do you think of this code", "check this implementation", or requests for feedback on code changes. Captures concerns, alternatives considered, and risks for the record.
+description: Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted. Use for PRs, local changes, or architecture review when the decision matters more than the diff. Produces structured feedback with must-address issues, suggestions, and observations "for the record."
 ---
 
 # Structured Code Review
@@ -8,6 +8,8 @@ description: Use when reviewing code, PRs, or changes. Triggers on "review this"
 ## Overview
 
 Code review that captures context, not just correctness. Beyond finding bugs, document the *why*—concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
+
+Use this for PRs, local changes, or architecture review—any code where you want to preserve the reasoning, not just the verdict.
 
 ## Review Workflow
 
