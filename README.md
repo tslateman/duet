@@ -16,6 +16,9 @@ All skills are invokable with `/skill-name`. Claude can also load them automatic
 | `/think-next [n]` | Generate `n` philosophy questions |
 | `/frontend-design` | Create distinctive, production-grade UIs |
 | `/prose` | Apply Strunk's writing rules to prose |
+| `/research` | Systematic technical research for decisions |
+| `/review` | Structured code review with context capture |
+| `/adr` | Generate Architecture Decision Records |
 
 ## Agents
 

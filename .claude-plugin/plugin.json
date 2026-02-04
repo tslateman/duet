@@ -5,5 +5,5 @@
   "author": {
     "name": "tslater"
   },
-  "keywords": ["git", "commit", "reflection", "code-quality", "writing", "frontend"]
+  "keywords": ["git", "commit", "reflection", "code-quality", "writing", "frontend", "review", "adr", "research"]
 }
