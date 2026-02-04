@@ -19,6 +19,7 @@ All skills are invokable with `/skill-name`. Claude can also load them automatic
 | `/research` | Systematic technical research for decisions |
 | `/review` | Structured code review with context capture |
 | `/adr` | Generate Architecture Decision Records |
+| `/why` | Annotate commits with rationale via git notes |
 
 ## Agents
 
@@ -66,7 +67,7 @@ Duet includes a permission set (`.claude/settings.json`) optimized for its workf
 
 | Tier | Operations |
 |------|------------|
-| **Allow** | `Read`, `git status/log/diff/branch/show`, `markdownlint`, `ls/cat/head/tail/wc` |
+| **Allow** | `Read`, `git status/log/diff/branch/show/notes`, `markdownlint`, `ls/cat/head/tail/wc` |
 | **Ask** | `Edit`, `git add/commit/push/checkout/restore/stash/merge/rebase` |
 | **Deny** | `rm -rf`, `git push --force`, `git reset --hard`, `.env`, `~/.ssh`, `~/.aws` |
 
