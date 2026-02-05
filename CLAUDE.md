@@ -79,3 +79,7 @@ Quote variables (`"$var"`), use `[[` for conditionals, prefer `$(command)` over 
 
 - **Commit messages**: Imperative mood ("Add feature" not "Added feature"), 50 chars max
 - **Branch naming**: `feature/description` or `fix/description`
+
+## Session Habits
+
+After significant work, update `notes/vamp.md` with current state.
