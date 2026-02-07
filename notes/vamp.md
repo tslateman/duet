@@ -16,6 +16,10 @@ Where we are while figuring out where to go.
 - consider proper plugin installation for duet
 - or accept the ~/.claude/commands/ + /sync-skills pattern
 
+## Open Thread
+
+**idea**: What if vamp.md checked alignment before major pushes—not just project state, but vision?
+
 ---
 
 - pre-push hook reminds to update vamp.md (local only, not tracked)
