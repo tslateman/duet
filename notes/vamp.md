@@ -6,15 +6,18 @@ Where we are while figuring out where to go.
 
 ## Current State
 
-- prose skill now self-contained with Strunk's Elements of Style (public domain)
-- eliminated superpowers-marketplace dependency (~800ms git clone per startup)
-- `/sync-skills` command syncs duet skills to ~/.claude/skills/ for global use
-- duet not loading as plugin (only code-review scoped here) - commands live in ~/.claude/commands/
+- prose skill self-contained with Strunk's Elements of Style
+- two-tier command structure:
+  - `commands/` — globally installable via `/install-commands`
+  - `.claude/commands/` — duet-only (install-commands, install-skills)
+- install-* commands show diff and confirm before overwriting
+- whats-next moved here from tutor (duet is command source of truth)
 
-## Next
+## Decided
 
-- consider proper plugin installation for duet
-- or accept the ~/.claude/commands/ + /sync-skills pattern
+- "install" not "sync" — honest about one-way push, no bidirectional sync
+- show diff before overwrite — careful by default
+- accepted the ~/.claude/ install pattern over plugin installation
 
 ## Open Thread
 
