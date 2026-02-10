@@ -7,33 +7,30 @@ allowed-tools: [Bash, Read, Glob, AskUserQuestion]
 
 ## Context
 
-- Duet commands: !`ls -1 commands/*.md 2>/dev/null | xargs -n1 basename`
-- User commands: !`ls -1 ~/.claude/commands/ 2>/dev/null || echo "(none)"`
+- Duet commands: !`find commands -name '*.md' | sort`
+- User commands: !`find ~/.claude/commands -name '*.md' 2>/dev/null | sort || echo "(none)"`
 
 ## Your Task
 
 Install commands from duet to ~/.claude/commands/ for user-wide availability.
 
-1. **Identify changes:**
-   - New: files in duet but not in ~/.claude/commands/
-   - Modified: files that exist in both but differ
-   - Unchanged: files that match
+1. **Inventory all commands:**
+   - Enumerate every `.md` file under `commands/`, including subdirectories
+   - Compare each with its counterpart under `~/.claude/commands/` using `diff -q`
+   - Categorize: **new**, **modified**, or **unchanged**
+   - Present a summary table
 
-2. **For modified files, show the diff:**
-   - Use `diff -u ~/.claude/commands/FILE commands/FILE` to show what will change
-   - Summarize: what's being added, removed, or changed
+2. **Select which to install:**
+   - Skip unchanged commands
+   - For modified commands, show the diff
+   - Ask the user which new/modified commands they want to install
+   - If nothing is new or modified, report "Everything up to date" and stop
 
-3. **Ask before overwriting:**
-   - If there are new or modified files, use AskUserQuestion to confirm
-   - Show the list of files that will be installed/updated
-   - Proceed only if user confirms
+3. **Install selected commands:**
+   - Create subdirectories as needed (e.g., `~/.claude/commands/commit-commands/`)
+   - Copy only the user's selections
+   - Do not delete files from ~/.claude/commands/ that don't exist in duet
 
-4. **Install confirmed files:**
-   - Copy new and modified files to ~/.claude/commands/
-   - Report what was installed
-
-Do not delete files from ~/.claude/commands/ that don't exist in duet.
-
-5. **Verify installation:**
-   - For each file installed in step 4, confirm it exists in ~/.claude/commands/ and is non-empty
-   - Report a pass/fail count (e.g., "3/3 commands verified")
+4. **Verify installation:**
+   - Confirm each installed file exists and is non-empty
+   - Report pass/fail count
