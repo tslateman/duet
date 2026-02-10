@@ -2,24 +2,37 @@
 
 A Claude Code plugin for git workflows, reflection, code quality, writing, and frontend design.
 
-## Skills
+## Commands & Skills
 
-All skills are invokable with `/skill-name`. Claude can also load them automatically when relevant.
+All commands and skills are invokable with `/name`. Claude can also load them automatically when relevant.
 
-| Skill              | Description                                   |
-| ------------------ | --------------------------------------------- |
-| `/commit`          | Stage and commit changes                      |
-| `/commit-push-pr`  | Commit, push, and open a PR                   |
-| `/clean-gone`      | Remove stale local branches                   |
-| `/debrief`         | Review what landed across sessions            |
-| `/retro`           | Capture learnings and open threads            |
-| `/think-next [n]`  | Generate `n` philosophy questions             |
-| `/frontend-design` | Create distinctive, production-grade UIs      |
-| `/prose`           | Apply Strunk's writing rules to prose         |
-| `/research`        | Systematic technical research for decisions   |
-| `/review`          | Structured code review with context capture   |
-| `/adr`             | Generate Architecture Decision Records        |
-| `/why`             | Annotate commits with rationale via git notes |
+### Commands
+
+Single-file slash commands in `commands/`.
+
+| Command           | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `/commit`         | Stage and commit changes                         |
+| `/commit-push-pr` | Commit, push, and open a PR                      |
+| `/clean-gone`     | Remove stale local branches                      |
+| `/debrief`        | Review what landed across sessions               |
+| `/retro`          | Capture learnings and open threads               |
+| `/adr`            | Generate Architecture Decision Records           |
+| `/why`            | Annotate commits with rationale via git notes    |
+| `/whats-next`     | Analyze project and suggest what to work on next |
+| `/think-next [n]` | Generate `n` philosophy questions                |
+| `/question`       | Surface questions about code you just changed    |
+
+### Skills
+
+Advanced skills with supporting files in `skills/`.
+
+| Skill              | Description                                 |
+| ------------------ | ------------------------------------------- |
+| `/frontend-design` | Create distinctive, production-grade UIs    |
+| `/prose`           | Apply Strunk's writing rules to prose       |
+| `/research`        | Systematic technical research for decisions |
+| `/review`          | Structured code review with context capture |
 
 ## Agents
 
@@ -65,6 +78,10 @@ duet/
 
 Commands and skills both create slash commands. Use `commands/` for simple single-file commands; use `skills/` when you need supporting files or advanced features like `context: fork`.
 
+## Notes
+
+The `notes/` directory holds project thinking that isn't code. `philosophy.md` captures why duet exists and the design principles behind it. `riffs.md` collects ideas worth exploring but not yet committed to. `vamp.md` tracks current project state and active threads.
+
 ## Permissions
 
 Duet includes a permission set (`.claude/settings.json`) optimized for its workflows:
@@ -82,3 +99,7 @@ Conservative by design: all git writes prompt for confirmation. Customize as nee
 - [Claude Code](https://claude.ai/code)
 - Git
 - GitHub CLI (`gh`)
+
+## License
+
+MIT

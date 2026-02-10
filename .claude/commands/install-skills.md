@@ -33,3 +33,7 @@ Install skills from duet to ~/.claude/skills/ for user-wide availability.
    - Report what was installed
 
 Do not delete skills from ~/.claude/skills/ that don't exist in duet.
+
+5. **Verify installation:**
+   - For each skill installed in step 4, confirm its directory exists in ~/.claude/skills/ and contains non-empty files
+   - Report a pass/fail count (e.g., "2/2 skills verified")

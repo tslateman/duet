@@ -33,3 +33,7 @@ Install commands from duet to ~/.claude/commands/ for user-wide availability.
    - Report what was installed
 
 Do not delete files from ~/.claude/commands/ that don't exist in duet.
+
+5. **Verify installation:**
+   - For each file installed in step 4, confirm it exists in ~/.claude/commands/ and is non-empty
+   - Report a pass/fail count (e.g., "3/3 commands verified")

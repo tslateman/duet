@@ -1,0 +1,44 @@
+#!/bin/bash
+set -euo pipefail
+
+# pre-push — Remind to update notes/vamp.md before sharing work
+#
+# vamp.md tracks where the project is and where it's headed. This hook
+# warns when you push commits that don't touch it, so the working state
+# stays current for anyone (or any agent) picking up the thread.
+#
+# Install:
+#   cp hooks/pre-push.example .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+
+remote="$1"
+url="$2"
+
+while read local_ref local_sha remote_ref remote_sha; do
+  # Skip deletes
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+    continue
+  fi
+
+  # Determine commit range being pushed
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    # New branch — check all commits
+    range="$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+
+  # Warn if vamp.md wasn't modified in any commit being pushed
+  if ! git diff --name-only "$range" 2>/dev/null | grep -q "^notes/vamp.md$"; then
+    echo ""
+    echo "warning: notes/vamp.md hasn't been updated in this push."
+    echo ""
+    read -p "Continue anyway? [y/N] " -n 1 -r < /dev/tty
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      echo "Push aborted. Update notes/vamp.md first."
+      exit 1
+    fi
+  fi
+done
+
+exit 0
