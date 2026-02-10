@@ -1,21 +1,41 @@
-# CLAUDE.md - Duet Repository Guidelines
+# Duet
 
-Slash commands for Claude Code. Markdown only—no build system.
+Claude Code plugin for git workflows, reflection, code quality, and writing. Markdown only — no build system.
 
-## Build/Lint/Test
+## Lint
 
 ```bash
 markdownlint commands/**/*.md
 ```
 
-## Markdown Command Files
+## Project Structure
+
+```
+commands/
+  commit-commands/     commit, commit-push-pr, clean-gone
+  adr.md               Architecture Decision Records
+  debrief.md           Review agent work, surface loose ends
+  retro.md             Session retrospective
+  whats-next.md        Suggest next actions
+  why.md               Annotate commits with rationale
+  think-next.md        Philosophy × engineering questions
+skills/
+  frontend-design/     Production-grade UI generation
+  prose/               Strunk's Elements of Style for all writing
+  research/            Systematic technical investigation
+  review/              Structured code review with context capture
+agents/
+  code-simplifier.md   Refine code for clarity and maintainability
+```
+
+## Command Authoring
 
 ### Frontmatter (Required)
 
 ```yaml
 ---
 description: Brief one-line description of what this command does
-allowed-tools: [Bash, Read, Glob, Grep]  # Optional: restrict tools
+allowed-tools: [Bash, Read, Glob, Grep] # Optional: restrict tools
 ---
 ```
 
@@ -23,63 +43,21 @@ allowed-tools: [Bash, Read, Glob, Grep]  # Optional: restrict tools
 - `allowed-tools`: Optional. Omit to allow all tools
 - Use patterns like `Bash(git add:*)` to restrict specific commands
 
-### Content Structure
+### Inline Execution
 
-```markdown
-## Context
-- Current status: !`git status`
-- Current branch: !`git branch --show-current`
-
-## Your Task
-1. Step one
-2. Step two
-```
-
-### Inline Execution Syntax
-
-- `!`backtick`git status`backtick - Executes command and injects output
-- `${ARGUMENTS:-default}` - Accesses command arguments
+- `` !`git status` `` — Executes command and injects output
+- `${ARGUMENTS:-default}` — Accesses command arguments
 
 ### Formatting Rules
 
 - ATX-style headers (`##` not underlines)
 - Fence code blocks with language identifiers
 - Numbered lists for sequential steps, bullets for unordered
-- One blank line between sections
 - No trailing whitespace
-
-## Shell Scripts
-
-If adding shell scripts:
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-# script-name - Brief description
-# Usage: script-name [arguments]
-```
-
-Quote variables (`"$var"`), use `[[` for conditionals, prefer `$(command)` over backticks.
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-|---------|------------|---------|
+| Element       | Convention      | Example             |
+| ------------- | --------------- | ------------------- |
 | Command files | `kebab-case.md` | `commit-push-pr.md` |
-| Directories | `kebab-case/` | `commit-commands/` |
-
-## Creating New Commands
-
-1. Place in appropriate directory under `commands/`
-2. Include frontmatter with description
-3. Test the command manually before committing
-
-## Git Workflow
-
-- **Commit messages**: Imperative mood ("Add feature" not "Added feature"), 50 chars max
-- **Branch naming**: `feature/description` or `fix/description`
-
-## Session Habits
-
-After significant work, update `notes/vamp.md` with current state.
+| Directories   | `kebab-case/`   | `commit-commands/`  |
