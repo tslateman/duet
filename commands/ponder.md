@@ -1,5 +1,5 @@
 ---
-description: Generate thought-provoking questions at the intersection of philosophy and engineering
+description: Surface a question worth sitting with
 allowed-tools: []
 ---
 

@@ -17,10 +17,9 @@ Single-file slash commands in `commands/`.
 | `/clean-gone`     | Remove stale local branches                      |
 | `/debrief`        | Review what landed across sessions               |
 | `/retro`          | Capture learnings and open threads               |
-| `/adr`            | Generate Architecture Decision Records           |
-| `/why`            | Annotate commits with rationale via git notes    |
+| `/note-why`       | Note the rationale behind a commit               |
 | `/whats-next`     | Analyze project and suggest what to work on next |
-| `/think-next [n]` | Generate `n` philosophy questions                |
+| `/ponder [n]`     | Surface `n` questions worth sitting with         |
 | `/question`       | Surface questions about code you just changed    |
 
 ### Skills
@@ -29,6 +28,7 @@ Advanced skills with supporting files in `skills/`.
 
 | Skill              | Description                                 |
 | ------------------ | ------------------------------------------- |
+| `/adr`             | Generate Architecture Decision Records      |
 | `/frontend-design` | Create distinctive, production-grade UIs    |
 | `/prose`           | Apply Strunk's writing rules to prose       |
 | `/research`        | Systematic technical research for decisions |

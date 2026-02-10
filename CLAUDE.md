@@ -18,7 +18,7 @@ commands/
   retro.md             Session retrospective
   whats-next.md        Suggest next actions
   note-why.md          Note the rationale behind a commit
-  think-next.md        Philosophy × engineering questions
+  ponder.md            Surface a question worth sitting with
 skills/
   adr/                 Architecture Decision Records
   frontend-design/     Production-grade UI generation
