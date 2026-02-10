@@ -13,13 +13,14 @@ markdownlint commands/**/*.md
 ```
 commands/
   commit-commands/     commit, commit-push-pr, clean-gone
-  adr.md               Architecture Decision Records
   debrief.md           Review agent work, surface loose ends
+  question.md          Surface pointed questions about recent changes
   retro.md             Session retrospective
   whats-next.md        Suggest next actions
-  why.md               Annotate commits with rationale
+  note-why.md          Note the rationale behind a commit
   think-next.md        Philosophy × engineering questions
 skills/
+  adr/                 Architecture Decision Records
   frontend-design/     Production-grade UI generation
   prose/               Strunk's Elements of Style for all writing
   research/            Systematic technical investigation

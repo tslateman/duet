@@ -1,6 +1,7 @@
 ---
-description: Annotate a commit with rationale using git notes
-allowed-tools: [Read, Bash(git log:*), Bash(git show:*), Bash(git notes:*), Bash(git diff:*)]
+description: Note the rationale behind a commit using git notes
+allowed-tools:
+  [Read, Bash(git log:*), Bash(git show:*), Bash(git notes:*), Bash(git diff:*)]
 ---
 
 # Commit Rationale Annotation
@@ -12,7 +13,7 @@ allowed-tools: [Read, Bash(git log:*), Bash(git show:*), Bash(git notes:*), Bash
 
 ## Your Task
 
-Annotate a commit with rationale using `git notes`. This captures the *why* behind
+Annotate a commit with rationale using `git notes`. This captures the _why_ behind
 a commit without changing its SHA.
 
 ### Arguments
