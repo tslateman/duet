@@ -56,6 +56,10 @@ allowed-tools: [Bash, Read, Glob, Grep] # Optional: restrict tools
 - Numbered lists for sequential steps, bullets for unordered
 - No trailing whitespace
 
+## Hooks
+
+A git pre-push hook checks whether `notes/vamp.md` was modified in the commits being pushed. If not, it prompts for confirmation before allowing the push. Use `git push --no-verify` to skip.
+
 ## Naming Conventions
 
 | Element       | Convention      | Example             |
