@@ -6,7 +6,7 @@ Where we are while figuring out where to go.
 
 ## Current State
 
-- 8 commands, 5 skills, 1 agent — markdown only, no build system
+- 6 commands, 5 skills, 1 agent — markdown only, no build system
 - two-tier command structure:
   - `commands/` — globally installable via `/install-commands`
   - `.claude/commands/` — duet-only (install-commands, install-skills)

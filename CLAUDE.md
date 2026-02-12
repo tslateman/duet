@@ -1,6 +1,6 @@
 # Duet
 
-Claude Code plugin for git workflows, reflection, code quality, and writing. Markdown only — no build system.
+Claude Code plugin for reflection, code quality, and writing. Markdown only — no build system.
 
 ## Lint
 
@@ -12,7 +12,6 @@ markdownlint commands/**/*.md
 
 ```
 commands/
-  commit-commands/     commit, commit-push-pr, clean-gone
   debrief.md           Review agent work, surface loose ends
   question.md          Surface pointed questions about recent changes
   retro.md             Session retrospective
@@ -62,7 +61,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
 
 ## Naming Conventions
 
-| Element       | Convention      | Example             |
-| ------------- | --------------- | ------------------- |
-| Command files | `kebab-case.md` | `commit-push-pr.md` |
-| Directories   | `kebab-case/`   | `commit-commands/`  |
+| Element       | Convention      | Example            |
+| ------------- | --------------- | ------------------ |
+| Command files | `kebab-case.md` | `whats-next.md`    |
+| Directories   | `kebab-case/`   | `frontend-design/` |

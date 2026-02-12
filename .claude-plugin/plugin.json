@@ -1,10 +1,10 @@
 {
   "name": "duet",
   "version": "1.0.0",
-  "description": "Slash commands for Claude Code: git workflows, reflection, code quality, writing, and frontend design",
+  "description": "Claude Code plugin for reflection, code quality, writing, and frontend design",
   "author": {
     "name": "tslater"
   },
   "license": "MIT",
-  "keywords": ["git", "commit", "reflection", "code-quality", "writing", "frontend", "review", "adr", "research"]
+  "keywords": ["reflection", "code-quality", "writing", "frontend", "review", "adr", "research"]
 }

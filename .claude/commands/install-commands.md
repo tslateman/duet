@@ -27,7 +27,7 @@ Install commands from duet to ~/.claude/commands/ for user-wide availability.
    - If nothing is new or modified, report "Everything up to date" and stop
 
 3. **Install selected commands:**
-   - Create subdirectories as needed (e.g., `~/.claude/commands/commit-commands/`)
+   - Create subdirectories as needed
    - Copy only the user's selections
    - Do not delete files from ~/.claude/commands/ that don't exist in duet
 
