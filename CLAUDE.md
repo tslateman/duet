@@ -29,6 +29,8 @@ skills/
   testing/             Test strategy (Beck's Test Desiderata)
 agents/
   code-simplifier.md   Refine code for clarity and maintainability
+statusline/
+  statusline-command.sh  Lean status bar (dir, git, model, context, vim)
 ```
 
 ## Command Authoring
