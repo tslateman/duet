@@ -20,10 +20,13 @@ commands/
   ponder.md            Surface a question worth sitting with
 skills/
   adr/                 Architecture Decision Records
-  frontend-design/     Production-grade UI generation
+  diagnose/            Systematic debugging (Agans + Zeller)
+  design/              Intentional design (visual, API, system)
+  naming/              Naming as design diagnostic (Benner + Bloch)
   prose/               Strunk's Elements of Style for all writing
   research/            Systematic technical investigation
   review/              Structured code review with context capture
+  test-design/         Test strategy (Beck's Test Desiderata)
 agents/
   code-simplifier.md   Refine code for clarity and maintainability
 ```
@@ -61,7 +64,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
 
 ## Naming Conventions
 
-| Element       | Convention      | Example            |
-| ------------- | --------------- | ------------------ |
-| Command files | `kebab-case.md` | `whats-next.md`    |
-| Directories   | `kebab-case/`   | `frontend-design/` |
+| Element       | Convention      | Example         |
+| ------------- | --------------- | --------------- |
+| Command files | `kebab-case.md` | `whats-next.md` |
+| Directories   | `kebab-case/`   | `test-design/`  |

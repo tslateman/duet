@@ -6,5 +6,5 @@
     "name": "tslater"
   },
   "license": "MIT",
-  "keywords": ["reflection", "code-quality", "writing", "frontend", "review", "adr", "research"]
+  "keywords": ["reflection", "code-quality", "writing", "design", "review", "adr", "research", "debugging", "naming", "testing"]
 }
