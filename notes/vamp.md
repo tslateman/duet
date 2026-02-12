@@ -7,10 +7,12 @@ Where we are while figuring out where to go.
 ## Current State
 
 - 6 commands, 8 skills, 1 agent — markdown only, no build system
+- skills: adr, design, diagnose, naming, prose, research, review, testing
 - two-tier command structure:
   - `commands/` — globally installable via `/install-commands`
   - `.claude/commands/` — duet-only (install-commands, install-skills)
-- install-\* commands show diff and confirm before overwriting
+- install-\* commands inventory, diff, confirm, verify — full workflow
+- skills use frontmatter for auto-triggering (adr led, others followed)
 - CLAUDE.md trimmed to essentials: project structure, lint, command authoring, naming
 - prose skill self-contained with full Elements of Style reference
 - conservative permissions: deny destructive ops, ask before push/rebase
@@ -25,6 +27,8 @@ Where we are while figuring out where to go.
 - `/think-next` → `/ponder` — name what you do, not what comes next
 - `/adr` moved from command to skill — it's a document framework, not a discrete action
 - `/whats-next` kept — pressure-tested, earns its name (Taskwarrior precedent)
+- skills expand by domain (design, diagnose, naming, testing) — each grounded in a specific framework or author
+- SKILL.md with frontmatter as the standard skill file convention
 
 ## Open Threads
 
@@ -32,3 +36,5 @@ Where we are while figuring out where to go.
 - what if vamp.md checked alignment before major pushes — not just project state, but vision?
 - `score/` as home for notes if they multiply (from riffs)
 - commands that ask questions, not just execute tasks — `/question` and `/ponder` now exist
+- skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+- design skill generalizes frontend-design — does the user-level frontend-design skill need updating or retiring?
