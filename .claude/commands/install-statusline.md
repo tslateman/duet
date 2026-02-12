@@ -43,3 +43,7 @@ Install the duet statusline script to `~/.claude/` and configure it in `~/.claud
    - Confirm the script exists and is executable
    - Confirm `settings.json` has the `statusLine` field
    - Report success — note that the statusline will appear on next Claude Code session start
+
+## Note
+
+To disable the statusline, **delete** the `statusLine` key from `settings.json` entirely. Setting it to `null` causes a settings validation error.
