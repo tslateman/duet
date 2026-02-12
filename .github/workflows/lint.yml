@@ -11,4 +11,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx markdownlint-cli commands/**/*.md
+      - run: npx markdownlint-cli commands/**/*.md skills/**/SKILL.md
+
+  skill-frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate skill frontmatter
+        run: |
+          failed=0
+          for skill in skills/*/SKILL.md; do
+            name=$(head -5 "$skill" | grep '^name:' || true)
+            desc=$(head -5 "$skill" | grep '^description:' || true)
+            if [ -z "$name" ]; then
+              echo "FAIL: $skill missing 'name' in frontmatter"
+              failed=1
+            fi
+            if [ -z "$desc" ]; then
+              echo "FAIL: $skill missing 'description' in frontmatter"
+              failed=1
+            fi
+          done
+          exit $failed
+
+  broken-references:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for broken reference links
+        run: |
+          failed=0
+          for skill in skills/*/SKILL.md; do
+            dir=$(dirname "$skill")
+            grep -oP '`references/[^`]+`' "$skill" 2>/dev/null | tr -d '`' | while read ref; do
+              if [ ! -f "$dir/$ref" ]; then
+                echo "FAIL: $skill references $ref but $dir/$ref does not exist"
+                failed=1
+              fi
+            done
+          done
+          exit $failed

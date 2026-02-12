@@ -84,3 +84,9 @@ What becomes easier or more difficult to do because of this change?
    - Alternatives: Brief, focused on why rejected
 
 5. **Capture the why** — The decision itself ages; the reasoning stays valuable
+
+## See Also
+
+- `/research` — Research informs the decision; ADR captures it
+- `/review` — Reviews that surface architectural decisions belong in ADRs
+- `skills/FRAMEWORKS.md` — Full framework index

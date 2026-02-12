@@ -75,3 +75,10 @@ After designing, ask:
 - What did I deliberately leave out?
 
 Match complexity to vision. Elaborate designs need elaborate execution. Simple designs need precision. Elegance comes from committing fully to the chosen direction.
+
+## See Also
+
+- `/naming` — Hard-to-name things signal design problems
+- `/adr` — Capture design decisions and their reasoning
+- `/review` — Reviews assess design quality alongside correctness
+- `skills/FRAMEWORKS.md` — Full framework index

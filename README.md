@@ -1,7 +1,7 @@
 # Duet
 
 A Claude Code plugin for reflection, code quality,
-writing, and frontend design.
+writing, and design.
 
 ## Install
 
@@ -25,33 +25,35 @@ Or run the install script again — it pulls if already installed.
 
 ## Commands
 
-| Command       | Description                                   |
-| ------------- | --------------------------------------------- |
-| `/debrief`    | Review what landed across sessions            |
-| `/retro`      | Capture learnings and open threads            |
-| `/note-why`   | Note the rationale behind a commit            |
-| `/whats-next` | Analyze project and suggest what to work on   |
-| `/ponder [n]` | Surface `n` questions worth sitting with      |
-| `/question`   | Surface questions about code you just changed |
+| Command | Description |
+| --- | --- |
+| `/debrief` | Review what agents accomplished, surface loose ends across sessions |
+| `/lint` | Run markdownlint on specified files or the whole project |
+| `/note-why` | Note the rationale behind a commit using git notes |
+| `/ponder [n]` | Surface a question worth sitting with |
+| `/question` | Surface 2-3 pointed questions about code you just changed |
+| `/retro` | Reflect on recent work—capture learnings and surface what to think about next |
+| `/whats-next` | Analyze project and suggest what to work on next |
 
 ## Skills
 
-| Skill       | Description                                    |
-| ----------- | ---------------------------------------------- |
-| `/adr`      | Generate Architecture Decision Records         |
-| `/diagnose` | Systematic debugging via the scientific method |
-| `/design`   | Intentional design for interfaces and systems  |
-| `/naming`   | Naming as a design diagnostic                  |
-| `/prose`    | Apply Strunk's writing rules to prose          |
-| `/research` | Systematic technical research for decisions    |
-| `/review`   | Structured code review with context capture    |
-| `/testing`  | Test strategy using Beck's Test Desiderata     |
+| Skill | Description |
+| --- | --- |
+| `/adr` | Generate Architecture Decision Records that capture the reasoning behind technic... |
+| `/design` | Intentional design thinking for interfaces, components, and systems. Use when th... |
+| `/diagnose` | Systematic debugging that applies the scientific method to failures. Use when th... |
+| `/naming` | Evaluate and improve names in code using naming as a design diagnostic. Use when... |
+| `/performance` | Profiling methodology and optimization strategy for performance work. Use when t... |
+| `/prose` | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI... |
+| `/research` | This skill should be used when the user asks to "research X", "investigate Y", "... |
+| `/review` | Framework for code review that captures context future maintainers need—concerns... |
+| `/testing` | Design test strategy using Beck's Test Desiderata — which properties matter, whi... |
 
 ## Agents
 
-| Agent             | Description                                  |
-| ----------------- | -------------------------------------------- |
-| `code-simplifier` | Refines code for clarity and maintainability |
+| Agent | Description |
+| --- | --- |
+| `code-simplifier` | Simplifies and refines code for clarity, consistency, and maintainability while preserving all functionality. Focuses on recently modified code unless instructed otherwise. |
 
 ## Per-project installation
 
@@ -63,8 +65,10 @@ From within the duet directory:
   `~/.claude/commands/`
 - `/install-skills` — copy skills to
   `~/.claude/skills/`
+- `/install-statusline` — install lean status bar
+  to `~/.claude/`
 
-Both show diffs for modified files and let you
+All show diffs for modified files and let you
 cherry-pick.
 
 ## Structure
@@ -77,6 +81,8 @@ duet/
 ├── skills/               # Skills with supporting files
 │   └── <name>/SKILL.md
 ├── agents/               # Subagent definitions
+├── statusline/           # Status bar script
+├── scripts/              # Build and maintenance scripts
 └── notes/                # Project thinking
 ```
 

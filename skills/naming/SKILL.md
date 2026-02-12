@@ -1,5 +1,6 @@
 ---
 name: naming
+user-invocable: false
 description: Evaluate and improve names in code using naming as a design diagnostic. Use when the user asks to "name this", "rename", "review naming", "what should I call", struggles to name something, or when a code review surfaces vague or misleading names.
 ---
 
@@ -116,6 +117,44 @@ When reviewing names:
   types.
 ```
 
+## Before/After Examples
+
+### Functions
+
+| Before               | After                               | Why                                                            |
+| -------------------- | ----------------------------------- | -------------------------------------------------------------- |
+| `processData(input)` | `validateInvoiceLineItems(invoice)` | "Process" hides responsibility; name the action and the domain |
+| `handleClick()`      | `submitPayment()`                   | Name the business action, not the DOM event                    |
+| `doStuff(items)`     | `deduplicateContacts(contacts)`     | Eliminate weasel verbs; name what it actually does             |
+| `run()`              | `pollForStatusUpdates()`            | Ambiguous in any class with more than one operation            |
+
+### Variables
+
+| Before   | After                 | Why                                                 |
+| -------- | --------------------- | --------------------------------------------------- |
+| `data`   | `unpaidInvoices`      | Generic noun → specific domain concept              |
+| `temp`   | `unsavedDraft`        | Reveals intent; "temp" says nothing about lifecycle |
+| `flag`   | `requiresApproval`    | Reads as a question; boolean purpose is clear       |
+| `result` | `validationErrors`    | Names the content, not the role in the function     |
+| `list`   | `activeSubscriptions` | Type-in-name smell; name the contents instead       |
+
+### Types and Modules
+
+| Before          | After                             | Why                                                      |
+| --------------- | --------------------------------- | -------------------------------------------------------- |
+| `UserManager`   | `UserRepository` + `UserNotifier` | `-Manager` reveals multiple responsibilities; split them |
+| `StringHelper`  | `SlugFormatter`                   | `-Helper` is a junk drawer; name the actual capability   |
+| `DataService`   | `InventoryClient`                 | Two generic words; name the domain and the role          |
+| `utils/misc.ts` | `pricing/discount-rules.ts`       | File path is a name too; make it navigable               |
+
+### Booleans
+
+| Before           | After                           | Why                                              |
+| ---------------- | ------------------------------- | ------------------------------------------------ |
+| `isNotReady`     | `isReady` (invert usage)        | Avoid double negatives in conditionals           |
+| `disableFeature` | `featureEnabled` (invert usage) | Positive form reads naturally in `if` statements |
+| `check`          | `hasPermission`                 | "Check" doesn't say what the answer means        |
+
 ## Strunk's Rule 12
 
 "Use definite, specific, concrete language." The prose skill teaches this for English. Apply it identically to code:
@@ -127,3 +166,10 @@ When reviewing names:
 | `result`  | `validationErrors` |
 | `info`    | `shippingAddress`  |
 | `temp`    | `unsavedDraft`     |
+
+## See Also
+
+- `/design` — Hard-to-name things signal design problems
+- `/review` — Code review surfaces naming issues; naming review deepens code review
+- `/prose` — Strunk's rules apply to code names identically to English prose
+- `skills/FRAMEWORKS.md` — Full framework index

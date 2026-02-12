@@ -197,3 +197,9 @@ When designing test strategy:
 ## The Confidence Question
 
 After designing the test suite, ask: "If all these tests pass, would you deploy with confidence?" If no, identify what's missing. If yes, stop — more tests beyond confidence are waste.
+
+## See Also
+
+- `/diagnose` — Test failures trigger debugging; debugging reveals missing tests
+- `/review` — Reviews assess test coverage alongside code quality
+- `skills/FRAMEWORKS.md` — Full framework index

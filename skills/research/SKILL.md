@@ -14,6 +14,7 @@ Systematic technical research for staff-level software engineering decisions. Ga
 ### 1. Scope the Question
 
 Before searching, clarify:
+
 - What decision does this research inform?
 - What constraints exist (language, framework, team expertise)?
 - What "good enough" looks like—avoid rabbit holes
@@ -23,17 +24,20 @@ Before searching, clarify:
 Use multiple sources in parallel:
 
 **Web search** — current state, recent changes, community sentiment
+
 ```
 WebSearch: "[topic] 2026" or "[library] vs [alternative]"
 ```
 
 **Documentation** — authoritative specs and APIs
+
 ```
 Context7: resolve-library-id then query-docs
 WebFetch: official docs, RFCs, specifications
 ```
 
 **Codebase** — existing patterns and constraints
+
 ```
 Grep/Glob: how similar problems are solved today
 ```
@@ -41,6 +45,7 @@ Grep/Glob: how similar problems are solved today
 ### 3. Evaluate Sources
 
 Weight sources by reliability:
+
 1. Official documentation, specs, RFCs
 2. Maintainer statements, changelogs, release notes
 3. Reputable tech blogs, conference talks
@@ -55,30 +60,37 @@ Structure output for decision-making:
 
 ```markdown
 ## Summary
+
 [1-2 sentence answer to the core question]
 
 ## Key Findings
+
 - Finding 1 (source)
 - Finding 2 (source)
 - Finding 3 (source)
 
 ## Comparison (if applicable)
-| Criterion | Option A | Option B |
-|-----------|----------|----------|
-| [Key factor] | ... | ... |
+
+| Criterion    | Option A | Option B |
+| ------------ | -------- | -------- |
+| [Key factor] | ...      | ...      |
 
 ## Recommendation
+
 [Clear recommendation with rationale]
 
 ## Open Questions
+
 [What remains uncertain, what to monitor]
 ```
 
 ### 5. Cite Sources
 
 Always include sources:
+
 ```markdown
 Sources:
+
 - [Official Docs](url)
 - [Relevant Article](url)
 ```
@@ -88,6 +100,7 @@ Sources:
 ### Library/Framework Evaluation
 
 Investigate:
+
 1. **Maintenance** — Last release, commit frequency, issue response time
 2. **Adoption** — npm downloads, GitHub stars, production users
 3. **Documentation** — Quality, examples, migration guides
@@ -98,6 +111,7 @@ Investigate:
 ### API/Service Comparison
 
 Investigate:
+
 1. **Pricing** — Free tier limits, scaling costs
 2. **Rate limits** — Requests/second, daily quotas
 3. **Latency** — P50/P99, geographic distribution
@@ -108,6 +122,7 @@ Investigate:
 ### Architectural Decisions
 
 Investigate:
+
 1. **Prior art** — How do similar systems solve this?
 2. **Trade-offs** — What does each approach sacrifice?
 3. **Reversibility** — How hard to change later?
@@ -127,6 +142,7 @@ Investigate:
 ## Output Quality
 
 Research output should:
+
 - Answer the original question directly
 - Provide evidence, not assertions
 - Acknowledge uncertainty explicitly
@@ -136,4 +152,10 @@ Research output should:
 ## Reference Material
 
 For detailed research patterns and techniques, see:
+
 - **`references/patterns.md`** — Common research scenarios with examples
+
+## See Also
+
+- `/adr` — Research informs the decision; ADR captures it
+- `skills/FRAMEWORKS.md` — Full framework index

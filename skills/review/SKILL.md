@@ -7,7 +7,7 @@ description: Framework for code review that captures context future maintainers 
 
 ## Overview
 
-Code review that captures context, not just correctness. Beyond finding bugs, document the *why*—concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
+Code review that captures context, not just correctness. Beyond finding bugs, document the _why_—concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
 
 Use this for PRs, local changes, or architecture review—any code where you want to preserve the reasoning, not just the verdict.
 
@@ -16,6 +16,7 @@ Use this for PRs, local changes, or architecture review—any code where you wan
 ### 1. Understand the Change
 
 Before commenting, understand intent:
+
 - What problem does this solve?
 - What was the previous state?
 - What constraints shaped the solution?
@@ -28,20 +29,24 @@ If context is missing, ask before reviewing.
 ### 2. Evaluate on Multiple Dimensions
 
 **Correctness** — Does it work?
+
 - Logic errors, edge cases, error handling
 - Does it match stated requirements?
 
 **Design** — Is this the right approach?
+
 - Does it fit existing patterns in the codebase?
 - Are there simpler alternatives?
 - Will this scale if assumptions change?
 
 **Maintainability** — Can others work with this?
+
 - Is the code readable without comments?
 - Are names clear and consistent?
 - Is complexity justified?
 
 **Risk** — What could go wrong?
+
 - Performance implications
 - Security considerations
 - Breaking changes, backwards compatibility
@@ -53,43 +58,53 @@ Structure feedback for the record:
 
 ```markdown
 ## Summary
+
 [1-2 sentence assessment: approve, request changes, or needs discussion]
 
 ## What This Changes
+
 [Brief description of the change and its purpose]
 
 ## Feedback
 
 ### Must Address
+
 - [Blocking issue] — [Why it matters]
 
 ### Should Consider
+
 - [Non-blocking suggestion] — [Trade-off or alternative]
 
 ### Observations
+
 - [Pattern noticed, question raised, or context captured]
 
 ## Concerns for the Record
+
 [Risks accepted, alternatives rejected, assumptions made—future maintainers need this]
 
 ## Alternatives Considered
+
 [Other approaches discussed and why they were rejected]
 ```
 
 ### 4. Calibrate Feedback
 
 **Blocking issues** (Must Address):
+
 - Bugs that will cause failures
 - Security vulnerabilities
 - Breaking changes without migration
 - Violations of hard requirements
 
 **Suggestions** (Should Consider):
+
 - Better approaches that aren't urgent
 - Style preferences beyond project standards
 - Optimizations without clear need
 
 **Observations** (For the Record):
+
 - "This assumes X remains true"
 - "If Y changes, this will need rework"
 - "We chose this over Z because..."
@@ -119,6 +134,7 @@ gh pr review [number] --request-changes --body "..."
 ### Local Code Review
 
 For code not yet in a PR:
+
 1. Read the changed files
 2. Check git diff for what's new
 3. Understand context from surrounding code
@@ -127,6 +143,7 @@ For code not yet in a PR:
 ### Architecture Review
 
 For larger changes:
+
 1. Map the change across files
 2. Trace data flow and control flow
 3. Identify coupling and dependencies
@@ -147,7 +164,7 @@ For larger changes:
 
 ## The "For the Record" Principle
 
-The most valuable reviews capture what *won't* be obvious later:
+The most valuable reviews capture what _won't_ be obvious later:
 
 - "We discussed using X but chose Y because of constraint Z"
 - "This is a temporary solution until the Q2 migration"
@@ -159,8 +176,16 @@ When warnings are ignored, the review becomes evidence. When they're heeded, it 
 ## Output Quality
 
 A good review:
+
 - Distinguishes blocking issues from suggestions
-- Explains *why*, not just *what*
+- Explains _why_, not just _what_
 - Captures context that isn't in the code
 - Helps the author improve, not just comply
 - Creates value for future readers
+
+## See Also
+
+- `/naming` — Code review surfaces naming problems; naming review deepens code review
+- `/adr` — Reviews that capture architectural decisions belong in ADRs
+- `/prose` — Write review comments clearly using Strunk's rules
+- `skills/FRAMEWORKS.md` — Full framework index

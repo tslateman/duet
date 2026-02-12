@@ -117,3 +117,10 @@ A good diagnosis:
 - Explains the causal chain from defect to failure
 - Provides evidence that eliminates alternatives
 - Suggests how to prevent recurrence
+
+## See Also
+
+- `/testing` — Test failures trigger debugging; debugging reveals missing tests
+- `/performance` — Performance regressions are bugs; profiling is debugging for speed
+- `/review` — Reviews catch bugs before they need debugging
+- `skills/FRAMEWORKS.md` — Full framework index

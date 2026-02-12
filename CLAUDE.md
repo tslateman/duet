@@ -1,11 +1,11 @@
 # Duet
 
-Claude Code plugin for reflection, code quality, and writing. Markdown only — no build system.
+Claude Code plugin for reflection, code quality, writing, and design. Markdown only — no build system.
 
 ## Lint
 
 ```bash
-markdownlint commands/**/*.md
+markdownlint commands/**/*.md skills/**/SKILL.md
 ```
 
 ## Project Structure
@@ -13,16 +13,19 @@ markdownlint commands/**/*.md
 ```
 commands/
   debrief.md           Review agent work, surface loose ends
+  lint.md              Run markdownlint on files
   question.md          Surface pointed questions about recent changes
   retro.md             Session retrospective
   whats-next.md        Suggest next actions
   note-why.md          Note the rationale behind a commit
   ponder.md            Surface a question worth sitting with
 skills/
-  adr/                 Architecture Decision Records
-  diagnose/            Systematic debugging (Agans + Zeller)
+  FRAMEWORKS.md        Framework-to-skill index
+  adr/                 Architecture Decision Records (Nygard)
   design/              Intentional design (visual, API, system)
+  diagnose/            Systematic debugging (Agans)
   naming/              Naming as design diagnostic (Benner + Bloch)
+  performance/         Profiling and optimization (Knuth)
   prose/               Strunk's Elements of Style for all writing
   research/            Systematic technical investigation
   review/              Structured code review with context capture
@@ -31,6 +34,9 @@ agents/
   code-simplifier.md   Refine code for clarity and maintainability
 statusline/
   statusline-command.sh  Lean status bar (dir, git, model, context, vim)
+scripts/
+  generate-readme.sh   Auto-generate README tables from source
+  sync-version.sh      Sync plugin.json version with git tags
 ```
 
 ## Command Authoring

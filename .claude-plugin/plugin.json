@@ -1,10 +1,10 @@
 {
   "name": "duet",
-  "version": "1.0.0",
-  "description": "Claude Code plugin for reflection, code quality, writing, and frontend design",
+  "version": "0.1.0",
+  "description": "Claude Code plugin for reflection, code quality, writing, and design",
   "author": {
     "name": "tslater"
   },
   "license": "MIT",
-  "keywords": ["reflection", "code-quality", "writing", "design", "review", "adr", "research", "debugging", "naming", "testing"]
+  "keywords": ["reflection", "code-quality", "writing", "design", "review", "adr", "research", "debugging", "naming", "testing", "performance"]
 }
