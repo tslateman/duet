@@ -42,6 +42,7 @@ Or run the install script again — it pulls if already installed.
 | `/adr` | Generate Architecture Decision Records that capture the reasoning behind technic... |
 | `/design` | Intentional design thinking for interfaces, components, and systems. Use when th... |
 | `/diagnose` | Systematic debugging that applies the scientific method to failures. Use when th... |
+| `/ia` | Evaluate and improve how information is organized for findability. Use when the ... |
 | `/naming` | Evaluate and improve names in code using naming as a design diagnostic. Use when... |
 | `/performance` | Profiling methodology and optimization strategy for performance work. Use when t... |
 | `/prose` | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI... |

@@ -24,6 +24,7 @@ skills/
   adr/                 Architecture Decision Records (Nygard)
   design/              Intentional design (visual, API, system)
   diagnose/            Systematic debugging (Agans)
+  ia/                  Information architecture (Rosenfeld + Diataxis)
   naming/              Naming as design diagnostic (Benner + Bloch)
   performance/         Profiling and optimization (Knuth)
   prose/               Strunk's Elements of Style for all writing
