@@ -26,7 +26,7 @@ skills/
   prose/               Strunk's Elements of Style for all writing
   research/            Systematic technical investigation
   review/              Structured code review with context capture
-  test-design/         Test strategy (Beck's Test Desiderata)
+  testing/             Test strategy (Beck's Test Desiderata)
 agents/
   code-simplifier.md   Refine code for clarity and maintainability
 ```
@@ -67,4 +67,4 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
 | Element       | Convention      | Example         |
 | ------------- | --------------- | --------------- |
 | Command files | `kebab-case.md` | `whats-next.md` |
-| Directories   | `kebab-case/`   | `test-design/`  |
+| Directories   | `kebab-case/`   | `testing/`      |

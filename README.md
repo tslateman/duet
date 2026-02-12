@@ -36,16 +36,16 @@ Or run the install script again — it pulls if already installed.
 
 ## Skills
 
-| Skill          | Description                                    |
-| -------------- | ---------------------------------------------- |
-| `/adr`         | Generate Architecture Decision Records         |
-| `/diagnose`    | Systematic debugging via the scientific method |
-| `/design`      | Intentional design for interfaces and systems  |
-| `/naming`      | Naming as a design diagnostic                  |
-| `/prose`       | Apply Strunk's writing rules to prose          |
-| `/research`    | Systematic technical research for decisions    |
-| `/review`      | Structured code review with context capture    |
-| `/test-design` | Test strategy using Beck's Test Desiderata     |
+| Skill       | Description                                    |
+| ----------- | ---------------------------------------------- |
+| `/adr`      | Generate Architecture Decision Records         |
+| `/diagnose` | Systematic debugging via the scientific method |
+| `/design`   | Intentional design for interfaces and systems  |
+| `/naming`   | Naming as a design diagnostic                  |
+| `/prose`    | Apply Strunk's writing rules to prose          |
+| `/research` | Systematic technical research for decisions    |
+| `/review`   | Structured code review with context capture    |
+| `/testing`  | Test strategy using Beck's Test Desiderata     |
 
 ## Agents
 

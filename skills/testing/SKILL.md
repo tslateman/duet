@@ -1,5 +1,5 @@
 ---
-name: test-design
+name: testing
 description: Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make. Use when the user asks "how should I test this", "what tests do I need", "review my test strategy", "is this well-tested", or when planning tests for a new feature or refactor.
 ---
 
