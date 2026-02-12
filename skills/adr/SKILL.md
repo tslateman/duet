@@ -1,3 +1,8 @@
+---
+name: adr
+description: Generate Architecture Decision Records that capture the reasoning behind technical decisions. Use when the user asks to "create an ADR", "document a decision", "record why we chose X", or discusses architectural trade-offs worth preserving.
+---
+
 # Architecture Decision Record Generator
 
 Generate an Architecture Decision Record (ADR) based on the conversation context and any architectural decisions discussed.
