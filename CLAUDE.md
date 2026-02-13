@@ -16,6 +16,7 @@ commands/
   lint.md              Run markdownlint on files
   question.md          Surface pointed questions about recent changes
   retro.md             Session retrospective
+  sweep.md             Post-op check for artifacts, damage, stale refs
   whats-next.md        Suggest next actions
   note-why.md          Note the rationale behind a commit
   ponder.md            Surface a question worth sitting with
