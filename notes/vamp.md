@@ -43,7 +43,7 @@ Where we are while figuring out where to go.
 - pre-push hook reminds to update vamp.md (local only, not tracked)
 - `score/` as home for notes if they multiply (from riffs)
 - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
-- design skill generalizes frontend-design — does the marketplace frontend-design skill need retiring?
+- ~~design skill generalizes frontend-design~~ — retired. Marketplace plugin disabled; duet `/design` covers the full scope.
 - `/review` has no named framework in FRAMEWORKS.md — every other skill cites an authority
 - README skill descriptions truncate mid-sentence — generate-readme.sh needs a cleaner cutoff or shorter source field
 - `sync-version.sh` exists but version bump was manual — wire it in or remove it
