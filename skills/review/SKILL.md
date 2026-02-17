@@ -189,3 +189,4 @@ A good review:
 - `/adr` — Reviews that capture architectural decisions belong in ADRs
 - `/prose` — Write review comments clearly using Strunk's rules
 - `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel decomposition (3 workers)

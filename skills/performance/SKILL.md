@@ -140,3 +140,9 @@ When analyzing performance:
 "Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered."
 
 Optimize the critical 3%, not the other 97%.
+
+## See Also
+
+- `/diagnose` — Performance regressions are bugs; profiling is debugging for speed
+- `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)

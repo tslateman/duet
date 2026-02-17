@@ -1,6 +1,6 @@
 ---
 name: research
-description: This skill should be used when the user asks to "research X", "investigate Y", "look into Z", "find out about", "what are the options for", "compare X vs Y", "how does X work", or requests technical investigation of libraries, APIs, frameworks, or architectural approaches.
+description: Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations. Use when the user asks to "research X", "investigate Y", "look into Z", "compare X vs Y", "how does X work", or needs analysis of libraries, APIs, frameworks, or architectural approaches.
 ---
 
 # Technical Research
@@ -159,3 +159,4 @@ For detailed research patterns and techniques, see:
 
 - `/adr` — Research informs the decision; ADR captures it
 - `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)

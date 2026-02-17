@@ -124,3 +124,4 @@ A good diagnosis:
 - `/performance` — Performance regressions are bugs; profiling is debugging for speed
 - `/review` — Reviews catch bugs before they need debugging
 - `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)

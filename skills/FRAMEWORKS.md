@@ -36,6 +36,19 @@ Each duet skill is grounded in a specific framework or authority. This index map
 | "Can people find this?"             | `/ia`          | `/naming`, `/design`   |
 | "How should I visualize this?"      | `/mermaid`     | `/excalidraw`          |
 
+## Recipes
+
+Recipes teach Bach how to decompose a domain task into parallel workers. Each recipe defines worker scope boundaries, prompt templates, and a synthesis step for the manager.
+
+| Skill          | Recipe                  | Workers |
+| -------------- | ----------------------- | ------- |
+| `/review`      | `review/RECIPE.md`      | 3       |
+| `/design`      | `design/RECIPE.md`      | 3       |
+| `/research`    | `research/RECIPE.md`    | 2       |
+| `/diagnose`    | `diagnose/RECIPE.md`    | 2       |
+| `/testing`     | `testing/RECIPE.md`     | 2       |
+| `/performance` | `performance/RECIPE.md` | 2       |
+
 ## Cross-References
 
 Skills that pair naturally:
