@@ -17,3 +17,6 @@ node_modules/
 
 # Claude local settings (keep settings.json for shared permissions)
 .claude/settings.local.json
+
+# Local research data
+.research/

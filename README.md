@@ -52,21 +52,21 @@ table below once you're comfortable.
 
 ## Skills
 
-| Skill          | Description                                                                        |
-| -------------- | ---------------------------------------------------------------------------------- |
-| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind...        |
-| `/design`      | Intentional design thinking for interfaces, components, and systems. Use when...   |
-| `/diagnose`    | Systematic debugging that applies the scientific method to failures. Use when...   |
-| `/excalidraw`  | Create Excalidraw diagrams programmatically. Use when the user wants...            |
-| `/ia`          | Evaluate and improve how information is organized for findability. Use when the... |
-| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax. Use when...        |
-| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic. Use...     |
-| `/performance` | Profiling methodology and optimization strategy for performance work. Use when...  |
-| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages,...   |
-| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and...   |
-| `/review`      | Framework for code review that captures context future maintainers...              |
-| `/sharpen`     | Tighten and sharpen prose by subtraction. Use when the user asks to "tighten",...  |
-| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter,...    |
+| Skill          | Description                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                   |
+| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                            |
+| `/diagnose`    | Systematic debugging that applies the scientific method to failures.                                                            |
+| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                    |
+| `/ia`          | Evaluate and improve how information is organized for findability.                                                              |
+| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                 |
+| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                         |
+| `/performance` | Profiling methodology and optimization strategy for performance work.                                                           |
+| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional.    |
+| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                       |
+| `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted. |
+| `/sharpen`     | Tighten and sharpen prose by subtraction.                                                                                       |
+| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                           |
 
 ## Agents
 
