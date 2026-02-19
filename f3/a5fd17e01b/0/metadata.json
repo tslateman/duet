@@ -3,29 +3,31 @@
   "checkpoint_id": "f3a5fd17e01b",
   "session_id": "cd680c64-9724-4fd5-a7dd-f0a396efb0eb",
   "strategy": "manual-commit",
-  "created_at": "2026-02-19T04:52:14.892677Z",
+  "created_at": "2026-02-19T04:56:24.599517Z",
   "branch": "main",
-  "checkpoints_count": 0,
+  "checkpoints_count": 1,
   "files_touched": [
-    ".claude/settings.json"
+    ".claude/settings.json",
+    ".entire/.gitignore",
+    ".entire/settings.json"
   ],
   "agent": "Claude Code",
   "turn_id": "dcc13e626f67",
   "token_usage": {
-    "input_tokens": 850,
-    "cache_creation_tokens": 2241578,
-    "cache_read_tokens": 23916417,
-    "output_tokens": 16456,
-    "api_call_count": 256
+    "input_tokens": 851,
+    "cache_creation_tokens": 2241724,
+    "cache_read_tokens": 24053363,
+    "output_tokens": 16464,
+    "api_call_count": 257
   },
   "initial_attribution": {
-    "calculated_at": "2026-02-19T04:52:14.447408Z",
-    "agent_lines": 79,
-    "human_added": 0,
+    "calculated_at": "2026-02-19T04:56:24.156525Z",
+    "agent_lines": 0,
+    "human_added": 9,
     "human_modified": 0,
     "human_removed": 0,
-    "total_committed": 79,
-    "agent_percentage": 100
+    "total_committed": 9,
+    "agent_percentage": 0
   },
   "transcript_path": ".claude/projects/-Users-tslater-dev-cli-duet/cd680c64-9724-4fd5-a7dd-f0a396efb0eb.jsonl"
 }
