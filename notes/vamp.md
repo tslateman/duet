@@ -6,25 +6,23 @@ Where we are while figuring out where to go.
 
 ## Current State
 
-- 8 commands, 12 skills, 1 agent — markdown only, no build system
-- commands: debrief, lint, note-why, ponder, question, retro, sweep, whats-next
-- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, testing
+- 10 commands, 13 skills, 1 agent — markdown only, no build system
+- commands: capture-memory, debrief, lint, memory-audit, note-why, ponder, question, retro, sweep, whats-next
+- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, sharpen, testing
 - FRAMEWORKS.md indexes 13 framework-to-skill mappings
-- two-tier command structure:
-  - `commands/` — globally installable via `/install-commands`
-  - `.claude/commands/` — duet-only (install-commands, install-skills, install-statusline)
-- install-\* commands inventory, diff, confirm, verify — full workflow
+- plugin namespace (`duet:`) provides skills directly — no install step needed
+- `.claude/commands/` — duet-only (install-statusline)
 - skills use frontmatter for auto-triggering (adr led, others followed)
 - CLAUDE.md trimmed to essentials: project structure, lint, command authoring, naming
 - prose skill self-contained with full Elements of Style reference
 - conservative permissions: deny destructive ops, ask before push/rebase
+- `/retro` includes memory health check — scans MEMORY.md for staleness before persistence prompt
 - version 0.1.1
 
 ## Decided
 
-- "install" not "sync" — honest about one-way push, no bidirectional sync
-- show diff before overwrite — careful by default
-- accepted the ~/.claude/ install pattern over plugin installation
+- ~~"install" not "sync"~~ — removed. Plugin namespace (`duet:`) eliminates the need for install commands; they created duplicates in `~/.claude/skills/`
+- ~~accepted the ~/.claude/ install pattern~~ — reversed. Plugin skills use namespaced access (`duet:research`), not standalone copies
 - CLAUDE.md stays lean — project structure and authoring rules, not aspirational content
 - `/why` → `/note-why` — name the action, not the content; avoid ask/tell ambiguity
 - `/think-next` → `/ponder` — name what you do, not what comes next
@@ -37,6 +35,8 @@ Where we are while figuring out where to go.
 - `/performance` grounded in Knuth — measure-profile-optimize-measure loop
 - `/sweep` added for post-agent cleanup — checks blast radius, fixture damage, stale refs, debug artifacts, scope bleed
 - questions-not-just-actions pattern validated — `/question` and `/ponder` both earn their keep
+- `/sharpen` skill added for iterative code refinement
+- `/capture-memory` and `/memory-audit` commands added for session persistence and memory hygiene
 
 ## Open Threads
 
