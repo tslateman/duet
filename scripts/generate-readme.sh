@@ -28,9 +28,10 @@ for d in "$ROOT"/skills/*/; do
   skill_md="$d/SKILL.md"
   name=$(grep '^name:' "$skill_md" | head -1 | sed 's/^name: *//')
   desc=$(grep '^description:' "$skill_md" | head -1 | sed 's/^description: *//')
-  # Truncate long descriptions to ~80 characters
+  # Truncate long descriptions at word boundary before 80 characters
   if [ ${#desc} -gt 80 ]; then
-    desc="${desc:0:80}..."
+    desc="${desc:0:80}"
+    desc="${desc% *}..."
   fi
   skill_table="$skill_table\n| \`/$name\` | $desc |"
 done

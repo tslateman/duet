@@ -4,22 +4,22 @@ Each duet skill is grounded in a specific framework or authority. This index map
 
 ## Skills by Framework
 
-| Framework                | Authority                    | Skill                | Core Idea                                                          |
-| ------------------------ | ---------------------------- | -------------------- | ------------------------------------------------------------------ |
-| 9 Rules of Debugging     | David J. Agans               | `/diagnose`          | Scientific method applied to software failures                     |
-| Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate       |
-| Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                     |
-| Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability    |
-| API Design               | Joshua Bloch                 | `/naming`, `/design` | Self-documenting, least astonishment, minimal surface              |
-| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`            | Code names match domain language                                   |
-| ADR Format               | Michael Nygard               | `/adr`               | Capture context and reasoning, not just the decision               |
-| Testing Trophy           | Kent C. Dodds                | `/testing`           | Integration tests provide the best confidence-to-cost ratio        |
-| Performance Loop         | —                            | `/performance`       | Measure, profile, optimize, measure again                          |
-| Knuth's Rule             | Donald Knuth                 | `/performance`       | Optimize the critical 3%, not the other 97%                        |
-| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                | Organization, labeling, navigation, search for findability         |
-| Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference |
-| Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown        |
-| Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                    |
+| Framework                | Authority                    | Skill                | Core Idea                                                               |
+| ------------------------ | ---------------------------- | -------------------- | ----------------------------------------------------------------------- |
+| 9 Rules of Debugging     | David J. Agans               | `/diagnose`          | Scientific method applied to software failures                          |
+| Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate            |
+| Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                          |
+| Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability         |
+| API Design               | Joshua Bloch                 | `/naming`, `/design` | Self-documenting, least astonishment, minimal surface                   |
+| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`            | Code names match domain language                                        |
+| ADR Format               | Michael Nygard               | `/adr`               | Capture context and reasoning, not just the decision                    |
+| Testing Trophy           | Kent C. Dodds                | `/testing`           | Integration tests provide the best confidence-to-cost ratio             |
+| Modern Code Review       | Bacchelli & Bird             | `/review`            | Code review's primary value is knowledge transfer, not defect detection |
+| Knuth's Performance Rule | Donald Knuth                 | `/performance`       | Optimize the critical 3%; measure, profile, optimize, measure again     |
+| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                | Organization, labeling, navigation, search for findability              |
+| Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference      |
+| Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown             |
+| Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                         |
 
 ## Skills by Concern
 
@@ -48,6 +48,7 @@ Recipes teach Bach how to decompose a domain task into parallel workers. Each re
 | `/diagnose`    | `diagnose/RECIPE.md`    | 2       |
 | `/testing`     | `testing/RECIPE.md`     | 2       |
 | `/performance` | `performance/RECIPE.md` | 2       |
+| `/sharpen`     | `sharpen/RECIPE.md`     | 3       |
 
 ## Cross-References
 

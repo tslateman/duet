@@ -7,9 +7,9 @@ description: Framework for code review that captures context future maintainers 
 
 ## Overview
 
-Code review that captures context, not just correctness. Beyond finding bugs, document the _why_—concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
+Code review that captures context, not just correctness. Grounded in Bacchelli & Bird's research on modern code review, which found that code review's primary value is knowledge transfer — not defect detection. Beyond finding bugs, document the _why_ — concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
 
-Use this for PRs, local changes, or architecture review—any code where you want to preserve the reasoning, not just the verdict.
+Use this for PRs, local changes, or architecture review — any code where you want to preserve the reasoning, not just the verdict.
 
 ## Review Workflow
 
