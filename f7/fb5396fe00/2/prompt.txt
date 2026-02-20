@@ -1,0 +1,465 @@
+we can drop vamp.md and the related pre-push hook
+
+---
+
+[Request interrupted by user]
+
+---
+
+oops! keep the `/vamp` skill - i just mean drop the note
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   CLAUDE.md
+	deleted:    hooks/pre-push.example
+	deleted:    notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/CLAUDE.md b/CLAUDE.md
+index 0ffd253..594b54e 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -91,10 +91,6 @@ user-invocable: true # Optional. Set to false for auto-invoke-only skills
+ - Numbered lists for sequential steps, bullets for unordered
+ - No trailing whitespace
+ 
+-## Hooks
+-
+-A git pre-push hook checks whether `notes/vamp.md` was modified in the commits being pushed. If not, it prompts for confirmation before allowing the push. Use `git push --no-verify` to skip.
+-
+ ## Naming Conventions
+ 
+ | Element       | Convention      | Example             |
+diff --git a/hooks/pre-push.example b/hooks/pre-push.example
+deleted file mode 100755
+index bc3d65f..0000000
+--- a/hooks/pre-push.example
++++ /dev/null
+@@ -1,44 +0,0 @@
+-#!/bin/bash
+-set -euo pipefail
+-
+-# pre-push — Remind to update notes/vamp.md before sharing work
+-#
+-# vamp.md tracks where the project is and where it's headed. This hook
+-# warns when you push commits that don't touch it, so the working state
+-# stays current for anyone (or any agent) picking up the thread.
+-#
+-# Install:
+-#   cp hooks/pre-push.example .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+-
+-remote="$1"
+-url="$2"
+-
+-while read local_ref local_sha remote_ref remote_sha; do
+-  # Skip deletes
+-  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+-    continue
+-  fi
+-
+-  # Determine commit range being pushed
+-  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+-    # New branch — check all commits
+-    range="$local_sha"
+-  else
+-    range="$remote_sha..$local_sha"
+-  fi
+-
+-  # Warn if vamp.md wasn't modified in any commit being pushed
+-  if ! git diff --name-only "$range" 2>/dev/null | grep -q "^notes/vamp.md$"; then
+-    echo ""
+-    echo "warning: notes/vamp.md hasn't been updated in this push."
+-    echo ""
+-    read -p "Continue anyway? [y/N] " -n 1 -r < /dev/tty
+-    echo ""
+-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+-      echo "Push aborted. Update notes/vamp.md first."
+-      exit 1
+-    fi
+-  fi
+-done
+-
+-exit 0
+diff --git a/notes/vamp.md b/notes/vamp.md
+deleted file mode 100644
+index 370916e..0000000
+--- a/notes/vamp.md
++++ /dev/null
+@@ -1,5 +0,0 @@
+-# Vamp
+-
+-Unresolved tensions. Questions sitting in peripheral vision.
+-
+----
+- Current branch: main
+- Recent commits: a97e2ae refactor: Remove /note-why, add missing plugin keywords
+ab71aaf refactor: Rename /whats-next to /vamp
+0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+woah, I didn't want to delete .git/hooks/pre-push.pre-entire
+
+---
+
+[Request interrupted by user for tool use]
+
+---
+
+ah but it's about the old vamp note, so we don't need it
+
+---
+
+i want to expand philosophy.md
+right now it focuses on going back and forth with the human-AI, but I also want to highlight another relationship. multiple humans adopting duet can themselves form a duet by "singing" their part in prompts to the model
+
+---
+
+beautiful, can we put 1 or 2 lines of summarizing the philosophy's metaphor into the readme? ok to link back to philosophy.md for more
+
+---
+
+can we tighten this line?
+A Claude Code plugin for reflection, code, writing, and design.
+
+---
+
+yeah do it
+
+---
+
+the philosophy section of the readme is too long... really i just want a oneliner, maybe stylized like a quote, and citing philosophy.md
+
+---
+
+apply /prose
+
+---
+
+Base directory for this skill: /Users/tslater/.claude/plugins/cache/local/duet/0.1.1/skills/prose
+
+# Writing Clearly and Concisely
+
+## Overview
+
+William Strunk Jr.'s _The Elements of Style_ (1918) teaches you to write clearly and cut ruthlessly.
+
+**WARNING:** `references/elements-of-style.md` consumes ~12,000 tokens. Read it only when writing or editing prose.
+
+## When to Use This Skill
+
+Use this skill whenever you write prose for humans:
+
+- Documentation, README files, technical explanations
+- Commit messages, pull request descriptions
+- Error messages, UI copy, help text, comments
+- Reports, summaries, or any explanation
+- Editing to improve clarity
+- Tightening or sharpening a draft that runs long
+
+**If you're writing sentences for a human to read, use this skill.**
+
+## Limited Context Strategy
+
+When context is tight:
+
+1. Write your draft using judgment
+2. Dispatch a subagent with your draft and `references/elements-of-style.md`
+3. Have the subagent copyedit and return the revision
+
+## All Rules
+
+### Elementary Rules of Usage (Grammar/Punctuation)
+
+1. Form possessive singular by adding 's
+2. Use comma after each term in series except last
+3. Enclose parenthetic expressions between commas
+4. Comma before conjunction introducing co-ordinate clause
+5. Don't join independent clauses by comma
+6. Don't break sentences in two
+7. Participial phrase at beginning refers to grammatical subject
+
+### Elementary Principles of Composition
+
+8. One paragraph per topic
+9. Begin paragraph with topic sentence
+10. **Use active voice**
+11. **Put statements in positive form**
+12. **Use definite, specific, concrete language**
+13. **Omit needless words**
+14. Avoid succession of loose sentences
+15. Express co-ordinate ideas in similar form
+16. **Keep related words together**
+17. Keep to one tense in summaries
+18. **Place emphatic words at end of sentence**
+
+### Section V: Words and Expressions Commonly Misused
+
+Alphabetical reference for usage questions
+
+## Editing by Subtraction
+
+Sharpening a draft means removing everything that does not serve the core point. Not rewriting. Not adding "voice." Cutting.
+
+### Core Principles
+
+**Cut Structure, Keep Substance.** Drafts bloat through structure, not through ideas. Headers, transitions, framing paragraphs, and setup sentences add length without adding meaning. Cut them first. The substance survives.
+
+**Catch LLM-isms.** AI-generated text carries recognizable signatures: contrastive pivots, filler authority phrases, uniform tone, and predictable word choices. These patterns weaken prose even when the underlying argument is strong. Identify them and cut or rewrite.
+
+**Substance Over Voice for High-Stakes Prose.** "Humanizing" prompts add colloquialisms and personality but dilute the core argument. For leadership pitches, technical proposals, and executive communication, fluff hurts more than polish helps. Prioritize the argument.
+
+**Trust the Author's Cuts.** A single note from the author ("cut 'The stakes are real'") often does more than an elaborate rewriting pass. The author knows what matters. When they cut, follow the instinct rather than restoring through rewording.
+
+### LLM-ism Catalog
+
+Recognizable AI writing patterns and their fixes:
+
+| Pattern                     | Example                                         | Fix                                             |
+| --------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Contrastive pivot           | "That's not a trend piece -- that's the stakes" | State what it is. Skip the negation setup.      |
+| Needless stakes declaration | "The stakes are real."                          | Delete it. If the argument is strong, it shows. |
+| Uniform sentence rhythm     | Every paragraph same length, same cadence       | Vary length. Let some sentences punch.          |
+| Hedged authority            | "It's worth noting that..."                     | Drop the hedge. State the point.                |
+| Formulaic structure         | Intro paragraph, three body sections, summary   | Start with the strongest point. Cut the frame.  |
+| Predictable word choices    | Always the most probable next word              | Choose the specific word, not the expected one. |
+| Throat-clearing openers     | "When we think about X, we need to consider..." | Delete and start at the verb.                   |
+
+### Sharpening Workflow
+
+1. **Read the draft.** Identify the core point in one sentence
+2. **Cut everything that does not serve it.** Framing, transitions, restatements, setup paragraphs
+3. **Scan for LLM patterns.** Check the catalog above. Fix or delete each instance
+4. **Verify nothing was lost.** Read the shortened version. Does every important idea survive? If yes, the cut version is the better version
+
+### The Test
+
+Can you remove this sentence without losing meaning? Remove it.
+
+## Bottom Line
+
+Writing for humans? Read `references/elements-of-style.md` and apply the rules. Low on tokens? Dispatch a subagent to copyedit with the guide.
+
+## See Also
+
+- `/naming` — Strunk's Rule 12 applies identically to code names
+- `/review` — Write review comments clearly using these rules
+- `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel sharpening (3 workers)
+
+
+ARGUMENTS: notes/philosophy.md README.md
+
+---
+
+can we drop the em dashes?
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+	modified:   notes/philosophy.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/README.md b/README.md
+index febc4d1..837c9b4 100644
+--- a/README.md
++++ b/README.md
+@@ -1,7 +1,6 @@
+ # Duet
+ 
+-A Claude Code plugin for reflection, code quality,
+-writing, and design.
++Reflection, writing, and design skills for Claude Code.
+ 
+ ## Install
+ 
+@@ -21,16 +20,11 @@ git clone https://github.com/tslateman/duet.git ~/.claude/plugins/duet
+ git -C ~/.claude/plugins/duet pull
+ ```
+ 
+-Or run the install script again — it pulls if already installed.
++Or run the install script again; it pulls if already installed.
+ 
+ ## Philosophy
+ 
+-A duet is two voices in dialogue, neither dominant. Two musicians listening
+-_while_ playing, each adjusting to what the other just did. The human-AI pairing
+-is asymmetric — one remembers everything but forgets between sessions, the other
+-persists but loses details — yet the composition emerges from the interaction.
+-Build for productive surprise: not fancy autocomplete, not noise, but generative
+-friction that moves thinking forward.
++> Two voices in dialogue, neither dominant. The composition emerges from the interaction. [Read more.](notes/philosophy.md)
+ 
+ ## Getting Started
+ 
+@@ -41,49 +35,46 @@ language and Claude routes to the right skill automatically:
+ - "review my PR" → `/review`
+ - "how should I test this" → `/testing`
+ 
+-These three cover the most common engineering needs. Explore the full Skills
+-table below once you're comfortable.
+-
+-Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
++Explore the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
+ 
+ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
+ 
+ ## How Duet Works
+ 
+-- **Skills** auto-invoke based on what you're doing and teach methodology
+-- **Commands** are explicit workflows you invoke by name
+-- **Agents** are subprocesses for parallelized work
++- **Skills** auto-invoke from context and teach methodology
++- **Commands** are workflows you invoke by name
++- **Agents** are subprocesses for parallel work
+ 
+ ## Commands
+ 
+-| Command           | Description                                                                   |
+-| ----------------- | ----------------------------------------------------------------------------- |
+-| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary                        |
+-| `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
+-| `/lint`           | Run markdownlint on specified files or the whole project                      |
+-| `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
+-| `/ponder [n]`     | Surface a question worth sitting with                                         |
+-| `/probe`          | Probe recent changes with 2-3 pointed questions                               |
+-| `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
+-| `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
+-| `/vamp`           | Survey the project and choose what to play next                               |
++| Command           | Description                                                                    |
++| ----------------- | ------------------------------------------------------------------------------ |
++| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary                         |
++| `/debrief`        | Review what agents accomplished, surface loose ends across sessions            |
++| `/lint`           | Run markdownlint on specified files or the whole project                       |
++| `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication      |
++| `/ponder [n]`     | Surface a question worth sitting with                                          |
++| `/probe`          | Probe recent changes with 2-3 pointed questions                                |
++| `/retro`          | Reflect on recent work, capture learnings and surface what to think about next |
++| `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work     |
++| `/vamp`           | Survey the project and choose what to play next                                |
+ 
+ ## Skills
+ 
+-| Skill          | Description                                                                                                                                                                                |
+-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+-| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                                                                              |
+-| `/debugging`   | Systematic debugging that applies the scientific method to failures.                                                                                                                       |
+-| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                                                                                       |
+-| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                                                                               |
+-| `/ia`          | Evaluate and improve how information is organized for findability.                                                                                                                         |
+-| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                                                                            |
+-| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                                                                                    |
+-| `/performance` | Profiling methodology and optimization strategy for performance work.                                                                                                                      |
+-| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction. |
+-| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                                                                                  |
+-| `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted.                                                            |
+-| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                                                                                      |
++| Skill          | Description                                                                                                                               |
++| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
++| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                             |
++| `/debugging`   | Systematic debugging that applies the scientific method to failures.                                                                      |
++| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                                      |
++| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                              |
++| `/ia`          | Evaluate and improve how information is organized for findability.                                                                        |
++| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                           |
++| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                                   |
++| `/performance` | Profiling methodology and optimization strategy for performance work.                                                                     |
++| `/prose`       | Apply Strunk's writing rules to prose: documentation, commits, error messages, UI text. Also sharpens and tightens drafts by subtraction. |
++| `/research`    | Systematic technical investigation: evidence gathering, option comparison, and actionable recommendations.                                |
++| `/review`      | Framework for code review that captures context future maintainers need: concerns raised, alternatives rejected, risks accepted.          |
++| `/testing`     | Design test strategy using Beck's Test Desiderata: which properties matter, which tradeoffs to make.                                      |
+ 
+ ## Agents
+ 
+diff --git a/notes/philosophy.md b/notes/philosophy.md
+index f642b11..92c9790 100644
+--- a/notes/philosophy.md
++++ b/notes/philosophy.md
+@@ -2,16 +2,16 @@
+ 
+ ## The Name
+ 
+-A duet is two voices in dialogue, neither dominant. Not instrument and player. Not assistant and director. Two musicians listening *while* playing, each adjusting to what the other just did.
++A duet is two voices in dialogue, neither dominant. Two musicians listening _while_ playing, each adjusting to what the other just did.
+ 
+-The composition emerges from the interaction—neither player could produce it alone.
++The composition emerges from the interaction. Neither player could produce it alone.
+ 
+ ## The Asymmetry
+ 
+ The human-AI pairing is asymmetric:
+ 
+ - One partner remembers everything but forgets between sessions; the other persists but loses details
+-- One executes instantly but cannot *want*; the other moves slowly but has intention
++- One executes instantly but cannot _want_; the other moves slowly but has intention
+ - One generates possibilities effortlessly; the other curates and commits
+ 
+ ## The Goal
+@@ -21,12 +21,18 @@ Both adaptive and call-and-response:
+ - **Adaptive**: Responsive, anticipating, fitting context
+ - **Call-and-response**: Contributions that surprise and change direction
+ 
+-The sweet spot: the AI offers something you *would not have thought of* but immediately recognize as *right*—or challenges an assumption you did not know you held.
++The sweet spot: the AI offers something that surprises you but feels immediately _right_, or challenges an assumption you did not know you held.
++
++## The Ensemble
++
++When multiple humans adopt Duet, each sings their part through prompts, shaping the model with voice, taste, and judgment. The model becomes a shared instrument. Each player hears the others through the artifacts they leave behind: commit messages, decision records, skill definitions.
++
++Every contributor plays their line. The whole emerges from the overlap.
+ 
+ ## Design Principles
+ 
+ Build for **productive surprise**.
+ 
+-- Too predictable: fancy autocomplete—playing with yourself
++- Too predictable: fancy autocomplete: playing with yourself
+ - Too unpredictable: noise, not music
+ - Just right: generative friction that moves thinking forward
+- Current branch: main
+- Recent commits: 5590b57 refactor: Remove vamp note and pre-push hook
+a97e2ae refactor: Remove /note-why, add missing plugin keywords
+ab71aaf refactor: Rename /whats-next to /vamp
+0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
