@@ -1,0 +1,736 @@
+Implement the following plan:
+
+# Plan: Duet Tooling & Polish
+
+## Context
+
+The `/whats-next` analysis surfaced three tooling improvements and three polish fixes. Several turned out to already be in place (GH Actions, URLs), narrowing the actual work.
+
+## Changes
+
+### 1. GitHub Actions — already done
+
+`.github/workflows/lint.yml` already runs `markdownlint-cli` on PRs to `main`, plus frontmatter validation and broken-reference checks. No changes needed.
+
+### 2. URLs — already consistent
+
+`install.sh`, README install/clone/update lines all use `tslateman/duet`. Git remote matches. No changes needed.
+
+### 3. Pre-commit hook: generate-readme.sh before prettier
+
+**File:** `.git/hooks/pre-commit`
+
+Current hook runs prettier on README.md if staged. Add `generate-readme.sh` before it so tables stay in sync.
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+# Regenerate README tables from source
+"$(git rev-parse --show-toplevel)/scripts/generate-readme.sh" >/dev/null 2>&1
+
+# Stage and format README if content changed
+if ! git diff --quiet README.md 2>/dev/null || git diff --cached --name-only | grep -q "^README.md$"; then
+  prettier --write README.md
+  git add README.md
+fi
+```
+
+Note: `.git/hooks/` isn't versioned — this is a local experiment per user's "let's try."
+
+### 4. Resolve vamp.md
+
+Remove the single remaining item. Skill frontmatter analysis confirmed descriptions work well — specific trigger phrases, no false positives observed. The dual-duty concern is monitored and resolved.
+
+Keep the header and preamble so the file stays as a living document for future tensions.
+
+### 5. Remove dangling `score/` suggestion from riffs.md
+
+Delete bullet 4: `` `score/` as home for philosophy.md, riffs.md if they multiply—the written form of the composition ``
+
+`notes/` works fine at two files. Speculative reorg with no evidence of need.
+
+### 6. Move `/install-statusline` to Getting Started
+
+Remove the orphaned line between Recipes and Structure sections. Add it to Getting Started alongside the existing entry-point guidance.
+
+## Verification
+
+- Run `scripts/generate-readme.sh` and confirm README.md is unchanged (tables already in sync)
+- Stage a test change and verify pre-commit hook runs generate → prettier → stage
+- Run `markdownlint commands/**/*.md skills/**/SKILL.md` — clean
+- Confirm `notes/vamp.md` retains header, empty list
+- Confirm `notes/riffs.md` has three bullets, no `score/` mention
+- Confirm README Getting Started mentions statusline; no orphaned line near Structure
+
+
+If you need specific details from before exiting plan mode (like exact code snippets, error messages, or content you generated), read the full transcript at: /Users/tslater/.claude/projects/-Users-tslater-dev-cli-duet/78128dc2-8e61-4ed0-961f-e76980e6c2cc.jsonl
+
+If this plan can be broken down into multiple independent tasks, consider using the TeamCreate tool to create a team and parallelize the work.
+
+---
+
+commit this
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+	modified:   notes/riffs.md
+	modified:   notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/README.md b/README.md
+index dcb3987..d7dff8c 100644
+--- a/README.md
++++ b/README.md
+@@ -46,6 +46,8 @@ table below once you're comfortable.
+ 
+ Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
+ 
++Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
++
+ ## How Duet Works
+ 
+ - **Skills** auto-invoke based on what you're doing and teach methodology
+@@ -54,40 +56,40 @@ Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS
+ 
+ ## Commands
+ 
+-| Command           | Description                                                                   |
+-| ----------------- | ----------------------------------------------------------------------------- |
+-| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary                        |
+-| `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
+-| `/lint`           | Run markdownlint on specified files or the whole project                      |
+-| `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
+-| `/note-why`       | Note the rationale behind a commit using git notes                            |
+-| `/ponder [n]`     | Surface a question worth sitting with                                         |
+-| `/probe`          | Probe recent changes with 2-3 pointed questions                               |
+-| `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
+-| `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
+-| `/whats-next`     | Analyze project and suggest what to work on next                              |
++| Command | Description |
++| --- | --- |
++| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary |
++| `/debrief` | Review what agents accomplished, surface loose ends across sessions |
++| `/lint` | Run markdownlint on specified files or the whole project |
++| `/memory-audit` | Audit project memory files for staleness, orphans, bloat, and duplication |
++| `/note-why` | Note the rationale behind a commit using git notes |
++| `/ponder [n]` | Surface a question worth sitting with |
++| `/probe` | Probe recent changes with 2-3 pointed questions |
++| `/retro` | Reflect on recent work—capture learnings and surface what to think about next |
++| `/sweep` | Post-op check for artifacts, damage, and stale references after agent work |
++| `/whats-next` | Analyze project and suggest what to work on next |
+ 
+ ## Skills
+ 
+-| Skill          | Description                                                                                                                                                                                |
+-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+-| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                                                                              |
+-| `/debugging`   | Systematic debugging that applies the scientific method to failures.                                                                                                                       |
+-| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                                                                                       |
+-| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                                                                               |
+-| `/ia`          | Evaluate and improve how information is organized for findability.                                                                                                                         |
+-| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                                                                            |
+-| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                                                                                    |
+-| `/performance` | Profiling methodology and optimization strategy for performance work.                                                                                                                      |
+-| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction. |
+-| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                                                                                  |
+-| `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted.                                                            |
+-| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                                                                                      |
++| Skill | Description |
++| --- | --- |
++| `/adr` | Generate Architecture Decision Records that capture the reasoning behind technical decisions. |
++| `/debugging` | Systematic debugging that applies the scientific method to failures. |
++| `/design` | Intentional design thinking for interfaces, components, and systems. |
++| `/excalidraw` | Create Excalidraw diagrams programmatically. |
++| `/ia` | Evaluate and improve how information is organized for findability. |
++| `/mermaid` | Create diagrams and visualizations using Mermaid.js v11 syntax. |
++| `/naming` | Evaluate and improve names in code using naming as a design diagnostic. |
++| `/performance` | Profiling methodology and optimization strategy for performance work. |
++| `/prose` | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction. |
++| `/research` | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations. |
++| `/review` | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted. |
++| `/testing` | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make. |
+ 
+ ## Agents
+ 
+-| Agent             | Description                                                                                                                                                                  |
+-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Agent | Description |
++| --- | --- |
+ | `code-simplifier` | Simplifies and refines code for clarity, consistency, and maintainability while preserving all functionality. Focuses on recently modified code unless instructed otherwise. |
+ 
+ ## Recipes
+@@ -97,8 +99,6 @@ orchestrator) how to decompose domain tasks into parallel workers. Each recipe
+ defines roles, inputs, and coordination patterns for multi-agent work. See
+ [FRAMEWORKS.md](skills/FRAMEWORKS.md) for the full list.
+ 
+-Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
+-
+ ## Structure
+ 
+ ```text
+diff --git a/notes/riffs.md b/notes/riffs.md
+index fb3ec90..245a400 100644
+--- a/notes/riffs.md
++++ b/notes/riffs.md
+@@ -7,4 +7,3 @@ Fragments. Possibilities. Ideas to play with.
+ - What other moments in the workflow are ripe for generative friction?
+ - Commands that ask questions, not just execute tasks
+ - The asymmetry as feature: what can only emerge from mismatched capabilities?
+-- `score/` as home for philosophy.md, riffs.md if they multiply—the written form of the composition
+diff --git a/notes/vamp.md b/notes/vamp.md
+index b76fe63..370916e 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -3,5 +3,3 @@
+ Unresolved tensions. Questions sitting in peripheral vision.
+ 
+ ---
+-
+-- Skill frontmatter descriptions serve dual duty (autocomplete + auto-trigger) — monitor for false positives or missed triggers before tightening
+- Current branch: main
+- Recent commits: 1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+rename /whats-next to /vamp
+rationale:
+
+  The case for vamp
+
+  - Jazz-native: vamping is what musicians do between sections — repeat a figure while listening, deciding what to play next. That's exactly the
+  moment this skill serves: you're between tasks, surveying the project, choosing where to go
+  - Fits the "duet" namespace — deepens the music metaphor rather than just sitting beside it
+  - Imperative verb, one syllable, distinctive among siblings
+  - The retro / vamp pair: look back at what happened, then vamp into what's next
+
+---
+
+# Commit Rationale Annotation
+
+## Context
+
+- Current commit: 0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+- Changed files: README.md
+notes/riffs.md
+notes/vamp.md
+
+## Your Task
+
+Annotate a commit with rationale using `git notes`. This captures the _why_ behind
+a commit without changing its SHA.
+
+### Arguments
+
+`${ARGUMENTS:-}` — Three usage patterns:
+
+1. **No arguments** — Annotate HEAD interactively
+2. **Commit hash** (e.g., `13fe234`) — Annotate specific commit
+3. **Quick rationale** (quoted text) — Attach directly to HEAD
+
+### Workflow
+
+1. **Identify the target commit**
+   - Use argument if provided and looks like a commit hash
+   - Otherwise default to HEAD
+
+2. **Show commit context**
+
+   ```bash
+   git show --stat <commit>
+   ```
+
+3. **Capture rationale**
+   - If argument is quoted text, use it directly
+   - Otherwise, ask the user for the rationale
+
+4. **Create structured note**
+
+   Format the note as:
+
+   ```markdown
+   ## Why
+
+   [The rationale provided]
+
+   ## Context
+
+   - Date annotated: YYYY-MM-DD
+   - Files changed: [list from commit]
+
+   ## Alternatives
+
+   [If user mentioned alternatives considered]
+
+   ## Assumptions
+
+   [If user mentioned assumptions made]
+   ```
+
+   Omit empty sections (Alternatives, Assumptions) if not provided.
+
+5. **Store the note**
+
+   ```bash
+   git notes add -m "..." <commit>
+   ```
+
+   If a note already exists, ask whether to append (`git notes append`) or replace.
+
+6. **Confirm and remind**
+   - Show the stored note: `git notes show <commit>`
+   - Remind: "Push notes with `git push origin refs/notes/commits` if sharing"
+
+### Example Output
+
+After running `/why "Chose polling over WebSockets for simplicity"`:
+
+```text
+Annotated 13fe234 with rationale.
+
+## Why
+
+Chose polling over WebSockets for simplicity
+
+## Context
+
+- Date annotated: 2025-01-15
+- Files changed: src/api/sync.ts, src/config.ts
+
+View with: git log --notes -1 13fe234
+Push with: git push origin refs/notes/commits
+```
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    commands/whats-next.md -> commands/vamp.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   CLAUDE.md
+	modified:   README.md
+	modified:   commands/vamp.md
+- Current git diff (staged and unstaged changes): diff --git a/CLAUDE.md b/CLAUDE.md
+index dcd9551..9524b37 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -21,7 +21,7 @@ commands/
+   probe.md             Probe recent changes with pointed questions
+   retro.md             Session retrospective
+   sweep.md             Post-op check for artifacts, damage, stale refs
+-  whats-next.md        Suggest next actions
++  vamp.md              Survey the project and choose what to play next
+ skills/
+   FRAMEWORKS.md        Framework-to-skill index
+   adr/                 Architecture Decision Records (Nygard)
+@@ -98,7 +98,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
+ 
+ ## Naming Conventions
+ 
+-| Element       | Convention      | Example         |
+-| ------------- | --------------- | --------------- |
+-| Command files | `kebab-case.md` | `whats-next.md` |
+-| Directories   | `kebab-case/`   | `testing/`      |
++| Element       | Convention      | Example       |
++| ------------- | --------------- | ------------- |
++| Command files | `kebab-case.md` | `note-why.md` |
++| Directories   | `kebab-case/`   | `testing/`    |
+diff --git a/README.md b/README.md
+index 5b144dc..23d4bac 100644
+--- a/README.md
++++ b/README.md
+@@ -67,7 +67,7 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
+ | `/probe`          | Probe recent changes with 2-3 pointed questions                               |
+ | `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
+ | `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
+-| `/whats-next`     | Analyze project and suggest what to work on next                              |
++| `/vamp`           | Survey the project and choose what to play next                               |
+ 
+ ## Skills
+ 
+diff --git a/commands/whats-next.md b/commands/vamp.md
+similarity index 79%
+rename from commands/whats-next.md
+rename to commands/vamp.md
+index 8d26280..336be19 100644
+--- a/commands/whats-next.md
++++ b/commands/vamp.md
+@@ -1,8 +1,8 @@
+ ---
+-description: Analyze project and suggest what to work on next
++description: Survey the project and choose what to play next
+ ---
+ 
+-Analyze this project and suggest what to work on next.
++Survey this project and suggest what to play next.
+ 
+ 1. Review the current structure (README.md, directories, files)
+ 2. Identify gaps or opportunities in these categories:
+- Current branch: main
+- Recent commits: 0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+# Commit Rationale Annotation
+
+## Context
+
+- Current commit: ab71aaf refactor: Rename /whats-next to /vamp
+- Changed files: CLAUDE.md
+README.md
+commands/vamp.md
+commands/whats-next.md
+
+## Your Task
+
+Annotate a commit with rationale using `git notes`. This captures the _why_ behind
+a commit without changing its SHA.
+
+### Arguments
+
+`${ARGUMENTS:-}` — Three usage patterns:
+
+1. **No arguments** — Annotate HEAD interactively
+2. **Commit hash** (e.g., `13fe234`) — Annotate specific commit
+3. **Quick rationale** (quoted text) — Attach directly to HEAD
+
+### Workflow
+
+1. **Identify the target commit**
+   - Use argument if provided and looks like a commit hash
+   - Otherwise default to HEAD
+
+2. **Show commit context**
+
+   ```bash
+   git show --stat <commit>
+   ```
+
+3. **Capture rationale**
+   - If argument is quoted text, use it directly
+   - Otherwise, ask the user for the rationale
+
+4. **Create structured note**
+
+   Format the note as:
+
+   ```markdown
+   ## Why
+
+   [The rationale provided]
+
+   ## Context
+
+   - Date annotated: YYYY-MM-DD
+   - Files changed: [list from commit]
+
+   ## Alternatives
+
+   [If user mentioned alternatives considered]
+
+   ## Assumptions
+
+   [If user mentioned assumptions made]
+   ```
+
+   Omit empty sections (Alternatives, Assumptions) if not provided.
+
+5. **Store the note**
+
+   ```bash
+   git notes add -m "..." <commit>
+   ```
+
+   If a note already exists, ask whether to append (`git notes append`) or replace.
+
+6. **Confirm and remind**
+   - Show the stored note: `git notes show <commit>`
+   - Remind: "Push notes with `git push origin refs/notes/commits` if sharing"
+
+### Example Output
+
+After running `/why "Chose polling over WebSockets for simplicity"`:
+
+```text
+Annotated 13fe234 with rationale.
+
+## Why
+
+Chose polling over WebSockets for simplicity
+
+## Context
+
+- Date annotated: 2025-01-15
+- Files changed: src/api/sync.ts, src/config.ts
+
+View with: git log --notes -1 13fe234
+Push with: git push origin refs/notes/commits
+```
+
+---
+
+the commit body covers it, skip the note
+
+---
+
+i think we can cut the /note-why - utility feels low
+
+---
+
+audit usage of duet skills/commands
+
+---
+
+yes, fix plugin.json
+
+---
+
+commit this
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 3 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	deleted:    commands/note-why.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .claude-plugin/plugin.json
+	modified:   CLAUDE.md
+	modified:   README.md
+- Current git diff (staged and unstaged changes): diff --git a/.claude-plugin/plugin.json b/.claude-plugin/plugin.json
+index 1f24e8d..c7cbe7a 100644
+--- a/.claude-plugin/plugin.json
++++ b/.claude-plugin/plugin.json
+@@ -6,5 +6,5 @@
+     "name": "tslater"
+   },
+   "license": "MIT",
+-  "keywords": ["reflection", "code-quality", "writing", "design", "review", "adr", "research", "debugging", "naming", "testing", "performance", "diagrams", "mermaid", "excalidraw"]
++  "keywords": ["reflection", "code-quality", "writing", "design", "review", "adr", "research", "debugging", "naming", "testing", "performance", "diagrams", "mermaid", "excalidraw", "ia", "prose"]
+ }
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 9524b37..0ffd253 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -16,7 +16,6 @@ commands/
+   debrief.md           Review agent work, surface loose ends
+   lint.md              Run markdownlint on files
+   memory-audit.md      Audit project memory files for staleness
+-  note-why.md          Note the rationale behind a commit
+   ponder.md            Surface a question worth sitting with
+   probe.md             Probe recent changes with pointed questions
+   retro.md             Session retrospective
+@@ -98,7 +97,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
+ 
+ ## Naming Conventions
+ 
+-| Element       | Convention      | Example       |
+-| ------------- | --------------- | ------------- |
+-| Command files | `kebab-case.md` | `note-why.md` |
+-| Directories   | `kebab-case/`   | `testing/`    |
++| Element       | Convention      | Example             |
++| ------------- | --------------- | ------------------- |
++| Command files | `kebab-case.md` | `capture-memory.md` |
++| Directories   | `kebab-case/`   | `testing/`          |
+diff --git a/README.md b/README.md
+index 23d4bac..febc4d1 100644
+--- a/README.md
++++ b/README.md
+@@ -62,7 +62,6 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
+ | `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
+ | `/lint`           | Run markdownlint on specified files or the whole project                      |
+ | `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
+-| `/note-why`       | Note the rationale behind a commit using git notes                            |
+ | `/ponder [n]`     | Surface a question worth sitting with                                         |
+ | `/probe`          | Probe recent changes with 2-3 pointed questions                               |
+ | `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
+diff --git a/commands/note-why.md b/commands/note-why.md
+deleted file mode 100644
+index 4f3e323..0000000
+--- a/commands/note-why.md
++++ /dev/null
+@@ -1,98 +0,0 @@
+----
+-description: Note the rationale behind a commit using git notes
+-allowed-tools:
+-  [Read, Bash(git log:*), Bash(git show:*), Bash(git notes:*), Bash(git diff:*)]
+----
+-
+-# Commit Rationale Annotation
+-
+-## Context
+-
+-- Current commit: !`git log --oneline -1`
+-- Changed files: !`git diff-tree --no-commit-id --name-only -r HEAD`
+-
+-## Your Task
+-
+-Annotate a commit with rationale using `git notes`. This captures the _why_ behind
+-a commit without changing its SHA.
+-
+-### Arguments
+-
+-`${ARGUMENTS:-}` — Three usage patterns:
+-
+-1. **No arguments** — Annotate HEAD interactively
+-2. **Commit hash** (e.g., `13fe234`) — Annotate specific commit
+-3. **Quick rationale** (quoted text) — Attach directly to HEAD
+-
+-### Workflow
+-
+-1. **Identify the target commit**
+-   - Use argument if provided and looks like a commit hash
+-   - Otherwise default to HEAD
+-
+-2. **Show commit context**
+-
+-   ```bash
+-   git show --stat <commit>
+-   ```
+-
+-3. **Capture rationale**
+-   - If argument is quoted text, use it directly
+-   - Otherwise, ask the user for the rationale
+-
+-4. **Create structured note**
+-
+-   Format the note as:
+-
+-   ```markdown
+-   ## Why
+-
+-   [The rationale provided]
+-
+-   ## Context
+-
+-   - Date annotated: YYYY-MM-DD
+-   - Files changed: [list from commit]
+-
+-   ## Alternatives
+-
+-   [If user mentioned alternatives considered]
+-
+-   ## Assumptions
+-
+-   [If user mentioned assumptions made]
+-   ```
+-
+-   Omit empty sections (Alternatives, Assumptions) if not provided.
+-
+-5. **Store the note**
+-
+-   ```bash
+-   git notes add -m "..." <commit>
+-   ```
+-
+-   If a note already exists, ask whether to append (`git notes append`) or replace.
+-
+-6. **Confirm and remind**
+-   - Show the stored note: `git notes show <commit>`
+-   - Remind: "Push notes with `git push origin refs/notes/commits` if sharing"
+-
+-### Example Output
+-
+-After running `/why "Chose polling over WebSockets for simplicity"`:
+-
+-```text
+-Annotated 13fe234 with rationale.
+-
+-## Why
+-
+-Chose polling over WebSockets for simplicity
+-
+-## Context
+-
+-- Date annotated: 2025-01-15
+-- Files changed: src/api/sync.ts, src/config.ts
+-
+-View with: git log --notes -1 13fe234
+-Push with: git push origin refs/notes/commits
+-```
+- Current branch: main
+- Recent commits: ab71aaf refactor: Rename /whats-next to /vamp
+0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+how to apply duet changes to local dev env?
+
+---
+
+restart... how?
+
+---
+
+how do we clear the cache?
