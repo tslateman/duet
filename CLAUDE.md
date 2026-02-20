@@ -12,20 +12,24 @@ markdownlint commands/**/*.md skills/**/SKILL.md
 
 ```
 commands/
+  capture-memory.md    Capture learnings to MEMORY.md
   debrief.md           Review agent work, surface loose ends
   lint.md              Run markdownlint on files
+  memory-audit.md      Audit project memory files for staleness
+  note-why.md          Note the rationale behind a commit
+  ponder.md            Surface a question worth sitting with
   probe.md             Probe recent changes with pointed questions
   retro.md             Session retrospective
   sweep.md             Post-op check for artifacts, damage, stale refs
   whats-next.md        Suggest next actions
-  note-why.md          Note the rationale behind a commit
-  ponder.md            Surface a question worth sitting with
 skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
+  debugging/           Systematic debugging (Agans)
   design/              Intentional design (visual, API, system)
-  debugging/            Systematic debugging (Agans)
+  excalidraw/          Programmatic Excalidraw diagrams
   ia/                  Information architecture (Rosenfeld + Diataxis)
+  mermaid/             Mermaid.js diagrams for GitHub markdown
   naming/              Naming as design diagnostic (Benner + Bloch)
   performance/         Profiling and optimization (Knuth)
   prose/               Strunk's Elements of Style for all writing
@@ -38,7 +42,6 @@ statusline/
   statusline-command.sh  Lean status bar (dir, git, model, context, vim)
 scripts/
   generate-readme.sh   Auto-generate README tables from source
-  sync-version.sh      Sync plugin.json version with git tags
 ```
 
 ### Skill Directory Contents

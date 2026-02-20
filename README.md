@@ -37,7 +37,7 @@ friction that moves thinking forward.
 You don't need to memorize the catalog. Describe what you're doing in plain
 language and Claude routes to the right skill automatically:
 
-- "debug this" → `/diagnose`
+- "debug this" → `/debugging`
 - "review my PR" → `/review`
 - "how should I test this" → `/testing`
 
@@ -92,10 +92,12 @@ Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS
 
 ## Recipes
 
-Six skills include `RECIPE.md` files that teach Bach how to decompose domain
-tasks into parallel workers. Each recipe defines roles, inputs, and
-coordination patterns for multi-agent work. See
+Seven skills include `RECIPE.md` files that teach Bach (a multi-agent
+orchestrator) how to decompose domain tasks into parallel workers. Each recipe
+defines roles, inputs, and coordination patterns for multi-agent work. See
 [FRAMEWORKS.md](skills/FRAMEWORKS.md) for the full list.
+
+Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
 
 ## Structure
 
@@ -111,8 +113,6 @@ duet/
 ├── scripts/              # Build and maintenance scripts
 └── notes/                # Project thinking
 ```
-
-Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
 
 ## Requirements
 

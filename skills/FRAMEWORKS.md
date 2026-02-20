@@ -38,7 +38,7 @@ Each duet skill is grounded in a specific framework or authority. This index map
 
 ## Recipes
 
-Recipes teach Bach how to decompose a domain task into parallel workers. Each recipe defines worker scope boundaries, prompt templates, and a synthesis step for the manager.
+Recipes teach Bach (a multi-agent orchestrator) how to decompose a domain task into parallel workers. Each recipe defines worker scope boundaries, prompt templates, and a synthesis step for the manager.
 
 | Skill          | Recipe                  | Workers |
 | -------------- | ----------------------- | ------- |
