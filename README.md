@@ -62,7 +62,6 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 | `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
 | `/lint`           | Run markdownlint on specified files or the whole project                      |
 | `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
-| `/note-why`       | Note the rationale behind a commit using git notes                            |
 | `/ponder [n]`     | Surface a question worth sitting with                                         |
 | `/probe`          | Probe recent changes with 2-3 pointed questions                               |
 | `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |

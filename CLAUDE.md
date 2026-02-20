@@ -16,7 +16,6 @@ commands/
   debrief.md           Review agent work, surface loose ends
   lint.md              Run markdownlint on files
   memory-audit.md      Audit project memory files for staleness
-  note-why.md          Note the rationale behind a commit
   ponder.md            Surface a question worth sitting with
   probe.md             Probe recent changes with pointed questions
   retro.md             Session retrospective
@@ -98,7 +97,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
 
 ## Naming Conventions
 
-| Element       | Convention      | Example       |
-| ------------- | --------------- | ------------- |
-| Command files | `kebab-case.md` | `note-why.md` |
-| Directories   | `kebab-case/`   | `testing/`    |
+| Element       | Convention      | Example             |
+| ------------- | --------------- | ------------------- |
+| Command files | `kebab-case.md` | `capture-memory.md` |
+| Directories   | `kebab-case/`   | `testing/`          |
