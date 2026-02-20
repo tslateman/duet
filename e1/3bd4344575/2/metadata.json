@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "e13bd4344575",
+  "session_id": "cd680c64-9724-4fd5-a7dd-f0a396efb0eb",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-20T12:12:35.370785Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "notes/vamp.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "7686ffe33c5a",
+  "transcript_identifier_at_start": "31632d0d-ad26-45fc-98e5-a52adb71694e",
+  "token_usage": {
+    "input_tokens": 1079,
+    "cache_creation_tokens": 3548093,
+    "cache_read_tokens": 34722681,
+    "output_tokens": 20842,
+    "api_call_count": 380
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-20T12:12:34.734046Z",
+    "agent_lines": 0,
+    "human_added": 2,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 2,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-Users-tslater-dev-cli-duet/cd680c64-9724-4fd5-a7dd-f0a396efb0eb.jsonl"
+}
