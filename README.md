@@ -46,6 +46,8 @@ table below once you're comfortable.
 
 Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
 
+Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
+
 ## How Duet Works
 
 - **Skills** auto-invoke based on what you're doing and teach methodology
@@ -96,8 +98,6 @@ Seven skills include `RECIPE.md` files that teach Bach (a multi-agent
 orchestrator) how to decompose domain tasks into parallel workers. Each recipe
 defines roles, inputs, and coordination patterns for multi-agent work. See
 [FRAMEWORKS.md](skills/FRAMEWORKS.md) for the full list.
-
-Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
 
 ## Structure
 
