@@ -1,7 +1,6 @@
 # Duet
 
-A Claude Code plugin for reflection, code quality,
-writing, and design.
+Reflection, writing, and design skills for Claude Code.
 
 ## Install
 
@@ -21,16 +20,11 @@ git clone https://github.com/tslateman/duet.git ~/.claude/plugins/duet
 git -C ~/.claude/plugins/duet pull
 ```
 
-Or run the install script again — it pulls if already installed.
+Or run the install script again; it pulls if already installed.
 
 ## Philosophy
 
-A duet is two voices in dialogue, neither dominant. Two musicians listening
-_while_ playing, each adjusting to what the other just did. The human-AI pairing
-is asymmetric — one remembers everything but forgets between sessions, the other
-persists but loses details — yet the composition emerges from the interaction.
-Build for productive surprise: not fancy autocomplete, not noise, but generative
-friction that moves thinking forward.
+> Two voices in dialogue, neither dominant. The composition emerges from the interaction. [Read more.](notes/philosophy.md)
 
 ## Getting Started
 
@@ -41,18 +35,15 @@ language and Claude routes to the right skill automatically:
 - "review my PR" → `/review`
 - "how should I test this" → `/testing`
 
-These three cover the most common engineering needs. Explore the full Skills
-table below once you're comfortable.
-
-Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
+Explore the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
 
 Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 
 ## How Duet Works
 
-- **Skills** auto-invoke based on what you're doing and teach methodology
-- **Commands** are explicit workflows you invoke by name
-- **Agents** are subprocesses for parallelized work
+- **Skills** auto-invoke from context and teach methodology
+- **Commands** are workflows you invoke by name
+- **Agents** are subprocesses for parallel work
 
 ## Commands
 
