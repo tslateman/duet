@@ -1,10 +1,10 @@
 ---
-name: sharpen-recipe
+name: prose-recipe
 workers: 3
 parallel: true
 ---
 
-# Sharpen — Agent Recipe
+# Prose — Agent Recipe
 
 Sharpening prose decomposes into three independent lenses. A single editor context-switches between clarity, consistency, and maintainability — often softening cuts to avoid disrupting flow. Parallel workers apply each lens without compromise, then the manager reconciles.
 
@@ -18,7 +18,7 @@ Split the sharpening pass by editorial concern. Each worker reads the same draft
 
 **Focus:** Cut everything that does not serve the core point.
 
-**Framework:** The "Cut Structure, Keep Substance" and "LLM-ism Catalog" sections from the sharpen skill.
+**Framework:** The "Cut Structure, Keep Substance" and "LLM-ism Catalog" sections from the prose skill.
 
 **Scope boundaries:**
 
@@ -46,7 +46,7 @@ Split the sharpening pass by editorial concern. Each worker reads the same draft
 
 **Focus:** Ensure uniform voice, terminology, and structure throughout.
 
-**Framework:** The "Substance Over Voice" and "Trust the Author's Cuts" principles from the sharpen skill, plus the prose skill's rules on parallel construction and consistent tense.
+**Framework:** The "Substance Over Voice" and "Trust the Author's Cuts" principles from the prose skill, plus the prose skill's rules on parallel construction and consistent tense.
 
 **Scope boundaries:**
 

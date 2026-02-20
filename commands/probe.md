@@ -1,5 +1,5 @@
 ---
-description: Surface 2-3 pointed questions about code you just changed
+description: Probe recent changes with 2-3 pointed questions
 allowed-tools:
   [Bash(git diff:*), Bash(git log:*), Bash(git show:*), Read, Grep, Glob]
 ---

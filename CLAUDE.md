@@ -14,7 +14,7 @@ markdownlint commands/**/*.md skills/**/SKILL.md
 commands/
   debrief.md           Review agent work, surface loose ends
   lint.md              Run markdownlint on files
-  question.md          Surface pointed questions about recent changes
+  probe.md             Probe recent changes with pointed questions
   retro.md             Session retrospective
   sweep.md             Post-op check for artifacts, damage, stale refs
   whats-next.md        Suggest next actions
@@ -24,7 +24,7 @@ skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
   design/              Intentional design (visual, API, system)
-  diagnose/            Systematic debugging (Agans)
+  debugging/            Systematic debugging (Agans)
   ia/                  Information architecture (Rosenfeld + Diataxis)
   naming/              Naming as design diagnostic (Benner + Bloch)
   performance/         Profiling and optimization (Knuth)
@@ -41,6 +41,13 @@ scripts/
   sync-version.sh      Sync plugin.json version with git tags
 ```
 
+### Skill Directory Contents
+
+- `SKILL.md` — Required. Skill definition, methodology, and trigger rules
+- `RECIPE.md` — Optional. Bach recipe for multi-agent decomposition
+- `references/` — Optional. Framework excerpts and supporting documentation
+- `scripts/` — Optional. Executable tooling (e.g., diagram generators)
+
 ## Command Authoring
 
 ### Frontmatter (Required)
@@ -55,6 +62,20 @@ allowed-tools: [Bash, Read, Glob, Grep] # Optional: restrict tools
 - `description`: Required. Used for command discovery
 - `allowed-tools`: Optional. Omit to allow all tools
 - Use patterns like `Bash(git add:*)` to restrict specific commands
+
+### Skill Frontmatter
+
+```yaml
+---
+name: skill-name
+description: Brief description with optional trigger phrases ("Use when...")
+user-invocable: true # Optional. Set to false for auto-invoke-only skills
+---
+```
+
+- `name`: Required. Skill identifier, used in autocomplete
+- `description`: Required. Serves dual purpose: autocomplete display and auto-trigger matching
+- `user-invocable`: Optional. Defaults to true. Set to `false` for skills that should only auto-invoke based on context, not appear as explicit `/skill` commands
 
 ### Inline Execution
 

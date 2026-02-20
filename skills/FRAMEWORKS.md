@@ -6,7 +6,7 @@ Each duet skill is grounded in a specific framework or authority. This index map
 
 | Framework                | Authority                    | Skill                | Core Idea                                                               |
 | ------------------------ | ---------------------------- | -------------------- | ----------------------------------------------------------------------- |
-| 9 Rules of Debugging     | David J. Agans               | `/diagnose`          | Scientific method applied to software failures                          |
+| 9 Rules of Debugging     | David J. Agans               | `/debugging`         | Scientific method applied to software failures                          |
 | Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate            |
 | Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                          |
 | Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability         |
@@ -25,12 +25,12 @@ Each duet skill is grounded in a specific framework or authority. This index map
 
 | Concern                             | Primary Skill  | Supporting Skills      |
 | ----------------------------------- | -------------- | ---------------------- |
-| "Is this correct?"                  | `/diagnose`    | `/testing`, `/review`  |
+| "Is this correct?"                  | `/debugging`   | `/testing`, `/review`  |
 | "Is this well-designed?"            | `/design`      | `/naming`, `/adr`      |
 | "Is this well-tested?"              | `/testing`     | `/review`              |
 | "Is this well-named?"               | `/naming`      | `/design`, `/prose`    |
 | "Is this well-written?"             | `/prose`       | `/review`              |
-| "Is this fast enough?"              | `/performance` | `/diagnose`            |
+| "Is this fast enough?"              | `/performance` | `/debugging`           |
 | "Should we document this decision?" | `/adr`         | `/review`, `/research` |
 | "What should we use?"               | `/research`    | `/adr`                 |
 | "Can people find this?"             | `/ia`          | `/naming`, `/design`   |
@@ -45,10 +45,10 @@ Recipes teach Bach how to decompose a domain task into parallel workers. Each re
 | `/review`      | `review/RECIPE.md`      | 3       |
 | `/design`      | `design/RECIPE.md`      | 3       |
 | `/research`    | `research/RECIPE.md`    | 2       |
-| `/diagnose`    | `diagnose/RECIPE.md`    | 2       |
+| `/debugging`   | `debugging/RECIPE.md`   | 2       |
 | `/testing`     | `testing/RECIPE.md`     | 2       |
 | `/performance` | `performance/RECIPE.md` | 2       |
-| `/sharpen`     | `sharpen/RECIPE.md`     | 3       |
+| `/prose`       | `prose/RECIPE.md`       | 3       |
 
 ## Cross-References
 
@@ -56,10 +56,10 @@ Skills that pair naturally:
 
 - `/review` + `/naming` — Code review surfaces naming problems; naming review deepens code review
 - `/adr` + `/research` — Research informs the decision; ADR captures it
-- `/testing` + `/diagnose` — Test failures trigger debugging; debugging reveals missing tests
+- `/testing` + `/debugging` — Test failures trigger debugging; debugging reveals missing tests
 - `/design` + `/naming` — Hard-to-name things signal design problems
 - `/prose` + `/review` — Review captures context; prose makes it clear
-- `/performance` + `/diagnose` — Performance regressions are bugs; profiling is debugging for speed
+- `/performance` + `/debugging` — Performance regressions are bugs; profiling is debugging for speed
 - `/ia` + `/naming` — IA labeling problems are naming problems; naming reveals structural confusion
 - `/mermaid` + `/excalidraw` — Mermaid for inline docs (GitHub-native); Excalidraw for architecture overviews (hand-drawn, editable)
 - `/mermaid` + `/design` — Diagram layout is visual design; the same composition principles apply

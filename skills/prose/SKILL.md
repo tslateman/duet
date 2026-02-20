@@ -1,6 +1,6 @@
 ---
 name: prose
-description: Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional.
+description: Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction.
 ---
 
 # Writing Clearly and Concisely
@@ -20,6 +20,7 @@ Use this skill whenever you write prose for humans:
 - Error messages, UI copy, help text, comments
 - Reports, summaries, or any explanation
 - Editing to improve clarity
+- Tightening or sharpening a draft that runs long
 
 **If you're writing sentences for a human to read, use this skill.**
 
@@ -61,6 +62,45 @@ When context is tight:
 
 Alphabetical reference for usage questions
 
+## Editing by Subtraction
+
+Sharpening a draft means removing everything that does not serve the core point. Not rewriting. Not adding "voice." Cutting.
+
+### Core Principles
+
+**Cut Structure, Keep Substance.** Drafts bloat through structure, not through ideas. Headers, transitions, framing paragraphs, and setup sentences add length without adding meaning. Cut them first. The substance survives.
+
+**Catch LLM-isms.** AI-generated text carries recognizable signatures: contrastive pivots, filler authority phrases, uniform tone, and predictable word choices. These patterns weaken prose even when the underlying argument is strong. Identify them and cut or rewrite.
+
+**Substance Over Voice for High-Stakes Prose.** "Humanizing" prompts add colloquialisms and personality but dilute the core argument. For leadership pitches, technical proposals, and executive communication, fluff hurts more than polish helps. Prioritize the argument.
+
+**Trust the Author's Cuts.** A single note from the author ("cut 'The stakes are real'") often does more than an elaborate rewriting pass. The author knows what matters. When they cut, follow the instinct rather than restoring through rewording.
+
+### LLM-ism Catalog
+
+Recognizable AI writing patterns and their fixes:
+
+| Pattern                     | Example                                         | Fix                                             |
+| --------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Contrastive pivot           | "That's not a trend piece -- that's the stakes" | State what it is. Skip the negation setup.      |
+| Needless stakes declaration | "The stakes are real."                          | Delete it. If the argument is strong, it shows. |
+| Uniform sentence rhythm     | Every paragraph same length, same cadence       | Vary length. Let some sentences punch.          |
+| Hedged authority            | "It's worth noting that..."                     | Drop the hedge. State the point.                |
+| Formulaic structure         | Intro paragraph, three body sections, summary   | Start with the strongest point. Cut the frame.  |
+| Predictable word choices    | Always the most probable next word              | Choose the specific word, not the expected one. |
+| Throat-clearing openers     | "When we think about X, we need to consider..." | Delete and start at the verb.                   |
+
+### Sharpening Workflow
+
+1. **Read the draft.** Identify the core point in one sentence
+2. **Cut everything that does not serve it.** Framing, transitions, restatements, setup paragraphs
+3. **Scan for LLM patterns.** Check the catalog above. Fix or delete each instance
+4. **Verify nothing was lost.** Read the shortened version. Does every important idea survive? If yes, the cut version is the better version
+
+### The Test
+
+Can you remove this sentence without losing meaning? Remove it.
+
 ## Bottom Line
 
 Writing for humans? Read `references/elements-of-style.md` and apply the rules. Low on tokens? Dispatch a subagent to copyedit with the guide.
@@ -70,3 +110,4 @@ Writing for humans? Read `references/elements-of-style.md` and apply the rules. 
 - `/naming` — Strunk's Rule 12 applies identically to code names
 - `/review` — Write review comments clearly using these rules
 - `skills/FRAMEWORKS.md` — Full framework index
+- `RECIPE.md` — Agent recipe for parallel sharpening (3 workers)

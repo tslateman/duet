@@ -200,7 +200,7 @@ After designing the test suite, ask: "If all these tests pass, would you deploy 
 
 ## See Also
 
-- `/diagnose` — Test failures trigger debugging; debugging reveals missing tests
+- `/debugging` — Test failures trigger debugging; debugging reveals missing tests
 - `/review` — Reviews assess test coverage alongside code quality
 - `skills/FRAMEWORKS.md` — Full framework index
 - `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)

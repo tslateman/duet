@@ -1,5 +1,5 @@
 ---
-name: diagnose
+name: debugging
 description: Systematic debugging that applies the scientific method to failures. Use when the user says "debug this", "why is this failing", "help me find the bug", "this doesn't work", "track down the issue", or is stuck on a problem and thrashing without progress.
 ---
 

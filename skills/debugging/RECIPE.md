@@ -1,10 +1,10 @@
 ---
-name: diagnose-recipe
+name: debugging-recipe
 workers: 2
 parallel: true
 ---
 
-# Diagnose — Agent Recipe
+# Debugging — Agent Recipe
 
 Debugging benefits from separating hypothesis generation from hypothesis validation. A single debugger tends to anchor on the first plausible cause and test only that, missing alternatives. Two workers — one generating hypotheses, one validating them — prevent anchoring bias and cover the search space faster.
 
@@ -80,5 +80,5 @@ The manager coordinates the debugging loop:
 
 1. **Round 1:** Worker 1 generates hypotheses from the initial symptoms. Worker 2 tests the top-ranked hypotheses.
 2. **Iterate if needed.** Feed refuted hypotheses and new observations from Worker 2 back to Worker 1 for refined hypotheses. Repeat until root cause is isolated.
-3. **Produce the diagnosis.** Combine into the diagnose skill's output format: Bug description, Root Cause, Evidence (from Worker 2's audit trail), Fix recommendation, Prevention strategy.
+3. **Produce the diagnosis.** Combine into the debugging skill's output format: Bug description, Root Cause, Evidence (from Worker 2's audit trail), Fix recommendation, Prevention strategy.
 4. **Apply Rule 9.** "If you didn't fix it, it ain't fixed." The diagnosis must explain the full causal chain from defect to symptom. If the chain has gaps, the root cause isn't found yet.

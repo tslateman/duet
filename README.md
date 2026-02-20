@@ -23,6 +23,15 @@ git -C ~/.claude/plugins/duet pull
 
 Or run the install script again — it pulls if already installed.
 
+## Philosophy
+
+A duet is two voices in dialogue, neither dominant. Two musicians listening
+_while_ playing, each adjusting to what the other just did. The human-AI pairing
+is asymmetric — one remembers everything but forgets between sessions, the other
+persists but loses details — yet the composition emerges from the interaction.
+Build for productive surprise: not fancy autocomplete, not noise, but generative
+friction that moves thinking forward.
+
 ## Getting Started
 
 You don't need to memorize the catalog. Describe what you're doing in plain
@@ -35,6 +44,14 @@ language and Claude routes to the right skill automatically:
 These three cover the most common engineering needs. Explore the full Skills
 table below once you're comfortable.
 
+Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
+
+## How Duet Works
+
+- **Skills** auto-invoke based on what you're doing and teach methodology
+- **Commands** are explicit workflows you invoke by name
+- **Agents** are subprocesses for parallelized work
+
 ## Commands
 
 | Command           | Description                                                                   |
@@ -45,28 +62,27 @@ table below once you're comfortable.
 | `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
 | `/note-why`       | Note the rationale behind a commit using git notes                            |
 | `/ponder [n]`     | Surface a question worth sitting with                                         |
-| `/question`       | Surface 2-3 pointed questions about code you just changed                     |
+| `/probe`          | Probe recent changes with 2-3 pointed questions                               |
 | `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
 | `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
 | `/whats-next`     | Analyze project and suggest what to work on next                              |
 
 ## Skills
 
-| Skill          | Description                                                                                                                     |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                   |
-| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                            |
-| `/diagnose`    | Systematic debugging that applies the scientific method to failures.                                                            |
-| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                    |
-| `/ia`          | Evaluate and improve how information is organized for findability.                                                              |
-| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                 |
-| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                         |
-| `/performance` | Profiling methodology and optimization strategy for performance work.                                                           |
-| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional.    |
-| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                       |
-| `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted. |
-| `/sharpen`     | Tighten and sharpen prose by subtraction.                                                                                       |
-| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                           |
+| Skill          | Description                                                                                                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technical decisions.                                                                                              |
+| `/debugging`   | Systematic debugging that applies the scientific method to failures.                                                                                                                       |
+| `/design`      | Intentional design thinking for interfaces, components, and systems.                                                                                                                       |
+| `/excalidraw`  | Create Excalidraw diagrams programmatically.                                                                                                                                               |
+| `/ia`          | Evaluate and improve how information is organized for findability.                                                                                                                         |
+| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax.                                                                                                                            |
+| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic.                                                                                                                    |
+| `/performance` | Profiling methodology and optimization strategy for performance work.                                                                                                                      |
+| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction. |
+| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                                                                                  |
+| `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted.                                                            |
+| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                                                                                      |
 
 ## Agents
 
@@ -95,6 +111,8 @@ duet/
 ├── scripts/              # Build and maintenance scripts
 └── notes/                # Project thinking
 ```
+
+Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
 
 ## Requirements
 
