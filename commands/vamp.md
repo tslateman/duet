@@ -1,8 +1,8 @@
 ---
-description: Analyze project and suggest what to work on next
+description: Survey the project and choose what to play next
 ---
 
-Analyze this project and suggest what to work on next.
+Survey this project and suggest what to play next.
 
 1. Review the current structure (README.md, directories, files)
 2. Identify gaps or opportunities in these categories:

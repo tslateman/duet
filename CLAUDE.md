@@ -21,7 +21,7 @@ commands/
   probe.md             Probe recent changes with pointed questions
   retro.md             Session retrospective
   sweep.md             Post-op check for artifacts, damage, stale refs
-  whats-next.md        Suggest next actions
+  vamp.md              Survey the project and choose what to play next
 skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
@@ -98,7 +98,7 @@ A git pre-push hook checks whether `notes/vamp.md` was modified in the commits b
 
 ## Naming Conventions
 
-| Element       | Convention      | Example         |
-| ------------- | --------------- | --------------- |
-| Command files | `kebab-case.md` | `whats-next.md` |
-| Directories   | `kebab-case/`   | `testing/`      |
+| Element       | Convention      | Example       |
+| ------------- | --------------- | ------------- |
+| Command files | `kebab-case.md` | `note-why.md` |
+| Directories   | `kebab-case/`   | `testing/`    |

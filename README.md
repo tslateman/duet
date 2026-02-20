@@ -67,7 +67,7 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 | `/probe`          | Probe recent changes with 2-3 pointed questions                               |
 | `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
 | `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
-| `/whats-next`     | Analyze project and suggest what to work on next                              |
+| `/vamp`           | Survey the project and choose what to play next                               |
 
 ## Skills
 
