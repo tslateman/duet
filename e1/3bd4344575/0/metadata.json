@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "e13bd4344575",
+  "session_id": "410c9611-5a08-49a3-9520-28e347223e15",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-20T12:12:34.544036Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md",
+    "notes/riffs.md",
+    "notes/vamp.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "47a0356c1c67",
+  "token_usage": {
+    "input_tokens": 14,
+    "cache_creation_tokens": 38207,
+    "cache_read_tokens": 303571,
+    "output_tokens": 107,
+    "api_call_count": 9
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-20T12:12:34.51239Z",
+    "agent_lines": 2,
+    "human_added": 0,
+    "human_modified": 28,
+    "human_removed": 0,
+    "total_committed": 30,
+    "agent_percentage": 6.666666666666667
+  },
+  "transcript_path": ".claude/projects/-Users-tslater-dev-cli-duet/410c9611-5a08-49a3-9520-28e347223e15.jsonl"
+}
