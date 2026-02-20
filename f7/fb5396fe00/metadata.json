@@ -5,7 +5,8 @@
   "branch": "main",
   "checkpoints_count": 1,
   "files_touched": [
-    "README.md"
+    "README.md",
+    "notes/philosophy.md"
   ],
   "sessions": [
     {
@@ -14,13 +15,20 @@
       "context": "/f7/fb5396fe00/0/context.md",
       "content_hash": "/f7/fb5396fe00/0/content_hash.txt",
       "prompt": "/f7/fb5396fe00/0/prompt.txt"
+    },
+    {
+      "metadata": "/f7/fb5396fe00/1/metadata.json",
+      "transcript": "/f7/fb5396fe00/1/full.jsonl",
+      "context": "/f7/fb5396fe00/1/context.md",
+      "content_hash": "/f7/fb5396fe00/1/content_hash.txt",
+      "prompt": "/f7/fb5396fe00/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 78,
-    "cache_creation_tokens": 270823,
-    "cache_read_tokens": 2258051,
-    "output_tokens": 2386,
-    "api_call_count": 52
+    "input_tokens": 164,
+    "cache_creation_tokens": 575450,
+    "cache_read_tokens": 4573000,
+    "output_tokens": 4615,
+    "api_call_count": 105
   }
 }
