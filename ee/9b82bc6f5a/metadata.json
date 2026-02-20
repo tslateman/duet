@@ -6,6 +6,7 @@
   "checkpoints_count": 1,
   "files_touched": [
     "CLAUDE.md",
+    "hooks/pre-push.example",
     "notes/vamp.md"
   ],
   "sessions": [
@@ -15,13 +16,20 @@
       "context": "/ee/9b82bc6f5a/0/context.md",
       "content_hash": "/ee/9b82bc6f5a/0/content_hash.txt",
       "prompt": "/ee/9b82bc6f5a/0/prompt.txt"
+    },
+    {
+      "metadata": "/ee/9b82bc6f5a/1/metadata.json",
+      "transcript": "/ee/9b82bc6f5a/1/full.jsonl",
+      "context": "/ee/9b82bc6f5a/1/context.md",
+      "content_hash": "/ee/9b82bc6f5a/1/content_hash.txt",
+      "prompt": "/ee/9b82bc6f5a/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 78,
-    "cache_creation_tokens": 270823,
-    "cache_read_tokens": 2258051,
-    "output_tokens": 2386,
-    "api_call_count": 52
+    "input_tokens": 164,
+    "cache_creation_tokens": 575450,
+    "cache_read_tokens": 4573000,
+    "output_tokens": 4615,
+    "api_call_count": 105
   }
 }
