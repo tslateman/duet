@@ -1,0 +1,118 @@
+we can drop vamp.md and the related pre-push hook
+
+---
+
+[Request interrupted by user]
+
+---
+
+oops! keep the `/vamp` skill - i just mean drop the note
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   CLAUDE.md
+	deleted:    hooks/pre-push.example
+	deleted:    notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/CLAUDE.md b/CLAUDE.md
+index 0ffd253..594b54e 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -91,10 +91,6 @@ user-invocable: true # Optional. Set to false for auto-invoke-only skills
+ - Numbered lists for sequential steps, bullets for unordered
+ - No trailing whitespace
+ 
+-## Hooks
+-
+-A git pre-push hook checks whether `notes/vamp.md` was modified in the commits being pushed. If not, it prompts for confirmation before allowing the push. Use `git push --no-verify` to skip.
+-
+ ## Naming Conventions
+ 
+ | Element       | Convention      | Example             |
+diff --git a/hooks/pre-push.example b/hooks/pre-push.example
+deleted file mode 100755
+index bc3d65f..0000000
+--- a/hooks/pre-push.example
++++ /dev/null
+@@ -1,44 +0,0 @@
+-#!/bin/bash
+-set -euo pipefail
+-
+-# pre-push — Remind to update notes/vamp.md before sharing work
+-#
+-# vamp.md tracks where the project is and where it's headed. This hook
+-# warns when you push commits that don't touch it, so the working state
+-# stays current for anyone (or any agent) picking up the thread.
+-#
+-# Install:
+-#   cp hooks/pre-push.example .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+-
+-remote="$1"
+-url="$2"
+-
+-while read local_ref local_sha remote_ref remote_sha; do
+-  # Skip deletes
+-  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+-    continue
+-  fi
+-
+-  # Determine commit range being pushed
+-  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+-    # New branch — check all commits
+-    range="$local_sha"
+-  else
+-    range="$remote_sha..$local_sha"
+-  fi
+-
+-  # Warn if vamp.md wasn't modified in any commit being pushed
+-  if ! git diff --name-only "$range" 2>/dev/null | grep -q "^notes/vamp.md$"; then
+-    echo ""
+-    echo "warning: notes/vamp.md hasn't been updated in this push."
+-    echo ""
+-    read -p "Continue anyway? [y/N] " -n 1 -r < /dev/tty
+-    echo ""
+-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+-      echo "Push aborted. Update notes/vamp.md first."
+-      exit 1
+-    fi
+-  fi
+-done
+-
+-exit 0
+diff --git a/notes/vamp.md b/notes/vamp.md
+deleted file mode 100644
+index 370916e..0000000
+--- a/notes/vamp.md
++++ /dev/null
+@@ -1,5 +0,0 @@
+-# Vamp
+-
+-Unresolved tensions. Questions sitting in peripheral vision.
+-
+----
+- Current branch: main
+- Recent commits: a97e2ae refactor: Remove /note-why, add missing plugin keywords
+ab71aaf refactor: Rename /whats-next to /vamp
+0db5f1f fix: Move statusline to Getting Started, resolve vamp, prune stale riff
+1e17416 fix: Polish DX — stale refs, missing entries, Bach explained
+b13970d refactor: Rename question→probe, diagnose→debugging; merge sharpen into prose
+8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
