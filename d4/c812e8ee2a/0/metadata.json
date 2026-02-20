@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "d4c812e8ee2a",
+  "session_id": "cd680c64-9724-4fd5-a7dd-f0a396efb0eb",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-20T03:31:07.380611Z",
+  "branch": "main",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "notes/vamp.md",
+    "skills/sharpen/SKILL.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "8e0f3f254b36",
+  "transcript_identifier_at_start": "31632d0d-ad26-45fc-98e5-a52adb71694e",
+  "checkpoint_transcript_start": 1882,
+  "transcript_lines_at_start": 1882,
+  "token_usage": {
+    "input_tokens": 49,
+    "cache_creation_tokens": 269272,
+    "cache_read_tokens": 1675888,
+    "output_tokens": 1092,
+    "api_call_count": 20
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-20T03:31:06.771957Z",
+    "agent_lines": 0,
+    "human_added": 157,
+    "human_modified": 683,
+    "human_removed": 0,
+    "total_committed": 157,
+    "agent_percentage": 0
+  },
+  "transcript_path": ".claude/projects/-Users-tslater-dev-cli-duet/cd680c64-9724-4fd5-a7dd-f0a396efb0eb.jsonl"
+}

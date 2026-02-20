@@ -1,0 +1,4107 @@
+Audit the working tree after agent work completes. Find what the agents left behind.
+
+## 1. Blast Radius
+
+Map every file touched, across all repos affected:
+
+```bash
+git diff --stat
+```
+
+```bash
+git diff --cached --stat
+```
+
+If other repos were modified (check recent tool output or plan files for cross-repo work), run `git diff --stat` there too.
+
+Flag anything unexpected — files not mentioned in the plan or task.
+
+## 2. Fixture and Example Damage
+
+Check whether test fixtures, example files, seed data, or sample configs were modified:
+
+- Look for changes to files with names like `example`, `fixture`, `seed`, `sample`, `mock`, `test-data`
+- Changes that null out values, remove content, or alter structure are likely test side-effects
+- These should almost always be reverted
+
+## 3. Stale References
+
+Search for references that became outdated by the work:
+
+- **Plan files** referencing work as "pending" or "TODO" that's now done
+- **CLAUDE.md / README** listing features as planned that are now implemented
+- **Comments** saying "not yet implemented" for code that now exists
+- **Config or docs** pointing to old file paths, function names, or APIs that changed
+
+## 4. Debug Artifacts
+
+Scan for artifacts agents leave behind:
+
+- `console.log`, `print()`, `echo "DEBUG"` statements
+- Temporary files (`*.tmp`, `*.bak`, `/tmp/` references)
+- Commented-out code blocks that serve no purpose
+- Test data written to production data directories
+
+## 5. Scope Bleed
+
+Identify changes outside the task scope:
+
+- Unrelated formatting changes
+- Dependency updates not requested
+- Refactors beyond what the plan called for
+- Changes in other repos' working trees that predate this session
+
+## 6. Plan Criteria
+
+If plan files exist for the work just completed, check acceptance criteria:
+
+- Read each criterion
+- Verify whether it was met (by reading code, not re-running tests)
+- Flag any unmet criteria
+
+## Report
+
+Present findings as a short checklist:
+
+- **Clean** — no issues found (say so and stop)
+- **Fix** — items that need correction (damaged fixtures, stale refs, debug artifacts)
+- **Note** — items worth awareness but not blocking (scope bleed, unrelated changes)
+
+Be terse. Name files and line numbers. Skip categories with no findings.
+
+---
+
+will changes to ~/dev/cli/duet get picked up?
+
+---
+
+consider the relation between bach and flow - explain
+
+---
+
+read how ~/dev/praxis collapses these
+
+---
+
+synthesize with an alternative plan:
+I cannot create files directly in your Google Drive, but I have generated the full **Project Praxis Specification** below. You can copy and paste this content directly into a new Google Doc.
+
+---
+
+# Project Praxis: The Dynastic Development Environment
+
+**Version:** 1.0.0
+**Date:** 2026-02-14
+**Status:** Draft / Bootstrap
+
+## 1. Overview
+
+**Praxis** is a development environment designed to solve "AI Amnesia." It creates a persistent "Dynasty" where memory, intent, and patterns survive the death of individual agent sessions.
+
+* **Problem:** Current AI agents start "cold," losing the context of *why* decisions were made and repeating past mistakes.
+* **Solution:** A file-system-based memory backbone (**Lineage**) and an active lifecycle manager (**Neo**) that ensures context is inherited, not hallucinated.
+* **Philosophy:** "Patterns learned are never lost." (Anamnesis).
+
+## 2. Architecture: The Collapsed Core
+
+The system is consolidated into three fundamental pillars: **Data**, **Control**, and **Action**.
+
+```text
+       [ User ]
+          |
+          v
++-----------------------+
+|        LINEAGE        |  <-- THE DATABASE
+| (Intent, Registry)    |      "The Single Source of Truth"
++-----------------------+
+     ^    |
+     |    v (reads)
++-----------------------+
+|          NEO          |  <-- THE ENGINE
+| (Manager & Sync)      |      "The Active Sovereign"
++-----------------------+
+          |
+          v (delegates)
++-----------------------+
+|         BACH          |  <-- THE HANDS
+| (Stateless Workers)   |      "The Execution Layer"
++-----------------------+
+
+```
+
+### 2.1 Lineage (The Memory)
+
+**Role:** The passive, persistent storage of the Dynasty.
+**Location:** `~/dev/lineage/`
+**Structure:**
+
+* `intent/` (formerly Telos): **The Future.** YAML files defining Missions, Goals, and Success Criteria.
+* `registry/` (formerly Lore): **The Present.** YAML files defining Project Context, Capabilities, and Relations.
+* `journal/`: **The Past.** Immutable JSONL logs of all Decisions, Actions, and Outcomes.
+* `patterns/`: **The Wisdom.** YAML files containing learned lessons ("If X, do Y").
+* `inbox/`: **The Staging.** Raw inputs synced from local mirrors, waiting to be promoted.
+
+### 2.2 Neo (The Sovereign)
+
+**Role:** The active process that manages state, synchronization, and delegation.
+**Location:** `~/dev/neo/`
+**Responsibilities:**
+
+* **Sync:** Harvests local notes (`~/.mirror`)  sanitizes  pushes to `lineage/inbox`.
+* **Promote:** Converts raw `inbox` items into formal `intent` (Missions) or `patterns`.
+* **Start:** Initializes a session by reading `intent` + `registry`, hydrating context, and spawning `bach`.
+
+### 2.3 Bach (The Hands)
+
+**Role:** Stateless execution units.
+**Location:** `~/dev/bach/`
+**Responsibilities:**
+
+* Pure execution: `Input (JSON) -> Work -> Output (JSON)`.
+* Does not manage state; purely functional.
+
+## 3. Key Workflows
+
+### 3.1 The "Sync" Loop (Mirror to Lineage)
+
+1. **Capture:** Developer/Agent writes rough notes to `~/.mirror/notes.md`.
+2. **Harvest:** `neo sync` parses these files.
+3. **Store:** content is appended to `~/dev/lineage/inbox/observations.jsonl`.
+4. **Archive:** Local files are moved to `~/.mirror/archive/`.
+
+### 3.2 The "Promote" Loop (R&D to Production)
+
+1. **Analyze:** `neo promote` scans `lineage/inbox` for clusters (e.g., 3 failures on "Vector Search").
+2. **Formalize:** User/Agent converts the cluster into a **Mission** (`lineage/intent/mission-v1.yaml`).
+3. **Commit:** The Mission is validated against the Registry and saved.
+
+### 3.3 The "Execution" Loop (Intent to Action)
+
+1. **Initialize:** `neo start mission-v1`.
+2. **Hydrate:** Neo reads `lineage/intent/mission-v1.yaml` and `lineage/registry/*`.
+3. **Delegate:** Neo generates a Task Envelope for **Bach**.
+4. **Execute:** Bach runs the task (stateless).
+5. **Record:** Neo writes the result to `lineage/journal/decisions.jsonl`.
+
+## 4. Implementation Specifications
+
+### 4.1 Technology Stack
+
+* **Language:** Python 3.10+ (Standard Library preferred).
+* **Data Formats:**
+* **JSONL:** For append-only logs (`journal`, `inbox`).
+* **YAML:** For definitions (`intent`, `registry`, `patterns`).
+
+
+* **CLI:** Two distinct entry points (`lineage`, `neo`).
+
+### 4.2 Directory Structure
+
+```text
+~/dev/
+├── praxis/            # The Monorepo for tools
+│   ├── src/
+│   │   ├── lineage/   # CRUD Logic
+│   │   └── neo/       # Workflow Logic
+│   └── bin/           # Executables
+│
+├── lineage/           # The Data Store
+│   ├── intent/        # .yaml
+│   ├── registry/      # .yaml
+│   ├── journal/       # .jsonl
+│   ├── patterns/      # .yaml
+│   └── inbox/         # .jsonl
+│
+├── neo/               # The Engine State
+│   └── sessions/      # Active session logs
+│
+└── bach/              # The Workers
+    └── bin/           # Worker scripts
+
+```
+
+### 4.3 Data Schemas
+
+**Intent (Mission) Schema:**
+
+```yaml
+# lineage/intent/mission-001.yaml
+id: "mission-001"
+status: "active"
+intent: "Refactor Auth"
+telos: # The "Final Cause"
+  - "Eliminate race conditions"
+  - "Response time < 50ms"
+constraints:
+  - "Must use existing Redis instance"
+
+```
+
+**Registry (Entity) Schema:**
+
+```yaml
+# lineage/registry/auth-module.yaml
+id: "auth-module"
+type: "component"
+location: "~/dev/src/auth"
+capabilities:
+  - "issue-jwt"
+  - "validate-session"
+
+```
+
+**Journal (Decision) Schema:**
+
+```json
+// lineage/journal/decisions.jsonl
+{
+  "timestamp": "2026-02-14T10:00:00Z",
+  "actor": "neo-agent-1",
+  "action": "modify-file",
+  "target": "src/auth.py",
+  "rationale": "Fixed race condition using thread lock",
+  "mission_id": "mission-001"
+}
+
+```
+
+---
+
+read more:
+Four plan files across three repos:
+  Plan File: council/plans/plan-lifecycle-pattern.md
+  Target Repo: council
+  What It Extracts: Sync-Promote-Execute as a Mainstay pattern doc
+  Dependency: None (parallel)
+  ────────────────────────────────────────
+  Plan File: lineage/plans/plan-praxis-inbox.md
+  Target Repo: lineage
+  What It Extracts: inbox/ staging area with lineage observe command
+  Dependency: None (first in chain)
+  ────────────────────────────────────────
+  Plan File: neo/plans/plan-praxis-sync-promote.md
+  Target Repo: neo
+  What It Extracts: sync, promote, enhanced start commands
+  Dependency: Depends on Lineage inbox
+  ────────────────────────────────────────
+  Plan File: council/plans/plan-architecture-view.md
+  Target Repo: council
+  What It Extracts: Three-pillar ecosystem overview with Praxis vocabulary mapping
+  Dependency: Depends on lifecycle pattern
+  Dependency chain:
+
+  plan-praxis-inbox (lineage)  ──→  plan-praxis-sync-promote (neo)
+  plan-lifecycle-pattern (council)  ──→  plan-architecture-view (council)
+
+  The two chains are independent -- an agent can work on the Lineage inbox while another documents the lifecycle pattern. Neo's sync/promote plan
+  explicitly gates on the inbox existing first.
+
+  Each plan references ~/dev/praxis/ prototype code by file and line number so the receiving agent can study the reference implementation without
+  being told to copy it wholesale. The "What NOT to Do" sections prevent scope creep -- especially the key boundaries: no Python in Lineage, no Praxis
+   branding in council docs, no auto-promotion without human judgment.
+
+---
+
+the structure is good, some implementation details went too far
+the old system was overcomplicated, praxis helped focus and simplify
+how to proceed?
+
+---
+
+we'll stick w/ plans as they are. the council is workong on plans in ~/dev/council/plans
+launch a team of agents to work on the rest
+
+---
+
+<teammate-message teammate_id="lineage-dev" color="blue" summary="Inbox staging complete, all criteria verified">
+Task #1 (Lineage inbox staging) is complete. Here's what was built:
+
+**Files created:**
+- `inbox/data/.gitkeep` -- directory structure
+- `inbox/lib/inbox.sh` -- core library with 6 functions: `inbox_append`, `inbox_list`, `inbox_promote`, `inbox_discard`, `inbox_get`, `inbox_stats`
+
+**Files modified:**
+- `lineage.sh` -- added `observe` and `inbox` commands, inbox to Components help section
+- `LINEAGE_CONTRACT.md` -- added inbox to Components table, Write Interface (observe), Read Interface (inbox list), and Data Locations
+
+**All acceptance criteria verified:**
+- `lineage observe "text"` appends to `inbox/data/observations.jsonl` 
+- `lineage inbox` lists raw observations with timestamps
+- `lineage inbox --status promoted` filters by status
+- Observations have unique IDs (`obs-` prefix + 8 hex chars)
+- JSONL format validated (one valid JSON object per line)
+- Empty content rejected with error message
+- LINEAGE_CONTRACT.md documents the inbox component
+- Existing commands (`remember`, `learn`, `search`) unchanged
+
+**Conventions followed:**
+- `set -euo pipefail`, quoted expansions, `SCRIPT_DIR`/`DATA_DIR` pattern
+- ID generation via `/dev/urandom` (matching journal's `generate_decision_id`)
+- Atomic single-line append (`echo >> file`)
+- `jq` for JSON construction and querying
+- Append-only storage with latest-version-wins on read (matching journal's update pattern)
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="lineage-dev" color="blue">
+{"type":"idle_notification","from":"lineage-dev","timestamp":"2026-02-14T17:35:00.926Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="lineage-dev" color="blue">
+{"type":"idle_notification","from":"lineage-dev","timestamp":"2026-02-14T17:35:06.398Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="lineage-dev" color="blue">
+{"type":"shutdown_approved","requestId":"shutdown-1771090519908@lineage-dev","from":"lineage-dev","timestamp":"2026-02-14T17:35:23.588Z","paneId":"%197","backendType":"tmux"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"lineage-dev has shut down."}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="neo-dev" color="green" summary="Neo sync/promote/start scripts complete">
+Task #2 complete. Implemented all three scripts in ~/dev/neo/scripts/:
+
+**sync.sh** — Harvests ~/.mirror/*.md into Lineage inbox via `lineage observe`. Archives processed files to ~/.mirror/.archive/ with timestamp suffix. Idempotent (re-run on empty state is a no-op). Logs to logs/sync.log.
+
+**promote.sh** — Converts inbox observations into Lineage decisions or patterns. Usage: `promote.sh <obs-id> decision --rationale "..."` or `promote.sh <obs-id> pattern --context "..."`. Marks observations as promoted in inbox. Guards against re-promotion. Logs to logs/promote.log.
+
+**start.sh** — Hydrates mission context from Lineage. Reads mission YAML from missions/active/, queries `lineage search` for related patterns and `lineage context` for project context, emits a JSON envelope to stdout. Logs to logs/missions.log.
+
+All tested end-to-end. No existing scripts modified. No Python added. CLAUDE.md already had the "Pending Plans" pointer.
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="neo-dev" color="green">
+{"type":"idle_notification","from":"neo-dev","timestamp":"2026-02-14T17:38:25.329Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="neo-dev" color="green">
+{"type":"idle_notification","from":"neo-dev","timestamp":"2026-02-14T17:38:30.016Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="neo-dev" color="green">
+{"type":"shutdown_approved","requestId":"shutdown-1771090704978@neo-dev","from":"neo-dev","timestamp":"2026-02-14T17:38:33.616Z","paneId":"%198","backendType":"tmux"}
+</teammate-message>
+
+---
+
+Consolidate work done by agents or across sessions. Review what landed and what's still open.
+
+## 1. Recent Commits
+
+Check what actually shipped:
+
+```bash
+git log --oneline -15 --all --decorate
+```
+
+Note any commits from agents or parallel work streams.
+
+## 2. Work In Progress
+
+Check for uncommitted changes or stashed work:
+
+```bash
+git status --short
+git stash list
+```
+
+## 3. Synthesis
+
+Produce a brief debrief:
+
+### What Landed
+
+- Summarize completed work (be specific—name files, features, fixes)
+
+### Loose Ends
+
+- Uncommitted work that needs attention
+- Agent work that wasn't fully integrated
+- TODOs or FIXMEs introduced
+
+### Connections
+
+- Note any overlap or conflicts between parallel work streams
+- Flag if multiple changes touched the same files
+
+### Next Actions
+
+- Concrete steps to consolidate or continue the work
+
+Keep it actionable. Skip anything that's already clean and integrated.
+
+---
+
+use subagents to handle all actions. let's commit plan files as docs:
+
+---
+
+<task-notification>
+<task-id>a835179</task-id>
+<status>completed</status>
+<summary>Agent "Commit Duet version bump" completed</summary>
+<result>Done. The commit `28d3427` staged and committed `.claude-plugin/plugin.json` with the message `chore: Bump version to 0.1.1`. Working tree is clean, branch is ahead of origin by 1 commit.</result>
+<usage>total_tokens: 6193
+tool_uses: 1
+duration_ms: 6720</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a835179.output
+
+---
+
+<task-notification>
+<task-id>a40b490</task-id>
+<status>completed</status>
+<summary>Agent "Commit Neo sync/promote + plans" completed</summary>
+<result>Commit `ac5fc79` landed cleanly. Five files committed:
+
+- `scripts/sync.sh` (new)
+- `scripts/promote.sh` (new)
+- `scripts/start.sh` (new)
+- `plans/plan-praxis-sync-promote.md` (new)
+- `CLAUDE.md` (modified)
+
+Working tree is clean. Branch is 1 commit ahead of `origin/main`, not pushed.</result>
+<usage>total_tokens: 6831
+tool_uses: 3
+duration_ms: 16450</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a40b490.output
+
+---
+
+<task-notification>
+<task-id>a9fea45</task-id>
+<status>completed</status>
+<summary>Agent "Commit Lineage inbox + plans" completed</summary>
+<result>Done. Here is a summary of what happened:
+
+**Reverted** (not related to inbox work):
+- `journal/data/decisions.jsonl` -- had ADR and promoted-observation entries from other operations
+- `transfer/data/sessions/session-example.json` -- had overwritten timestamps and handoff messages from council activity
+
+**Committed** as `bc38c42` on `main`:
+- `inbox/data/.gitkeep`
+- `inbox/data/observations.jsonl`
+- `inbox/lib/inbox.sh`
+- `plans/plan-praxis-inbox.md`
+- `lineage.sh` (modified)
+- `LINEAGE_CONTRACT.md` (modified)
+
+**Remaining unstaged change**: `graph/data/graph.json` -- this was not part of the inbox work and remains as a dirty working tree file.</result>
+<usage>total_tokens: 9187
+tool_uses: 7
+duration_ms: 22791</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a9fea45.output
+
+---
+
+Analyze this project and suggest what to work on next.
+
+1. Review the current structure (README.md, directories, files)
+2. Identify gaps or opportunities in these categories:
+   - **Content** — Missing topics, incomplete guides
+   - **Tooling** — CI/CD, automation, developer experience
+   - **Polish** — Cross-references, consistency, organization
+
+3. Present 2-3 concrete suggestions per category, briefly explained
+
+Keep suggestions actionable and relevant to the project's purpose.
+
+---
+
+let's update vamp using this context
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/notes/vamp.md b/notes/vamp.md
+index b7a5779..8288b14 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -6,16 +6,19 @@ Where we are while figuring out where to go.
+ 
+ ## Current State
+ 
+-- 6 commands, 9 skills, 1 agent — markdown only, no build system
+-- skills: adr, design, diagnose, ia, naming, prose, research, review, testing
++- 8 commands, 12 skills, 1 agent — markdown only, no build system
++- commands: debrief, lint, note-why, ponder, question, retro, sweep, whats-next
++- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, testing
++- FRAMEWORKS.md indexes 13 framework-to-skill mappings
+ - two-tier command structure:
+   - `commands/` — globally installable via `/install-commands`
+-  - `.claude/commands/` — duet-only (install-commands, install-skills)
++  - `.claude/commands/` — duet-only (install-commands, install-skills, install-statusline)
+ - install-\* commands inventory, diff, confirm, verify — full workflow
+ - skills use frontmatter for auto-triggering (adr led, others followed)
+ - CLAUDE.md trimmed to essentials: project structure, lint, command authoring, naming
+ - prose skill self-contained with full Elements of Style reference
+ - conservative permissions: deny destructive ops, ask before push/rebase
++- version 0.1.1
+ 
+ ## Decided
+ 
+@@ -27,17 +30,21 @@ Where we are while figuring out where to go.
+ - `/think-next` → `/ponder` — name what you do, not what comes next
+ - `/adr` moved from command to skill — it's a document framework, not a discrete action
+ - `/whats-next` kept — pressure-tested, earns its name (Taskwarrior precedent)
+-- skills expand by domain (design, diagnose, ia, naming, testing) — each grounded in a specific framework or author
++- skills expand by domain — each grounded in a specific framework or author
+ - SKILL.md with frontmatter as the standard skill file convention
+ - `/ia` grounded in Rosenfeld/Morville + Diataxis — includes taxonomy construction heuristics
++- `/mermaid` + `/excalidraw` split: mermaid for inline docs (GitHub-native), excalidraw for architecture overviews (hand-drawn, editable)
++- `/performance` grounded in Knuth — measure-profile-optimize-measure loop
++- `/sweep` added for post-agent cleanup — checks blast radius, fixture damage, stale refs, debug artifacts, scope bleed
++- questions-not-just-actions pattern validated — `/question` and `/ponder` both earn their keep
+ 
+ ## Open Threads
+ 
+ - pre-push hook reminds to update vamp.md (local only, not tracked)
+-- what if vamp.md checked alignment before major pushes — not just project state, but vision?
+ - `score/` as home for notes if they multiply (from riffs)
+-- commands that ask questions, not just execute tasks — `/question` and `/ponder` now exist
+ - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+-- design skill generalizes frontend-design — does the user-level frontend-design skill need updating or retiring?
+-- `/ia` covers structural IA; tutor's knowledge-design.md covers pedagogical IA — clear boundary or will they drift?
+-- FRAMEWORKS.md now has 12 rows (IA + Diataxis added) — approaching the point where a second index dimension might help
++- design skill generalizes frontend-design — does the marketplace frontend-design skill need retiring?
++- `/review` has no named framework in FRAMEWORKS.md — every other skill cites an authority
++- README skill descriptions truncate mid-sentence — generate-readme.sh needs a cleaner cutoff or shorter source field
++- `sync-version.sh` exists but version bump was manual — wire it in or remove it
++- FRAMEWORKS.md at 13 rows — a second index dimension (by concern, not just framework) exists but lives in the same file. Split or keep?
+- Current branch: main
+- Recent commits: 28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+a95f687 feat: Add shared vale prose lint config
+640585a feat: Add /mermaid and /excalidraw diagramming skills
+6a984a6 Update vamp for /ia skill addition
+9390a89 Add /ia skill for information architecture review
+ad87529 Add /lint, /performance, FRAMEWORKS.md; cross-link all skills
+3c2fd05 Document statusLine disable gotcha — delete key, don't null it
+5c72963 Add /install-statusline command and lean status bar script
+408795b Add markdownlint config, relax rules for command files
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+should we commit?
+    modified:   graph/data/graph.json
+    modified:   journal/data/decisions.jsonl
+    modified:   transfer/data/sessions/session-example.json
+
+---
+
+agreed. make it so
+
+---
+
+Analyze this project and suggest what to work on next.
+
+1. Review the current structure (README.md, directories, files)
+2. Identify gaps or opportunities in these categories:
+   - **Content** — Missing topics, incomplete guides
+   - **Tooling** — CI/CD, automation, developer experience
+   - **Polish** — Cross-references, consistency, organization
+
+3. Present 2-3 concrete suggestions per category, briefly explained
+
+Keep suggestions actionable and relevant to the project's purpose.
+
+---
+
+use a team of agents to handle all 3 Polish items
+
+---
+
+<teammate-message teammate_id="archivist" color="green" summary="Both plan files marked complete with status and checkboxes">
+Both plan files marked as complete:
+
+1. **~/dev/lineage/plans/plan-praxis-inbox.md** — Added `## Status` section after the title with "Complete — implemented and committed 2026-02-14". Checked all 8 acceptance criteria boxes.
+
+2. **~/dev/neo/plans/plan-praxis-sync-promote.md** — Added `## Status` section after the title with "Complete — implemented and committed 2026-02-14". Checked all 9 acceptance criteria boxes.
+
+No other content was changed. No commits made.
+</teammate-message>
+
+<teammate-message teammate_id="pattern-writer" color="yellow" summary="Prototype Decomposition pattern captured in Lineage">
+Pattern captured successfully via `lineage learn`:
+
+- **Name**: Prototype Decomposition
+- **ID**: pat-092136-e3216f19
+- **Category**: general
+- **Origin**: session-2026-02-14
+
+The pattern documents how Praxis served as a catalyst — proving the Sync-Promote-Execute lifecycle in Python, then decomposing into plan files targeting existing repos (Lineage, Neo, Council) in their native conventions. No commit made, as instructed.
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="pattern-writer" color="yellow">
+{"type":"idle_notification","from":"pattern-writer","timestamp":"2026-02-14T18:02:25.514Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="archivist" color="green">
+{"type":"idle_notification","from":"archivist","timestamp":"2026-02-14T18:02:25.626Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"pattern-writer has shut down."}
+</teammate-message>
+
+<teammate-message teammate_id="triage" color="blue" summary="Debrief report across four repos">
+## Repo Debrief — 4 repos checked
+
+### Clean repos
+
+**~/dev/lineage/** — Clean working tree, no stash, single branch. Recent work: inbox staging, council ADR ingestion. All committed.
+
+**~/dev/neo/** — Clean working tree, no stash, single branch. Recent work: sync/promote/start scripts, Lineage memory hooks. All committed.
+
+**~/dev/cli/duet/** — Clean working tree, no stash, single branch. Recent work: version bump to 0.1.1, vamp update, /sweep command. All committed.
+
+### Loose ends
+
+**~/dev/council/** — Clean working tree locally, but two remote branches remain unmerged:
+
+- **`origin/draft`** — 2 commits ahead of main: agent credential security system + initiative status update. This looks like incomplete initiative work that was never merged.
+- **`origin/session/2026-02-09-council-advice`** — 1 commit: council advice session transcript. Likely a session artifact that should either be merged or cleaned up.
+
+### Cross-repo concerns
+
+- **Lineage ↔ Council**: Lineage ingested council ADRs (commit `3e1be79`). If council's `draft` branch merges new decisions, Lineage may need a re-ingest pass.
+- **Neo ↔ Lineage**: Neo wired Lineage memory hooks into lifecycle scripts. Both repos are clean, so this integration appears stable.
+- No conflicts detected between parallel work streams.
+
+### Summary
+
+3 of 4 repos are fully clean. Council has two stale remote branches (`draft`, `session/2026-02-09-council-advice`) that need a merge-or-delete decision. Everything else is buttoned up.
+</teammate-message>
+
+<teammate-message teammate_id="pattern-writer" color="yellow">
+{"type":"shutdown_approved","requestId":"shutdown-1771092150763@pattern-writer","from":"pattern-writer","timestamp":"2026-02-14T18:02:37.068Z","paneId":"%214","backendType":"tmux"}
+</teammate-message>
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"archivist has shut down."}
+</teammate-message>
+
+<teammate-message teammate_id="archivist" color="green">
+{"type":"shutdown_approved","requestId":"shutdown-1771092150326@archivist","from":"archivist","timestamp":"2026-02-14T18:02:37.212Z","paneId":"%213","backendType":"tmux"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="triage" color="blue">
+{"type":"idle_notification","from":"triage","timestamp":"2026-02-14T18:02:40.039Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"triage has shut down."}
+</teammate-message>
+
+<teammate-message teammate_id="triage" color="blue">
+{"type":"shutdown_approved","requestId":"shutdown-1771092164604@triage","from":"triage","timestamp":"2026-02-14T18:02:49.179Z","paneId":"%212","backendType":"tmux"}
+</teammate-message>
+
+---
+
+a lot of agent activity recently, can you summarize the types of agents and what they've done?
+
+---
+
+where did these agent definitions come from?
+
+---
+
+should we define agents or continue ad-hoc? what's best?
+
+---
+
+how will we know  a pattern proves itself
+
+---
+
+make a note of this somewhere as part of a usage guide
+
+---
+
+❯ lineage observe
+zsh: command not found: lineage
+should I add lineage to path?
+
+---
+
+yes, alias in zshrc
+
+---
+
+Consolidate work done by agents or across sessions. Review what landed and what's still open.
+
+## 1. Recent Commits
+
+Check what actually shipped:
+
+```bash
+git log --oneline -15 --all --decorate
+```
+
+Note any commits from agents or parallel work streams.
+
+## 2. Work In Progress
+
+Check for uncommitted changes or stashed work:
+
+```bash
+git status --short
+git stash list
+```
+
+## 3. Synthesis
+
+Produce a brief debrief:
+
+### What Landed
+
+- Summarize completed work (be specific—name files, features, fixes)
+
+### Loose Ends
+
+- Uncommitted work that needs attention
+- Agent work that wasn't fully integrated
+- TODOs or FIXMEs introduced
+
+### Connections
+
+- Note any overlap or conflicts between parallel work streams
+- Flag if multiple changes touched the same files
+
+### Next Actions
+
+- Concrete steps to consolidate or continue the work
+
+Keep it actionable. Skip anything that's already clean and integrated.
+
+---
+
+make it so
+
+---
+
+Analyze this project and suggest what to work on next.
+
+1. Review the current structure (README.md, directories, files)
+2. Identify gaps or opportunities in these categories:
+   - **Content** — Missing topics, incomplete guides
+   - **Tooling** — CI/CD, automation, developer experience
+   - **Polish** — Cross-references, consistency, organization
+
+3. Present 2-3 concrete suggestions per category, briefly explained
+
+Keep suggestions actionable and relevant to the project's purpose.
+
+---
+
+explain graph/data/graph.json
+
+---
+
+1. Close the frontend-design open thread. Vamp.md asks whether the marketplace frontend-design skill should retire now that /design exists. Make the call and either remove it from enabledPlugins or document the boundary.
+
+
+yes, retire old frontend-design
+
+---
+
+1. Fix the ingest — only update timestamps when node data actually changes (compare before writing). This is the correct fix.
+
+---
+
+replace "oracle" with "telos"
+
+---
+
+map out the grand simplification to praxis
+
+---
+
+in addition lineage will get a rename to lore
+
+---
+
+agreed, we can rename later
+
+---
+
+let's not archive mirror - still useful
+
+---
+
+use a team of agents to execute all all 4
+
+---
+
+<teammate-message teammate_id="neo-consolidator" color="green" summary="Task #2 complete: Flow orchestration absorbed into Neo">
+Task #2 complete — Flow's orchestration is absorbed into Neo. Here's what I created/modified:
+
+**New files in ~/dev/neo/:**
+
+1. `SIGNAL_CONTRACT.md` — Ralph ↔ Neo signal contract (adapted from Flow, all references updated: Flow → Neo, Harness → Ralph, /flow:* commands → Neo scripts)
+
+2. `TASK_CONTRACT.md` — Neo → Bach task contract (adapted from Bach's copy, all references updated: Flow → Neo, schema file paths point to local `schemas/`)
+
+3. `schemas/task-envelope.json` — Task envelope JSON Schema (Neo→Bach)
+
+4. `schemas/result-envelope.json` — Result envelope JSON Schema (Bach→Neo)
+
+5. `scripts/plan.sh` — Three modes:
+   - `--init`: Initialize `.neo/` with goal, scope, constraints (interactive)
+   - (no flags): Full planning — milestones → phases (interactive)
+   - `--phase N`: Break a specific phase into tasks with dependencies, workers, acceptance criteria
+
+6. `scripts/execute.sh` — Reads state.json, builds execution waves from dependency DAG, writes task envelopes to `.neo/envelopes/<task-id>.json` for Bach dispatch. One wave per invocation (Ralph loops back for the next). Updates signal appropriately.
+
+7. `scripts/review.sh` — Two modes:
+   - (no flags): Phase review — checks task completion against criteria, verdicts: APPROVED / NEEDS_REWORK / BLOCKED
+   - `--final`: Milestone completion audit — verifies all phases, marks milestone complete or returns to first incomplete phase
+
+**Modified files:**
+
+8. `scripts/status.sh` — Now shows orchestration state (goal, milestone, phase, signal, task counts, blockers) when `.neo/state.json` exists, before the existing team/agent status output.
+
+9. `CLAUDE.md` — Added: Architecture section (Ralph → Neo → Bach), contracts table, signal lifecycle, orchestration scripts reference with usage examples, orchestration state directory layout.
+
+10. `README.md` — Added: Architecture diagram, layer responsibility table, orchestration section with all script usage, signal lifecycle, contracts table. Renamed existing section to "Sync-Promote-Start" for clarity.
+
+**Key design decisions:**
+- State lives in `.neo/` (per-project, gitignored) — same pattern as Flow's `.flow/`
+- Scripts use Neo's existing shell convention (not Claude Code plugin commands)
+- execute.sh writes task envelopes to `.neo/envelopes/` for the caller to dispatch to Bach
+- One wave per execute.sh invocation — Ralph loops back for subsequent waves
+- All scripts log to `logs/orchestration.log`
+- Signal contract vocabulary maps directly: Ralph invokes `neo plan.sh`, `neo execute.sh N`, `neo review.sh`, `neo review.sh --final` instead of `/flow:*` commands
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="neo-consolidator" color="green">
+{"type":"idle_notification","from":"neo-consolidator","timestamp":"2026-02-15T02:54:15.480Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="lineage-consolidator" color="blue" summary="Task #1 done: Absorbed Oracle + Lore into Lineage">
+Task #1 complete: Absorbed both Telos (Oracle) and Lore into Lineage.
+
+## What was done
+
+### Step 1: Intent component (from Oracle/Telos)
+- Created `intent/data/` with `goals/` and `missions/` subdirs
+- Created `intent/lib/intent.sh` with core functions: `create_goal`, `list_goals`, `get_goal`, `create_mission` (generate from goal criteria), `list_missions`
+- Wired into lineage.sh: `lineage goal create/list/show`, `lineage mission generate/list`
+- Goals stored as individual YAML files matching Oracle's format
+- Missions stored as YAML, one per success criterion
+
+### Step 2: Registry component (from Lore)
+- Created `registry/data/` and copied all 4 YAML files from Lore: metadata.yaml, clusters.yaml, relationships.yaml, contracts.yaml
+- Created `registry/lib/registry.sh` with functions: `show_project`, `list_projects`, `get_context`, `validate_registry`
+- Wired into lineage.sh: `lineage registry show/list/context/validate`
+
+### Documentation updates
+- LINEAGE_CONTRACT.md: Added intent and registry to Components table, added Write/Read interface sections for both, updated Data Locations
+- CLAUDE.md: Added intent/ and registry/ to Project Structure, updated Key Concepts from "four components" to "seven components", added data format entries, updated "Part of Lore" section to "Orchestration Hub"
+
+### Smoke tested
+- `lineage --help` shows all new commands
+- `lineage goal create/list/show` works end-to-end
+- `lineage mission list` works
+- `lineage registry list` shows all projects from mani.yaml
+- `lineage registry show lineage` shows enriched details with cluster/contracts
+- `lineage registry context flow` assembles a full context bundle
+- `lineage registry validate` passes
+
+All follows Lineage conventions: set -euo pipefail, quoted expansions, SCRIPT_DIR/DATA_DIR pattern.
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="neo-consolidator" color="green">
+{"type":"idle_notification","from":"neo-consolidator","timestamp":"2026-02-15T02:54:23.984Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="lineage-consolidator" color="blue">
+{"type":"idle_notification","from":"lineage-consolidator","timestamp":"2026-02-15T02:54:26.040Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"neo-consolidator has shut down."}
+</teammate-message>
+
+<teammate-message teammate_id="neo-consolidator" color="green">
+{"type":"shutdown_approved","requestId":"shutdown-1771124060045@neo-consolidator","from":"neo-consolidator","timestamp":"2026-02-15T02:54:27.533Z","paneId":"%226","backendType":"tmux"}
+</teammate-message>
+
+<teammate-message teammate_id="lineage-consolidator" color="blue">
+{"type":"idle_notification","from":"lineage-consolidator","timestamp":"2026-02-15T02:54:34.645Z","idleReason":"available"}
+</teammate-message>
+
+<teammate-message teammate_id="system">
+{"type":"teammate_terminated","message":"lineage-consolidator has shut down."}
+</teammate-message>
+
+<teammate-message teammate_id="lineage-consolidator" color="blue">
+{"type":"shutdown_approved","requestId":"shutdown-1771124069018@lineage-consolidator","from":"lineage-consolidator","timestamp":"2026-02-15T02:54:38.284Z","paneId":"%225","backendType":"tmux"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="renamer" color="yellow" summary="Task #3 complete: Lineage renamed to Lore">
+Task #3 (Rename Lineage to Lore) is complete. Summary:
+
+**Directories moved:**
+- `~/dev/lore` → `~/dev/_archive/lore-old` (archived old Lore)
+- `~/dev/lineage` → `~/dev/lore`
+
+**Files renamed:**
+- `lore.sh` (was `lineage.sh`)
+- `LORE_CONTRACT.md` (was `LINEAGE_CONTRACT.md`)
+- `lib/lore-client-base.sh` (was `lineage-client-base.sh`)
+- Neo's `lib/lore-client.sh` (was `lineage-client.sh`)
+
+**All active code updated across both projects:**
+- `~/dev/lore/` — lore.sh, CLAUDE.md, README.md, LORE_CONTRACT.md, all lib/*.sh files (ingest, capture, relate, resume, snapshot, inbox, intent, registry, patterns, transfer), all component READMEs
+- `~/dev/neo/` — scripts (sync.sh, promote.sh, start.sh, spawn-team.sh, spawn-team-cc.sh, kill-team.sh), lib/lore-client.sh, CLAUDE.md, README.md
+- `~/.zshrc` — alias `lore` (was `lineage`)
+- `~/.claude/CLAUDE.md` — session start command updated
+
+**Variable renames (internal):** LINEAGE_DIR→LORE_DIR, LINEAGE_CLI→LORE_CLI, LINEAGE_ROOT→LORE_ROOT, LINEAGE_SESSION_ID→LORE_SESSION_ID, LINEAGE_TRANSFER_ROOT→LORE_TRANSFER_ROOT, LINEAGE_PATTERN_YAML→LORE_PATTERN_YAML, _LINEAGE_ROOT→_LORE_ROOT. All function names updated (check_lore, lore_record_decision, lore_add_node, etc.). JSON key `lineage:` → `lore:` in start.sh.
+
+**Preserved (not touched):**
+- `plans/` directories — historical documents
+- `data/` files — decisions.jsonl, graph.json, sessions/*.json, registry/data/*.yaml, patterns data
+
+**Final sweep:** Zero `lineage|LINEAGE` matches in any `.sh` or active `.md` file across both projects. All remaining references are in plans/ and data/ only.
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="renamer" color="yellow">
+{"type":"idle_notification","from":"renamer","timestamp":"2026-02-15T03:05:17.492Z","idleReason":"available"}
+</teammate-message>
+
+---
+
+<teammate-message teammate_id="renamer" color="yellow">
+{"type":"shutdown_approved","requestId":"shutdown-1771124716363@renamer","from":"renamer","timestamp":"2026-02-15T03:05:22.923Z","paneId":"%227","backendType":"tmux"}
+</teammate-message>
+
+---
+
+we don't really need to mention ralph - we've archived the project
+
+---
+
+make commits across repos using subagents
+
+---
+
+<task-notification>
+<task-id>a1d65b8</task-id>
+<status>completed</status>
+<summary>Agent "Commit Neo consolidation" completed</summary>
+<result>Commit `3f3c638` is done. Working tree is clean, branch is 1 commit ahead of `origin/main`, and nothing was pushed.
+
+Summary of what went in (17 files changed, 1278 insertions, 74 deletions):
+
+- **New files**: `SIGNAL_CONTRACT.md`, `TASK_CONTRACT.md`, `schemas/result-envelope.json`, `schemas/task-envelope.json`, `scripts/execute.sh`, `scripts/plan.sh`, `scripts/review.sh`
+- **Renamed**: `lib/lineage-client.sh` -> `lib/lore-client.sh`
+- **Modified**: `CLAUDE.md`, `README.md`, `scripts/kill-team.sh`, `scripts/promote.sh`, `scripts/spawn-team-cc.sh`, `scripts/spawn-team.sh`, `scripts/start.sh`, `scripts/status.sh`, `scripts/sync.sh`</result>
+<usage>total_tokens: 7320
+tool_uses: 4
+duration_ms: 14222</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a1d65b8.output
+
+---
+
+<task-notification>
+<task-id>a8cd6c9</task-id>
+<status>completed</status>
+<summary>Agent "Commit Lore consolidation" completed</summary>
+<result>Commit `a5a7344` created successfully on `main`. Here's the summary:
+
+**Committed** (32 files, +2116 / -274):
+- Renamed: `LINEAGE_CONTRACT.md` -> `LORE_CONTRACT.md`, `lineage.sh` -> `lore.sh`, `lib/lineage-client-base.sh` -> `lib/lore-client-base.sh`
+- New directories: `intent/` (goals, missions from Oracle), `registry/` (metadata, clusters, relationships from old Lore)
+- New file: `mani.yaml`
+- Modified: `CLAUDE.md`, `README.md`, component READMEs, shell scripts across graph, inbox, journal, patterns, transfer, and `lib/ingest.sh`
+
+**Skipped as requested:**
+- `journal/data/decisions.jsonl` — only historical ADR tag entries (Config, Ecosystem)
+- `transfer/data/sessions/session-example.json` — damaged by a session (timestamps and handoff message overwritten)
+- `.entire/` — unrelated, untracked
+
+Branch is 1 commit ahead of `origin/main`. Not pushed.</result>
+<usage>total_tokens: 10396
+tool_uses: 8
+duration_ms: 29623</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a8cd6c9.output
+
+---
+
+Reflect on the work just completed in this conversation.
+
+## What I Learned
+
+Identify 2-4 concrete technical insights from this session:
+
+- Patterns discovered or reinforced
+- Gotchas or surprises encountered
+- Techniques that worked well (or didn't)
+- Connections to other parts of the codebase
+
+Focus on _insights_, not a summary of actions taken.
+
+## What to Think About Next
+
+Surface 2-4 open threads worth considering:
+
+- Unfinished work or TODOs
+- Edge cases or risks not yet addressed
+- Potential improvements or refactors
+- Questions that came up but weren't resolved
+
+Be specific—name files, functions, or concepts rather than speaking abstractly.
+
+---
+
+After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md" and "No, just this session".
+
+If yes, read the current MEMORY.md from the project's auto memory directory and intelligently merge the new insights—don't duplicate existing points, add new ones under the appropriate sections.
+
+---
+
+let's kill ralph:
+
+  Flow and Ralph plugins still exist. ~/dev/cli/flow/ and the ralph-loop plugin are still installed and active. Neo absorbed Flow's functionality but
+  the plugin is still loadable. Disable or archive to prevent confusion — two systems offering the same orchestration commands.
+
+---
+
+Reflect on the work just completed in this conversation.
+
+## What I Learned
+
+Identify 2-4 concrete technical insights from this session:
+
+- Patterns discovered or reinforced
+- Gotchas or surprises encountered
+- Techniques that worked well (or didn't)
+- Connections to other parts of the codebase
+
+Focus on _insights_, not a summary of actions taken.
+
+## What to Think About Next
+
+Surface 2-4 open threads worth considering:
+
+- Unfinished work or TODOs
+- Edge cases or risks not yet addressed
+- Potential improvements or refactors
+- Questions that came up but weren't resolved
+
+Be specific—name files, functions, or concepts rather than speaking abstractly.
+
+---
+
+After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md" and "No, just this session".
+
+If yes, read the current MEMORY.md from the project's auto memory directory and intelligently merge the new insights—don't duplicate existing points, add new ones under the appropriate sections.
+
+---
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+Analysis:
+Let me chronologically analyze this conversation:
+
+1. Session started with /plugin install and /duet:sweep command
+2. User asked if changes to ~/dev/cli/duet get picked up - confirmed symlink setup
+3. User asked to explain the relation between bach and flow - explored both plugins, explained the three-layer architecture (Ralph → Flow → Bach)
+4. User asked to read ~/dev/praxis - explored the Praxis prototype (Python, two CLIs: lineage and neo)
+5. User shared a Google Doc spec for Project Praxis and asked to synthesize with what was found
+6. User shared four plan files across three repos and asked to read them
+7. User said "the structure is good, some implementation details went too far" and "how to proceed?"
+8. User decided to keep plans as-is, council working on their plans, launch team for the rest
+9. Created praxis-impl team with lineage-dev and neo-dev agents
+10. Agents completed, committed work across repos
+11. Multiple debrief/whats-next cycles
+12. Updated vamp.md, committed
+13. Handled uncommitted Lineage files (decisions.jsonl, session-example.json, graph.json)
+14. User asked about graph.json - explained the timestamp-on-read bug
+15. User asked to replace "oracle" with "telos" in Lineage
+16. User asked to map out the grand simplification to Praxis
+17. User said lineage will get a rename to lore
+18. User said "agreed, we can rename later" then changed to "use a team of agents to execute all 4"
+19. User said "let's not archive mirror - still useful"
+20. Created grand-simplification team with lineage-consolidator, neo-consolidator, and renamer agents
+21. All consolidation completed
+22. Made commits across repos using subagents
+23. Disabled ralph-loop and flow plugins
+24. Did retro, updated MEMORY.md twice
+
+Key decisions:
+- Praxis was a prototype that dissolved into existing repos
+- Four-step simplification: Telos→Lineage, Lore→Lineage, Flow→Neo, Rename Lineage→Lore
+- Mirror stays (user changed from archiving)
+- Ralph not mentioned in final architecture (archived)
+- Ad-hoc agents over predefined ones
+- Disable plugins rather than delete
+
+Files touched across many repos. Let me catalog the important ones.
+
+Errors:
+- Edit tool failed on LINEAGE_CONTRACT.md because it wasn't read first
+- Task not found when trying to update tasks (agent had already cleaned up)
+
+User feedback:
+- "the structure is good, some implementation details went too far"
+- "the old system was overcomplicated, praxis helped focus and simplify"
+- "we'll stick w/ plans as they are"
+- "in addition lineage will get a rename to lore"
+- "agreed, we can rename later" (then later "use a team of agents to execute all 4" including rename)
+- "let's not archive mirror - still useful"
+- "we don't really need to mention ralph - we've archived the project"
+
+Pending: Lore and Neo commits not pushed yet.
+
+Summary:
+1. Primary Request and Intent:
+   The user's overarching goal was to simplify their AI agent ecosystem by consolidating multiple projects into fewer, cleaner components. This began with understanding the relationship between Bach and Flow, analyzing the Praxis prototype, and culminated in a "grand simplification" that collapsed ~10 projects into 5 core ones. Specific requests included:
+   - Explain the Bach/Flow relationship
+   - Read and analyze the Praxis prototype at ~/dev/praxis/
+   - Synthesize the Praxis spec with actual code findings
+   - Read four plan files across three repos (council, lineage, neo)
+   - Execute the implementation plans using agent teams
+   - Handle commits, sweeps, and debriefs across repos
+   - Map out the grand simplification to Praxis's vision
+   - Execute all 4 consolidation steps (absorb Telos, absorb Lore, rename Lineage→Lore, absorb Flow into Neo)
+   - Disable obsolete plugins (ralph-loop, flow, frontend-design)
+   - Persist learnings to MEMORY.md
+
+2. Key Technical Concepts:
+   - **Sync-Promote-Execute lifecycle**: Raw observations enter through staging (sync), get classified by human judgment (promote), then hydrate context for work (execute)
+   - **Prototype decomposition pattern**: Build a prototype to prove a pattern, then decompose into plan files targeting existing repos in their native conventions
+   - **Three-pillar architecture**: Data (Lore), Control (Neo), Action (Bach)
+   - **Contract-based interfaces**: SIGNAL_CONTRACT.md (Ralph↔Neo), TASK_CONTRACT.md (Neo→Bach), LORE_CONTRACT.md
+   - **Task envelope protocol**: JSON envelopes with id, worker, task, context fields; result envelopes with status vocabulary (complete, incapable, blocked, partial)
+   - **Compare-before-write pattern**: Check if data changed before bumping timestamps to prevent phantom diffs
+   - **Ad-hoc agent pattern**: Start agents ad hoc, observe recurring patterns with `lore observe`, promote to Bach worker template after three sightings
+   - **Claude Code plugin architecture**: Symlinked plugins, enabledPlugins settings, skills vs commands vs agents
+   - **Agent team orchestration**: TeamCreate, task dependencies, parallel vs sequential agent work, shutdown protocol
+
+3. Files and Code Sections:
+
+   - **~/dev/lore/graph/lib/nodes.sh** (was ~/dev/lineage/)
+     - Fixed timestamp-on-read bug in `add_node()` and `update_node()`
+     - Added compare-before-write logic to prevent phantom diffs on graph.json
+     ```bash
+     if [[ -n "$existing" ]]; then
+         local changed
+         changed=$(jq --arg id "$id" \
+            --arg name "$name" \
+            --argjson new_data "$data" \
+            'if .nodes[$id].name == $name and .nodes[$id].data == (.nodes[$id].data * $new_data) then "no" else "yes" end' \
+            "$GRAPH_FILE")
+         if [[ "$changed" == '"yes"' ]]; then
+             # ... write with updated timestamp
+         else
+             echo "Unchanged node: $id"
+         fi
+     ```
+
+   - **~/dev/cli/duet/notes/vamp.md**
+     - Updated from stale state (6 commands, 9 skills) to current (8 commands, 12 skills)
+     - Closed resolved open threads (question/ponder exist, IA boundary stable)
+     - Added new open threads (review framework gap, README truncation, manual version bump)
+     - Closed frontend-design thread with strikethrough after disabling marketplace plugin
+
+   - **~/dev/cli/duet/.claude-plugin/plugin.json**
+     - Version bump 0.1.0 → 0.1.1
+
+   - **~/.claude/settings.json**
+     - Disabled three plugins: `frontend-design@claude-plugins-official: false`, `ralph-loop@claude-plugins-official: false`, `flow@local: false`
+
+   - **~/.zshrc**
+     - Added aliases: `lore='~/dev/lore/lore.sh'`, `neo-sync`, `neo-promote`, `neo-start`
+     - Old `lineage` alias replaced with `lore`
+
+   - **~/.claude/CLAUDE.md**
+     - Session start command updated from `~/dev/lineage/lineage.sh resume` to `~/dev/lore/lore.sh resume`
+
+   - **~/dev/lore/** (formerly ~/dev/lineage/) — consolidated project, 7 components
+     - **New: intent/lib/intent.sh** — goals and missions (absorbed from Oracle/Telos)
+     - **New: intent/data/goals/, intent/data/missions/** — YAML storage
+     - **New: registry/lib/registry.sh** — project metadata and context (absorbed from old Lore)
+     - **New: registry/data/*.yaml** — copied from old Lore (metadata, clusters, relationships, contracts)
+     - **Renamed: lore.sh** (was lineage.sh) — all internal references updated
+     - **Renamed: LORE_CONTRACT.md** (was LINEAGE_CONTRACT.md) — 7 components in contract table
+     - **Modified: CLAUDE.md** — 7 components, "Orchestration Hub" section, Telos/Lore references
+     - **Modified: all lib/*.sh files** — LINEAGE_DIR→LORE_DIR, function name renames
+     - Commit: `a5a7344` (32 files, +2116/-274, not pushed)
+
+   - **~/dev/neo/** — absorbed Flow orchestration
+     - **New: scripts/plan.sh** — milestone/phase decomposition (--init, default, --phase N)
+     - **New: scripts/execute.sh** — wave-based task execution, writes envelopes to .neo/envelopes/
+     - **New: scripts/review.sh** — phase validation and milestone audit (--final)
+     - **New: SIGNAL_CONTRACT.md** — Ralph↔Neo signal contract (adapted from Flow)
+     - **New: TASK_CONTRACT.md** — Neo→Bach task contract
+     - **New: schemas/task-envelope.json, result-envelope.json** — JSON Schema validation
+     - **Modified: scripts/sync.sh, promote.sh, start.sh** — lineage→lore references
+     - **Modified: CLAUDE.md** — architecture section, contracts table, orchestration scripts
+     - **Modified: README.md** — Ralph→Neo→Bach diagram, orchestration section, agent pattern discovery guide
+     - **Renamed: lib/lore-client.sh** (was lineage-client.sh)
+     - Commit: `3f3c638` (17 files, +1278/-74, not pushed)
+
+   - **~/dev/lore/plans/plan-praxis-inbox.md** — marked complete, acceptance criteria checked
+   - **~/dev/neo/plans/plan-praxis-sync-promote.md** — marked complete, acceptance criteria checked
+
+   - **~/dev/lore/inbox/** — new component built by lineage-dev agent
+     - inbox/lib/inbox.sh (6 functions: append, list, promote, discard, get, stats)
+     - inbox/data/observations.jsonl
+     - Wired into lore.sh as `lore observe` and `lore inbox` commands
+
+   - **~/dev/neo/scripts/sync.sh** — harvests ~/.mirror/*.md into Lore inbox
+   - **~/dev/neo/scripts/promote.sh** — converts inbox observations into decisions/patterns
+   - **~/dev/neo/scripts/start.sh** — hydrates mission context from Lore
+
+   - **~/.claude/projects/-Users-tslater-dev-cli-duet/memory/MEMORY.md**
+     - Updated twice with ecosystem architecture, patterns, and gotchas
+
+4. Errors and fixes:
+   - **Edit tool failed on LINEAGE_CONTRACT.md**: Attempted to edit without reading first. Fixed by reading the file first, then making edits.
+   - **TaskUpdate "Task not found"**: Agent had already marked its own task complete or team task list was cleaned up. No fix needed — the task was already done.
+   - **Neo alias initially wrong**: Set `alias neo='~/dev/neo/scripts'` (directory, not executable). Fixed immediately to individual script aliases: `neo-sync`, `neo-promote`, `neo-start`.
+   - **Collateral file damage by agents**: `decisions.jsonl` and `session-example.json` modified by agent activity. Caught by /sweep. Fixed by reverting unrelated changes before committing.
+
+5. Problem Solving:
+   - **Perpetually dirty graph.json**: Diagnosed as timestamp-on-read bug in `add_node()`. Fixed by adding compare-before-write logic. Verified fix by reverting graph.json and re-running ingest — file stayed clean.
+   - **Praxis spec vs code divergence**: Synthesized by identifying what to adopt (separate data from tools, workflow loops, actor tracking) and what to reject (YAML, Bach as local pillar, scattered directory layout).
+   - **Agent parallelization constraints**: When two agents would modify the same file (lineage.sh, contracts), used one agent doing both tasks sequentially instead of two parallel agents.
+   - **Plugin retirement**: Frontend-design skill overlapped with /design. Disabled marketplace plugin rather than deleting.
+
+6. All user messages:
+   - "/plugin" and "/duet:sweep" (initial commands)
+   - "will changes to ~/dev/cli/duet get picked up?"
+   - "consider the relation between bach and flow - explain"
+   - "read how ~/dev/praxis collapses these"
+   - "synthesize with an alternative plan:" (with full Google Doc spec pasted)
+   - "read more:" (four plan files description with dependency chain)
+   - "the structure is good, some implementation details went too far / the old system was overcomplicated, praxis helped focus and simplify / how to proceed?"
+   - "we'll stick w/ plans as they are. the council is workong on plans in ~/dev/council/plans / launch a team of agents to work on the rest"
+   - "should we commit?" (about three modified Lineage files)
+   - "agreed. make it so" (commit decisions.jsonl and graph.json, revert session-example)
+   - "/whats-next" (multiple times)
+   - "let's update vamp using this context"
+   - "/commit-commands:commit" (commit vamp changes)
+   - "explain graph/data/graph.json"
+   - "1. Close the frontend-design open thread... yes, retire old frontend-design"
+   - "1. Fix the ingest — only update timestamps when node data actually changes"
+   - "replace 'oracle' with 'telos'"
+   - "map out the grand simplification to praxis"
+   - "in addition lineage will get a rename to lore"
+   - "agreed, we can rename later"
+   - "let's not archive mirror - still useful"
+   - "use a team of agents to execute all 4"
+   - "we don't really need to mention ralph - we've archived the project"
+   - "make commits across repos using subagents"
+   - "/retro" (twice)
+   - "let's kill ralph:" (disable ralph-loop and flow plugins)
+   - "should we define agents or continue ad-hoc? what's best?"
+   - "how will we know a pattern proves itself"
+   - "make a note of this somewhere as part of a usage guide"
+   - "a lot of agent activity recently, can you summarize the types of agents and what they've done?"
+   - "where did these agent definitions come from?"
+   - "make it so" (commit and push all repos)
+   - "use subagents to handle all 3 Polish items"
+
+7. Pending Tasks:
+   - **Push Lore and Neo commits**: Both repos are 1 commit ahead of origin (`a5a7344` in Lore, `3f3c638` in Neo). Not pushed.
+   - **Fix Geordi stale references**: Geordi reads from `~/dev/lineage/` which no longer exists.
+   - **Update ~/dev/mani.yaml**: Still lists Lineage as a project.
+   - **Resolve duplicate TASK_CONTRACT.md**: Copies in both bach/ and neo/. Decide canonical location.
+   - **Investigate .entire/ directory in Lore**: Unexplained untracked directory.
+   - **Fix session-example.json**: Perpetually dirty, needs .gitignore or a fix to whatever overwrites it.
+
+8. Current Work:
+   The most recent work was disabling the ralph-loop and flow plugins in ~/.claude/settings.json, followed by a /retro that updated MEMORY.md with new patterns and gotchas. The grand simplification is complete — all four steps executed (absorb Telos, absorb Lore, absorb Flow, rename Lineage→Lore), commits made but not pushed.
+
+9. Optional Next Step:
+   Push the uncommitted repos. Lore (`a5a7344`) and Neo (`3f3c638`) are both 1 ahead of origin. The user was previously asked "Want me to push?" after the Lore/Neo commits were made but the conversation moved to /retro before answering. This is the most natural next action but should be confirmed with the user first.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: /Users/tslater/.claude/projects/-Users-tslater-dev-cli-duet/cd680c64-9724-4fd5-a7dd-f0a396efb0eb.jsonl
+
+---
+
+what remains of lineage?
+
+---
+
+yes use subagents to clean those up
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/notes/vamp.md b/notes/vamp.md
+index 8288b14..aa49da3 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -43,7 +43,7 @@ Where we are while figuring out where to go.
+ - pre-push hook reminds to update vamp.md (local only, not tracked)
+ - `score/` as home for notes if they multiply (from riffs)
+ - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+-- design skill generalizes frontend-design — does the marketplace frontend-design skill need retiring?
++- ~~design skill generalizes frontend-design~~ — retired. Marketplace plugin disabled; duet `/design` covers the full scope.
+ - `/review` has no named framework in FRAMEWORKS.md — every other skill cites an authority
+ - README skill descriptions truncate mid-sentence — generate-readme.sh needs a cleaner cutoff or shorter source field
+ - `sync-version.sh` exists but version bump was manual — wire it in or remove it
+- Current branch: main
+- Recent commits: 6f4bc02 docs: Update vamp with current state and resolved threads
+28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+a95f687 feat: Add shared vale prose lint config
+640585a feat: Add /mermaid and /excalidraw diagramming skills
+6a984a6 Update vamp for /ia skill addition
+9390a89 Add /ia skill for information architecture review
+ad87529 Add /lint, /performance, FRAMEWORKS.md; cross-link all skills
+3c2fd05 Document statusLine disable gotcha — delete key, don't null it
+5c72963 Add /install-statusline command and lean status bar script
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+yes
+
+---
+
+.entire is for https://github.com/entireio/cli
+
+---
+
+what does lore depend on?
+
+---
+
+let's not name neo, bach, council or other projects then in the lore docs
+
+---
+
+remove:
+6. Failures logged      Written to failures/ via CLI
+
+save ancestry as a note in the git commit, not the file
+
+---
+
+commit the rest of the work
+
+---
+
+explain praxis praxis-rdx (why two?) which to keep or merge?
+
+---
+
+done - any other cleanups?
+
+---
+
+2. Delete Bach's stale TASK_CONTRACT.md — Neo's is canonical
+  4. Gitignore session-example.json
+
+---
+
+Audit the working tree after agent work completes. Find what the agents left behind.
+
+## 1. Blast Radius
+
+Map every file touched, across all repos affected:
+
+```bash
+git diff --stat
+```
+
+```bash
+git diff --cached --stat
+```
+
+If other repos were modified (check recent tool output or plan files for cross-repo work), run `git diff --stat` there too.
+
+Flag anything unexpected — files not mentioned in the plan or task.
+
+## 2. Fixture and Example Damage
+
+Check whether test fixtures, example files, seed data, or sample configs were modified:
+
+- Look for changes to files with names like `example`, `fixture`, `seed`, `sample`, `mock`, `test-data`
+- Changes that null out values, remove content, or alter structure are likely test side-effects
+- These should almost always be reverted
+
+## 3. Stale References
+
+Search for references that became outdated by the work:
+
+- **Plan files** referencing work as "pending" or "TODO" that's now done
+- **CLAUDE.md / README** listing features as planned that are now implemented
+- **Comments** saying "not yet implemented" for code that now exists
+- **Config or docs** pointing to old file paths, function names, or APIs that changed
+
+## 4. Debug Artifacts
+
+Scan for artifacts agents leave behind:
+
+- `console.log`, `print()`, `echo "DEBUG"` statements
+- Temporary files (`*.tmp`, `*.bak`, `/tmp/` references)
+- Commented-out code blocks that serve no purpose
+- Test data written to production data directories
+
+## 5. Scope Bleed
+
+Identify changes outside the task scope:
+
+- Unrelated formatting changes
+- Dependency updates not requested
+- Refactors beyond what the plan called for
+- Changes in other repos' working trees that predate this session
+
+## 6. Plan Criteria
+
+If plan files exist for the work just completed, check acceptance criteria:
+
+- Read each criterion
+- Verify whether it was met (by reading code, not re-running tests)
+- Flag any unmet criteria
+
+## Report
+
+Present findings as a short checklist:
+
+- **Clean** — no issues found (say so and stop)
+- **Fix** — items that need correction (damaged fixtures, stale refs, debug artifacts)
+- **Note** — items worth awareness but not blocking (scope bleed, unrelated changes)
+
+Be terse. Name files and line numbers. Skip categories with no findings.
+
+---
+
+delete plans/plan-praxis-sync-promote.md
+
+---
+
+any last words for lineage?
+
+---
+
+we have multiple /research commands - can we consolidate?
+
+---
+
+explain the diff:
+The Duet /research skill is the methodology — how to think about
+  research (scope, gather, evaluate, synthesize, cite). The three commands
+   are workflows that use that methodology at different scales.
+
+---
+
+i moved /research-and-write to a project context
+
+i'm still interested in /deep-research and /quick-research 
+should these be skills that share context from /research ?
+
+---
+
+what if /deep-research was its onw skill?
+
+---
+
+how will "Claude judges the question warrants it"
+
+---
+
+why does this say "lineage"
+
+---
+
+ok, synthesize your plan
+
+---
+
+add why
+
+---
+
+delete the cross-project-impact skill too — ralph and flow are archived
+
+---
+
+also delete frontend-design — duet /design covers it
+
+---
+
+any other stale skills installed?
+
+---
+
+i'm still seeing some duplication:
+
+---
+
+yes remove them all
+
+---
+
+should /deep-research be a duet command/skill?
+
+---
+
+should the install-skills command still exist?
+
+---
+
+seems to be for fine-grain customization
+is it ok? this follow guidelines from claude on plugins and skills?
+
+---
+
+yes remove both
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    .claude/commands/install-commands.md
+	deleted:    .claude/commands/install-skills.md
+	modified:   commands/retro.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	commands/capture-memory.md
+	commands/memory-audit.md
+	skills/sharpen/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/.claude/commands/install-commands.md b/.claude/commands/install-commands.md
+deleted file mode 100644
+index ac52365..0000000
+--- a/.claude/commands/install-commands.md
++++ /dev/null
+@@ -1,36 +0,0 @@
+----
+-description: Install duet commands to ~/.claude/commands for user-wide availability
+-allowed-tools: [Bash, Read, Glob, AskUserQuestion]
+----
+-
+-# Install Commands
+-
+-## Context
+-
+-- Duet commands: !`find commands -name '*.md' | sort`
+-- User commands: !`find ~/.claude/commands -name '*.md' 2>/dev/null | sort || echo "(none)"`
+-
+-## Your Task
+-
+-Install commands from duet to ~/.claude/commands/ for user-wide availability.
+-
+-1. **Inventory all commands:**
+-   - Enumerate every `.md` file under `commands/`, including subdirectories
+-   - Compare each with its counterpart under `~/.claude/commands/` using `diff -q`
+-   - Categorize: **new**, **modified**, or **unchanged**
+-   - Present a summary table
+-
+-2. **Select which to install:**
+-   - Skip unchanged commands
+-   - For modified commands, show the diff
+-   - Ask the user which new/modified commands they want to install
+-   - If nothing is new or modified, report "Everything up to date" and stop
+-
+-3. **Install selected commands:**
+-   - Create subdirectories as needed
+-   - Copy only the user's selections
+-   - Do not delete files from ~/.claude/commands/ that don't exist in duet
+-
+-4. **Verify installation:**
+-   - Confirm each installed file exists and is non-empty
+-   - Report pass/fail count
+diff --git a/.claude/commands/install-skills.md b/.claude/commands/install-skills.md
+deleted file mode 100644
+index 1450111..0000000
+--- a/.claude/commands/install-skills.md
++++ /dev/null
+@@ -1,34 +0,0 @@
+----
+-description: Install duet skills to ~/.claude/skills for user-wide availability
+-allowed-tools: [Bash, Read, Glob, AskUserQuestion]
+----
+-
+-# Install Skills
+-
+-## Context
+-
+-- Duet skills: !`ls -1 skills/`
+-- User skills: !`ls -1 ~/.claude/skills/ 2>/dev/null || echo "(none)"`
+-
+-## Your Task
+-
+-Install skills from duet to ~/.claude/skills/ for user-wide availability.
+-
+-1. **Inventory all skills:**
+-   - Compare each skill directory with its counterpart under `~/.claude/skills/` using `diff -rq`
+-   - Categorize: **new**, **modified**, or **unchanged**
+-   - Present a summary table
+-
+-2. **Select which to install:**
+-   - Skip unchanged skills
+-   - For modified skills, show the diff
+-   - Ask the user which new/modified skills they want to install
+-   - If nothing is new or modified, report "Everything up to date" and stop
+-
+-3. **Install selected skills:**
+-   - Copy only the user's selections to `~/.claude/skills/`
+-   - Do not delete skills from ~/.claude/skills/ that don't exist in duet
+-
+-4. **Verify installation:**
+-   - Confirm each installed skill directory exists with non-empty files
+-   - Report pass/fail count
+diff --git a/commands/retro.md b/commands/retro.md
+index bc242ac..f5f9b4d 100644
+--- a/commands/retro.md
++++ b/commands/retro.md
+@@ -8,16 +8,18 @@ Reflect on the work just completed in this conversation.
+ ## What I Learned
+ 
+ Identify 2-4 concrete technical insights from this session:
++
+ - Patterns discovered or reinforced
+ - Gotchas or surprises encountered
+ - Techniques that worked well (or didn't)
+ - Connections to other parts of the codebase
+ 
+-Focus on *insights*, not a summary of actions taken.
++Focus on _insights_, not a summary of actions taken.
+ 
+ ## What to Think About Next
+ 
+ Surface 2-4 open threads worth considering:
++
+ - Unfinished work or TODOs
+ - Edge cases or risks not yet addressed
+ - Potential improvements or refactors
+@@ -25,8 +27,22 @@ Surface 2-4 open threads worth considering:
+ 
+ Be specific—name files, functions, or concepts rather than speaking abstractly.
+ 
++## Memory Health Check
++
++Before asking about persistence, check the current project's MEMORY.md:
++
++1. **Read the file** from the project's auto memory directory
++2. **Count lines** -- if over 50, note the size
++3. **Scan for staleness signals**:
++   - Items containing "resolved", "fixed", "done", "completed"
++   - Date references from more than 30 days ago
++   - Sections that duplicate CLAUDE.md headers
++4. **Report briefly**: "MEMORY.md: [N] lines, [issues found or 'healthy']"
++
++If issues are found, include them in the question to the user -- e.g., "MEMORY.md has 3 stale items. Want to prune them while persisting new insights?"
++
+ ---
+ 
+-After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md" and "No, just this session".
++After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md", "Yes, and prune stale items", and "No, just this session".
+ 
+ If yes, read the current MEMORY.md from the project's auto memory directory and intelligently merge the new insights—don't duplicate existing points, add new ones under the appropriate sections.
+- Current branch: main
+- Recent commits: e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+6f4bc02 docs: Update vamp with current state and resolved threads
+28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+a95f687 feat: Add shared vale prose lint config
+640585a feat: Add /mermaid and /excalidraw diagramming skills
+6a984a6 Update vamp for /ia skill addition
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+update vamp
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/notes/vamp.md b/notes/vamp.md
+index aa49da3..87ca661 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -6,25 +6,23 @@ Where we are while figuring out where to go.
+ 
+ ## Current State
+ 
+-- 8 commands, 12 skills, 1 agent — markdown only, no build system
+-- commands: debrief, lint, note-why, ponder, question, retro, sweep, whats-next
+-- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, testing
++- 10 commands, 13 skills, 1 agent — markdown only, no build system
++- commands: capture-memory, debrief, lint, memory-audit, note-why, ponder, question, retro, sweep, whats-next
++- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, sharpen, testing
+ - FRAMEWORKS.md indexes 13 framework-to-skill mappings
+-- two-tier command structure:
+-  - `commands/` — globally installable via `/install-commands`
+-  - `.claude/commands/` — duet-only (install-commands, install-skills, install-statusline)
+-- install-\* commands inventory, diff, confirm, verify — full workflow
++- plugin namespace (`duet:`) provides skills directly — no install step needed
++- `.claude/commands/` — duet-only (install-statusline)
+ - skills use frontmatter for auto-triggering (adr led, others followed)
+ - CLAUDE.md trimmed to essentials: project structure, lint, command authoring, naming
+ - prose skill self-contained with full Elements of Style reference
+ - conservative permissions: deny destructive ops, ask before push/rebase
++- `/retro` includes memory health check — scans MEMORY.md for staleness before persistence prompt
+ - version 0.1.1
+ 
+ ## Decided
+ 
+-- "install" not "sync" — honest about one-way push, no bidirectional sync
+-- show diff before overwrite — careful by default
+-- accepted the ~/.claude/ install pattern over plugin installation
++- ~~"install" not "sync"~~ — removed. Plugin namespace (`duet:`) eliminates the need for install commands; they created duplicates in `~/.claude/skills/`
++- ~~accepted the ~/.claude/ install pattern~~ — reversed. Plugin skills use namespaced access (`duet:research`), not standalone copies
+ - CLAUDE.md stays lean — project structure and authoring rules, not aspirational content
+ - `/why` → `/note-why` — name the action, not the content; avoid ask/tell ambiguity
+ - `/think-next` → `/ponder` — name what you do, not what comes next
+@@ -37,6 +35,8 @@ Where we are while figuring out where to go.
+ - `/performance` grounded in Knuth — measure-profile-optimize-measure loop
+ - `/sweep` added for post-agent cleanup — checks blast radius, fixture damage, stale refs, debug artifacts, scope bleed
+ - questions-not-just-actions pattern validated — `/question` and `/ponder` both earn their keep
++- `/sharpen` skill added for iterative code refinement
++- `/capture-memory` and `/memory-audit` commands added for session persistence and memory hygiene
+ 
+ ## Open Threads
+- Current branch: main
+- Recent commits: 812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+6f4bc02 docs: Update vamp with current state and resolved threads
+28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+a95f687 feat: Add shared vale prose lint config
+640585a feat: Add /mermaid and /excalidraw diagramming skills
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   .claude/settings.json
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.entire/
+- Current git diff (staged and unstaged changes): diff --git a/.claude/settings.json b/.claude/settings.json
+index 7641aaf..bfd72cc 100644
+--- a/.claude/settings.json
++++ b/.claude/settings.json
+@@ -1,5 +1,82 @@
+ {
+   "$schema": "https://json.schemastore.org/claude-code-settings.json",
++  "hooks": {
++    "SessionStart": [
++      {
++        "matcher": "",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code session-start"
++          }
++        ]
++      }
++    ],
++    "SessionEnd": [
++      {
++        "matcher": "",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code session-end"
++          }
++        ]
++      }
++    ],
++    "UserPromptSubmit": [
++      {
++        "matcher": "",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code user-prompt-submit"
++          }
++        ]
++      }
++    ],
++    "Stop": [
++      {
++        "matcher": "",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code stop"
++          }
++        ]
++      }
++    ],
++    "PreToolUse": [
++      {
++        "matcher": "Task",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code pre-task"
++          }
++        ]
++      }
++    ],
++    "PostToolUse": [
++      {
++        "matcher": "Task",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code post-task"
++          }
++        ]
++      },
++      {
++        "matcher": "TodoWrite",
++        "hooks": [
++          {
++            "type": "command",
++            "command": "entire hooks claude-code post-todo"
++          }
++        ]
++      }
++    ]
++  },
+   "permissions": {
+     "allow": [
+       "Read(**)",
+@@ -34,7 +111,8 @@
+       "Read(.env)",
+       "Read(.env.*)",
+       "Read(~/.ssh/**)",
+-      "Read(~/.aws/**)"
++      "Read(~/.aws/**)",
++      "Read(./.entire/metadata/**)"
+     ]
+   }
+ }
+- Current branch: main
+- Recent commits: b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+6f4bc02 docs: Update vamp with current state and resolved threads
+28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+a95f687 feat: Add shared vale prose lint config
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+Reflect on the work just completed in this conversation.
+
+## What I Learned
+
+Identify 2-4 concrete technical insights from this session:
+
+- Patterns discovered or reinforced
+- Gotchas or surprises encountered
+- Techniques that worked well (or didn't)
+- Connections to other parts of the codebase
+
+Focus on _insights_, not a summary of actions taken.
+
+## What to Think About Next
+
+Surface 2-4 open threads worth considering:
+
+- Unfinished work or TODOs
+- Edge cases or risks not yet addressed
+- Potential improvements or refactors
+- Questions that came up but weren't resolved
+
+Be specific—name files, functions, or concepts rather than speaking abstractly.
+
+## Memory Health Check
+
+Before asking about persistence, check the current project's MEMORY.md:
+
+1. **Read the file** from the project's auto memory directory
+2. **Count lines** -- if over 50, note the size
+3. **Scan for staleness signals**:
+   - Items containing "resolved", "fixed", "done", "completed"
+   - Date references from more than 30 days ago
+   - Sections that duplicate CLAUDE.md headers
+4. **Report briefly**: "MEMORY.md: [N] lines, [issues found or 'healthy']"
+
+If issues are found, include them in the question to the user -- e.g., "MEMORY.md has 3 stale items. Want to prune them while persisting new insights?"
+
+---
+
+After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md", "Yes, and prune stale items", and "No, just this session".
+
+If yes, read the current MEMORY.md from the project's auto memory directory and intelligently merge the new insights—don't duplicate existing points, add new ones under the appropriate sections.
+
+---
+
+Reflect on the work just completed in this conversation.
+
+## What I Learned
+
+Identify 2-4 concrete technical insights from this session:
+
+- Patterns discovered or reinforced
+- Gotchas or surprises encountered
+- Techniques that worked well (or didn't)
+- Connections to other parts of the codebase
+
+Focus on _insights_, not a summary of actions taken.
+
+## What to Think About Next
+
+Surface 2-4 open threads worth considering:
+
+- Unfinished work or TODOs
+- Edge cases or risks not yet addressed
+- Potential improvements or refactors
+- Questions that came up but weren't resolved
+
+Be specific—name files, functions, or concepts rather than speaking abstractly.
+
+## Memory Health Check
+
+Before asking about persistence, check the current project's MEMORY.md:
+
+1. **Read the file** from the project's auto memory directory
+2. **Count lines** -- if over 50, note the size
+3. **Scan for staleness signals**:
+   - Items containing "resolved", "fixed", "done", "completed"
+   - Date references from more than 30 days ago
+   - Sections that duplicate CLAUDE.md headers
+4. **Report briefly**: "MEMORY.md: [N] lines, [issues found or 'healthy']"
+
+If issues are found, include them in the question to the user -- e.g., "MEMORY.md has 3 stale items. Want to prune them while persisting new insights?"
+
+---
+
+After generating the retro, ask the user if any insights are worth persisting to auto memory. Use AskUserQuestion with options like "Yes, update MEMORY.md", "Yes, and prune stale items", and "No, just this session".
+
+If yes, read the current MEMORY.md from the project's auto memory directory and intelligently merge the new insights—don't duplicate existing points, add new ones under the appropriate sections.
+
+---
+
+why do we see dupes here?
+❯ /retro
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  /retro                                     Reflect on recent work—capture learnings and surface what to think about next (user)
+  /duet:retro                                (duet) Reflect on recent work—capture learnings and surface what to think about next
+
+---
+
+This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the conversation.
+
+Analysis:
+Let me chronologically analyze the conversation:
+
+1. **Session started** with context from a previous compacted conversation about the "Grand Simplification" — consolidating multiple projects (Lineage, Oracle, old Lore, Flow) into fewer ones (Lore, Neo, Bach, Council, Duet).
+
+2. **User asked "what remains of lineage?"** — I grep'd across repos for stale "lineage" references and categorized them as historical data (leave as-is) vs fixable stragglers.
+
+3. **User said "yes use subagents to clean those up"** — I launched a subagent to rename lineage→lore in 4 registry YAML files + mani.yaml. The agent also updated ~/.claude/CLAUDE.md Strunk's example.
+
+4. **User invoked /commit-commands:commit** — Committed vamp.md change in Duet (`d097d83`).
+
+5. **User said "yes"** to committing registry changes in Lore — I committed registry rename (`895cf07`).
+
+6. **User asked to "commit the rest of the work"** — I found many uncommitted changes in Lore, categorized them, reverted session-example.json, and made 3 commits: code changes (`281c7c4`), plan annotations (`7633382`), council ADR ingest (`5113f24`).
+
+7. **User said "explain praxis praxis-rdx (why two?) which to keep or merge?"** — I read both repos and explained: praxis-rdx was the prototype, praxis extracted the valuable failure journals part. Recommended keeping praxis, archiving praxis-rdx.
+
+8. **User said "done - any other cleanups?"** — I checked across repos. Found: Neo deleted plan file, duplicate TASK_CONTRACT.md, stale lineage refs in mani.yaml/geordi, session-example.json.
+
+9. **User selected items 2 and 4** — Delete Bach's stale TASK_CONTRACT.md, gitignore session-example.json. I did both: `4bd5316` in Bach, `cceb085` in Lore.
+
+10. **User invoked /duet:sweep** — I ran sweep across all repos. Only finding: Neo had deleted plan-praxis-sync-promote.md uncommitted.
+
+11. **User said "delete plans/plan-praxis-sync-promote.md"** — Committed deletion in Neo (`3834325`).
+
+12. **User asked "any last words for lineage?"** — I wrote a brief eulogy.
+
+13. **User asked "we have multiple /research commands - can we consolidate?"** — I found 5 research-related things across different sources. Recommended: keep duet:research skill, keep /deep-research command, delete /quick-research, delete /research-and-write.
+
+14. **User said "i moved /research-and-write to a project context"** and asked about deep-research and quick-research as skills sharing context from /research.
+
+15. **User asked "what if /deep-research was its own skill?"** — I discussed putting it in skills/research/ as a reference file.
+
+16. **User asked "how will 'Claude judges the question warrants it'"** — I admitted it won't reliably. Concluded: keep /deep-research as a command, delete /quick-research, skill handles everything else.
+
+17. **User asked "should the install-skills command still exist?"** — No, plugin namespace eliminates the need.
+
+18. **User said "yes remove both"** (install-skills and install-commands) — I found them at `.claude/commands/install-skills.md` and `.claude/commands/install-commands.md`, deleted both.
+
+19. **User asked about duplicate /research in autocomplete** — Found `~/.claude/skills/research/` duplicating `duet:research`. Removed the installed copy. Asked about removing all 9 others.
+
+20. **User said "yes remove them all"** — Removed all 9 installed skill duplicates from `~/.claude/skills/`.
+
+21. **User asked "should /deep-research be a duet command/skill?"** — No, it's a personal workflow, not a reusable framework.
+
+22. **User asked about install-skills command** — I confirmed it should go.
+
+23. **User asked "delete the cross-project-impact skill too"** — Deleted from `~/.claude/skills/`.
+
+24. **User asked "also delete frontend-design"** — Deleted from `~/.claude/skills/`.
+
+25. **User asked "any other stale skills installed?"** — All 10 remaining had matching Duet sources. Two Duet skills (excalidraw, mermaid) only via plugin prefix. Clean.
+
+26. **User said "i'm still seeing some duplication"** with screenshot of /research appearing twice — Removed installed copy, noted all 9 others are duplicates. User confirmed removal.
+
+27. **User asked "should /deep-research be a duet command/skill?"** — No, personal workflow.
+
+28. **User committed changes** — Several commits in Duet for the install command removal, new commands, vamp update, Entire CLI hooks.
+
+29. **User asked "explain the diff" between skills and commands** — I clarified: skills shape thinking (auto-fire), commands prescribe steps (explicit invocation).
+
+30. **User asked "how will Claude judges the question warrants it"** — Admitted it won't. Keeping /deep-research as command is the right call.
+
+31. **User ran /retro** — I generated retro with insights about plugin namespace, skills vs commands, Lore docs naming consumers, registry rename stragglers. Memory health check found 1 stale item. User chose "Yes, and prune stale items". Updated MEMORY.md.
+
+32. **User ran /retro again** — I noted we just ran it, nothing new.
+
+33. **User asked about duplicate /retro in autocomplete** — Same issue as skills: installed copies in `~/.claude/commands/` duplicating Duet plugin commands. Found 8 duplicates, removed them all. 6 personal commands remain.
+
+Key files modified:
+- Lore: registry YAML files, .gitignore, SYSTEM.md, LORE_CONTRACT.md, CLAUDE.md, mani.yaml, README.md, lore.sh, lib/*, plans/
+- Neo: plans/plan-praxis-sync-promote.md deleted
+- Bach: TASK_CONTRACT.md deleted
+- Duet: .claude/commands/install-skills.md and install-commands.md deleted, notes/vamp.md updated
+- ~/.claude/skills/ — all 10+ skills removed (duplicates of Duet plugin)
+- ~/.claude/commands/ — 8 duplicate commands removed
+
+Errors:
+- Edit tool failed on MEMORY.md because I didn't read it first — fixed by reading first.
+
+Pending:
+- Lore and Neo unpushed
+- praxis-rdx still exists
+- /review has no named framework
+
+Summary:
+1. Primary Request and Intent:
+   The user's overarching goal was cleanup and consolidation after the "Grand Simplification" that merged multiple projects (Lineage, Oracle, old Lore, Flow) into a streamlined stack (Lore, Neo, Bach, Council, Duet). Specific requests included:
+   - Find and clean up remaining "lineage" references across the ecosystem
+   - Commit all outstanding work across repos (Lore, Neo, Bach, Duet)
+   - Explain the relationship between praxis and praxis-rdx
+   - Delete Bach's stale TASK_CONTRACT.md and gitignore session-example.json
+   - Consolidate multiple /research commands (research skill, deep-research, quick-research, research-and-write)
+   - Remove install-skills and install-commands from Duet — plugin namespace eliminates them
+   - Remove all duplicate skills and commands from `~/.claude/skills/` and `~/.claude/commands/` that duplicated Duet plugin entries
+   - Delete cross-project-impact and frontend-design skills (stale)
+   - Update vamp.md to reflect current state
+   - Run retro and persist insights to MEMORY.md
+   - Gitignore `.entire/` directory in Lore (from entireio/cli)
+
+2. Key Technical Concepts:
+   - **Claude Code plugin namespace**: The `duet:` prefix provides skills directly — copying to `~/.claude/skills/` creates duplicates in autocomplete. Install workflows for plugin-distributed skills are an anti-pattern.
+   - **Skills vs Commands**: Skills auto-fire and teach methodology (shape thinking). Commands are explicit workflows with procedural steps (prescribe steps). If a command just says "do what the skill does but faster," delete it.
+   - **Plugin skill distribution model**: Plugin skills use `plugin-name:skill-name` namespace. They cannot conflict with personal/project skills. The docs don't recommend copying plugin skills to `~/.claude/skills/`.
+   - **Four-tier skill precedence**: Enterprise > Personal (`~/.claude/skills/`) > Project (`.claude/skills/`) > Plugin (separate namespace).
+   - **Data layer independence**: Lore's docs should describe its interface, not name its consumers. Removing Neo/Bach/Council from SYSTEM.md made docs self-contained.
+   - **Prototype dissolution pattern**: praxis-rdx was the prototype; praxis extracted the failure journals (the novel part), dropping executor/proxy/planner. The prototype served its purpose and should be archived.
+   - **Rename scope explosion**: A project rename (lineage→lore) touches code, contracts, YAML registry data, aliases, paths. Always grep for stragglers after — ~50 stale references survived the initial rename in registry YAML files.
+
+3. Files and Code Sections:
+
+   - **`/Users/tslater/dev/lore/registry/data/clusters.yaml`**
+     - Registry data describing project topology — had ~20 stale `lineage` references
+     - Renamed: keys, paths (`~/dev/lineage` → `~/dev/lore`), data flow targets, contracts (`lineage-client-base.sh` → `lore-client-base.sh`, `LINEAGE_CONTRACT.md` → `LORE_CONTRACT.md`)
+
+   - **`/Users/tslater/dev/lore/registry/data/relationships.yaml`**
+     - Cross-project dependency mappings — had ~20 stale `project: lineage` refs
+     - Renamed all, removed self-referential lore→lore entries
+
+   - **`/Users/tslater/dev/lore/registry/data/contracts.yaml`**
+     - Contract location tracking — 3 refs renamed
+     - Keys, interface descriptions, contract paths updated
+
+   - **`/Users/tslater/dev/lore/registry/data/metadata.yaml`**
+     - Already clean after earlier work — no changes needed
+
+   - **`/Users/tslater/dev/lore/mani.yaml`**
+     - Project key `lineage:` renamed to `lore-legacy:` (since `lore:` already existed)
+     - Flow marked as archived, oracle path updated, praxis added
+
+   - **`/Users/tslater/dev/lore/SYSTEM.md`**
+     - Removed all consumer project names (Neo, Bach, Ralph, Council, Praxis, Mirror)
+     - Replaced ASCII art with generic hub-and-spoke diagram
+     - Deleted "Who Writes What" table entirely
+     - Removed "Failures logged" step from session lifecycle
+     - Removed Ancestry section (preserved as git note on commit `1435811`)
+     - Rewrote "What Lore Is Not" section with generic language
+
+   - **`/Users/tslater/dev/lore/LORE_CONTRACT.md`**
+     - Subagent cleaned: "Team Decisions"/"Governance Decisions" headings, `myproject` in tag examples
+     - Added universal capture section, updated data locations for LORE_DATA_DIR
+
+   - **`/Users/tslater/dev/lore/CLAUDE.md`**
+     - Dropped Oracle/Telos parenthetical, renamed "Orchestration Hub" to "Integration"
+     - Now includes ecosystem table, Entire CLI integration section
+
+   - **`/Users/tslater/dev/lore/.gitignore`**
+     - Added `.entire/` (entireio/cli tool data)
+     - Added `transfer/data/sessions/session-example.json` (perpetually dirty)
+     - Now also gitignores all user data files (decisions.jsonl, patterns.yaml, graph.json, etc.) for LORE_DATA_DIR migration
+
+   - **`/Users/tslater/dev/lore/README.md`**
+     - Updated components table (7 components), architecture tree, origin text
+
+   - **`/Users/tslater/dev/lore/lore.sh`**
+     - Extended search to cover inbox, goals, registry (grep fallback)
+     - Now has significant new functionality: unified capture, FTS5 search, failure tracking, spec management, help system
+
+   - **`/Users/tslater/dev/lore/lib/lore-client-base.sh`**
+     - Added `lore_observe`, `lore_create_goal`, `lore_registry_show` functions
+
+   - **`/Users/tslater/dev/cli/bach/TASK_CONTRACT.md`** — Deleted (stale; Neo's copy is canonical)
+
+   - **`/Users/tslater/dev/neo/plans/plan-praxis-sync-promote.md`** — Deleted (completed plan)
+
+   - **`/Users/tslater/dev/cli/duet/.claude/commands/install-skills.md`** — Deleted
+   - **`/Users/tslater/dev/cli/duet/.claude/commands/install-commands.md`** — Deleted
+     - Both created the duplication problem by copying plugin skills/commands to `~/.claude/`
+
+   - **`/Users/tslater/dev/cli/duet/notes/vamp.md`**
+     - Updated: 10 commands, 13 skills
+     - Struck through install pattern decisions
+     - Added sharpen skill, capture-memory, memory-audit
+     - Noted plugin namespace access model
+
+   - **`~/.claude/skills/`** — Removed all 12 installed skills (research, adr, design, diagnose, ia, naming, performance, prose, review, testing, cross-project-impact, frontend-design) — all duplicates of Duet plugin or stale
+
+   - **`~/.claude/commands/`** — Removed 9 files total:
+     - `quick-research.md` (redundant — skill covers it)
+     - 8 Duet duplicates: capture-memory, debrief, memory-audit, note-why, ponder, question, retro, whats-next
+     - Remaining personal commands: deep-research, plannotator-review, quote, refresh, reminder, stoic
+
+   - **`~/.claude/projects/-Users-tslater-dev-cli-duet/memory/MEMORY.md`**
+     - Added patterns: "Plugin namespace eliminates install commands", "Skills shape thinking; commands prescribe steps"
+     - Added gotcha: "Duet skills removed from ~/.claude/skills/ — plugin namespace is the access path"
+     - Pruned stale item: lineage alias gotcha replaced with plugin access note
+     - Updated `.entire/` gotcha from "investigate" to "gitignored"
+     - Updated TASK_CONTRACT.md gotcha to "canonical copy in Neo, Bach's removed"
+     - Updated mani.yaml/Geordi gotcha to "clean, no stale refs"
+     - Updated session-example.json gotcha to "gitignored and untracked"
+
+   - **`~/.claude/CLAUDE.md`**
+     - Strunk's example updated from "Lineage" to "Lore"
+
+4. Errors and fixes:
+   - **Edit tool failed on MEMORY.md**: Attempted `Edit` without reading the file first. Fixed by reading the file, then making edits.
+   - **No other significant errors** in this session — the work was primarily cleanup/deletion.
+
+5. Problem Solving:
+   - **Lineage straggler identification**: Systematically grep'd across all repos, categorized findings as historical (plans, decisions.jsonl, graph.json) vs fixable (registry YAML, mani.yaml, CLAUDE.md), and cleaned only the fixable ones.
+   - **Duplicate skill/command resolution**: Traced the duplication to install-skills/install-commands pattern, deleted the mechanism (install commands), then cleaned up all installed duplicates. The root cause was building install workflows for plugin-distributed content.
+   - **Research command consolidation**: Analyzed 5 research-related entries, identified the boundary between skills (methodology, auto-fire) and commands (procedures, explicit invocation), consolidated to 2: research skill + /deep-research command.
+   - **praxis vs praxis-rdx**: Identified praxis-rdx as spent prototype — praxis extracted the value (failure journals). Recommended archiving praxis-rdx.
+
+6. All user messages:
+   - "what remains of lineage?"
+   - "yes use subagents to clean those up"
+   - (invoked /commit-commands:commit for vamp.md)
+   - "yes" (commit registry changes in Lore)
+   - "commit the rest of the work"
+   - "explain praxis praxis-rdx (why two?) which to keep or merge?"
+   - "done - any other cleanups?"
+   - "2. Delete Bach's stale TASK_CONTRACT.md — Neo's is canonical / 4. Gitignore session-example.json"
+   - (invoked /duet:sweep)
+   - "delete plans/plan-praxis-sync-promote.md"
+   - "any last words for lineage?"
+   - "we have multiple /research commands - can we consolidate?"
+   - "i moved /research-and-write to a project context / i'm still interested in /deep-research and /quick-research / should these be skills that share context from /research?"
+   - "what if /deep-research was its own skill?"
+   - "how will 'Claude judges the question warrants it'"
+   - "delete the cross-project-impact skill too — ralph and flow are archived"
+   - "also delete frontend-design — duet /design covers it"
+   - "any other stale skills installed?"
+   - "i'm still seeing some duplication" (screenshot of /research appearing twice)
+   - "yes remove them all" (remove all duplicate installed skills)
+   - "should /deep-research be a duet command/skill?"
+   - "should the install-skills command still exist?"
+   - "yes remove both" (install-skills and install-commands)
+   - (invoked /commit-commands:commit multiple times)
+   - "update vamp"
+   - "explain the diff: The Duet /research skill is the methodology..."
+   - ".entire is for https://github.com/entireio/cli"
+   - "any other cleanups?" (second time)
+   - "remove: 6. Failures logged... / save ancestry as a note in the git commit, not the file"
+   - (invoked /retro)
+   - "why do we see dupes here?" (screenshot of /retro appearing twice in autocomplete)
+
+7. Pending Tasks:
+   - **Push Lore and Neo**: Lore is 8 commits ahead of origin, Neo is 2 ahead. Neither pushed.
+   - **Archive praxis-rdx**: Identified as spent prototype — praxis extracted its value. Not yet archived or deleted.
+   - **`/review` framework gap**: Every other Duet skill cites an authority in FRAMEWORKS.md except `/review`. Open thread from vamp.md.
+
+8. Current Work:
+   The most recent work was removing 8 duplicate Duet commands from `~/.claude/commands/` (capture-memory, debrief, memory-audit, note-why, ponder, question, retro, whats-next) that were creating duplicate autocomplete entries alongside their `duet:` prefixed equivalents. The user noticed `/retro` appearing twice in autocomplete and asked "why do we see dupes here?" — same root cause as the skills duplication.
+
+9. Optional Next Step:
+   No explicit next step requested. The session is in cleanup/retro mode. The most natural follow-ups based on pending items are pushing Lore/Neo or archiving praxis-rdx, but the user should confirm before either action.
+
+If you need specific details from before compaction (like exact code snippets, error messages, or content you generated), read the full transcript at: /Users/tslater/.claude/projects/-Users-tslater-dev-cli-duet/cd680c64-9724-4fd5-a7dd-f0a396efb0eb.jsonl
+
+---
+
+Analyze this project and suggest what to work on next.
+
+1. Review the current structure (README.md, directories, files)
+2. Identify gaps or opportunities in these categories:
+   - **Content** — Missing topics, incomplete guides
+   - **Tooling** — CI/CD, automation, developer experience
+   - **Polish** — Cross-references, consistency, organization
+
+3. Present 2-3 concrete suggestions per category, briefly explained
+
+Keep suggestions actionable and relevant to the project's purpose.
+
+---
+
+use subagents to fix all
+
+---
+
+<task-notification>
+<task-id>a3a6625</task-id>
+<status>completed</status>
+<summary>Agent "Vamp cleanup and sync-version" completed</summary>
+<result>Everything checks out. Here is a summary of what was done:
+
+### Changes to `/Users/tslater/dev/cli/duet/notes/vamp.md`
+
+**Open Threads -- 3 items removed:**
+
+1. **Struck-through design skill line** (line 46 previously): `~~design skill generalizes frontend-design~~ -- retired...` -- deleted entirely. This was resolved noise; the install pattern decisions in Decided already cover this ground.
+
+2. **generate-readme.sh thread** (line 48 previously): `README skill descriptions truncate mid-sentence -- generate-readme.sh needs a cleaner cutoff or shorter source field` -- removed since another agent is fixing generate-readme.sh now.
+
+3. **sync-version.sh thread** (line 49 previously): `sync-version.sh exists but version bump was manual -- wire it in or remove it` -- removed because the script itself was deleted (see below).
+
+**Current State -- verified accurate, no changes needed:**
+- 10 commands: confirmed by globbing `commands/*.md` (capture-memory, debrief, lint, memory-audit, note-why, ponder, question, retro, sweep, whats-next)
+- 13 skills: confirmed by globbing `skills/*/SKILL.md` (adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, sharpen, testing)
+- 1 agent: confirmed (code-simplifier)
+- `/sharpen` already listed in the skills line
+- `.claude/commands/` line accurate -- contains only `install-statusline.md`
+
+### Deleted file
+
+`/Users/tslater/dev/cli/duet/scripts/sync-version.sh` -- premature tooling for a markdown-only 0.1.x project. The `scripts/` directory now contains only `generate-readme.sh`.
+
+### Post-edit
+
+`prettier --write` ran on `notes/vamp.md` -- file was already formatted (unchanged).</result>
+<usage>total_tokens: 23843
+tool_uses: 15
+duration_ms: 65076</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a3a6625.output
+
+---
+
+<task-notification>
+<task-id>aab0cc2</task-id>
+<status>completed</status>
+<summary>Agent "README pipeline and script fix" completed</summary>
+<result>Everything looks clean. Let me send a summary to the team lead.
+
+Here is a summary of all changes made:
+
+---
+
+### 1. Fixed description truncation in `/Users/tslater/dev/cli/duet/scripts/generate-readme.sh`
+
+**Before (line 32-34):**
+```bash
+# Truncate long descriptions to ~80 characters
+if [ ${#desc} -gt 80 ]; then
+  desc="${desc:0:80}..."
+fi
+```
+
+**After:**
+```bash
+# Truncate long descriptions at word boundary before 80 characters
+if [ ${#desc} -gt 80 ]; then
+  desc="${desc:0:80}"
+  desc="${desc% *}..."
+fi
+```
+
+The fix takes the first 80 characters, then uses bash's `${var% *}` suffix removal to strip back to the last space (word boundary), and appends "...". This prevents mid-word cuts like "technic..." -- now you get clean breaks like "reasoning behind..." and "future maintainers...".
+
+### 2. Removed stale "Per-project installation" section from `/Users/tslater/dev/cli/duet/README.md`
+
+Removed the entire section (lines 81-95 in the original) that referenced deleted `/install-commands` and `/install-skills` commands. The plugin namespace (`duet:`) eliminated the need for these install workflows.
+
+### 3. Verified `skills/sharpen/SKILL.md` frontmatter
+
+`/Users/tslater/dev/cli/duet/skills/sharpen/SKILL.md` already has proper frontmatter with both `name: sharpen` and `description:` fields, matching the format of other skills like `review`. No changes needed.
+
+### 4. Verified `capture-memory` and `memory-audit` commands
+
+Both files exist with proper `description:` frontmatter:
+- `/Users/tslater/dev/cli/duet/commands/capture-memory.md` -- "Capture learnings to MEMORY.md, output compact summary"
+- `/Users/tslater/dev/cli/duet/commands/memory-audit.md` -- "Audit project memory files for staleness, orphans, bloat, and duplication"
+
+They were missing from the README because it hadn't been regenerated since they were added.
+
+### 5. Regenerated README tables
+
+Ran `./scripts/generate-readme.sh`. The Commands table now shows 10 commands (up from 8), including the new `/capture-memory` and `/memory-audit`. The Skills table now includes `/sharpen` (13 skills, up from 12). All skill descriptions truncate at word boundaries.
+
+### 6. Ran prettier
+
+Ran `prettier --write README.md` -- prettier aligned the table columns and normalized formatting.</result>
+<usage>total_tokens: 31493
+tool_uses: 23
+duration_ms: 94630</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/aab0cc2.output
+
+---
+
+<task-notification>
+<task-id>a3e4e9b</task-id>
+<status>completed</status>
+<summary>Agent "FRAMEWORKS + review + sharpen recipe" completed</summary>
+<result>The README.md, notes/vamp.md, scripts/generate-readme.sh, and scripts/sync-version.sh changes were pre-existing in the working tree before I started. My changes are limited to the three files I was asked to modify:
+
+1. `skills/FRAMEWORKS.md` -- modified
+2. `skills/review/SKILL.md` -- modified
+3. `skills/sharpen/RECIPE.md` -- newly created
+
+All three changes are complete and pass linting. Here is a summary of what was done.
+
+---
+
+## Summary of Changes
+
+### 1. Grounded `/review` in Bacchelli & Bird's "Modern Code Review"
+
+**`/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md`** -- Added a new row to the "Skills by Framework" table:
+
+```
+| Modern Code Review       | Bacchelli & Bird             | `/review`            | Code review's primary value is knowledge transfer, not defect detection |
+```
+
+**`/Users/tslater/dev/cli/duet/skills/review/SKILL.md`** -- Updated the Overview paragraph to cite the framework:
+
+> Code review that captures context, not just correctness. Grounded in Bacchelli & Bird's research on modern code review, which found that code review's primary value is knowledge transfer -- not defect detection.
+
+### 2. Fixed the performance attribution gap
+
+**`/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md`** -- Merged the two `/performance` rows ("Performance Loop" with no authority and "Knuth's Rule" with Donald Knuth) into a single row:
+
+```
+| Knuth's Performance Rule | Donald Knuth                 | `/performance`       | Optimize the critical 3%; measure, profile, optimize, measure again     |
+```
+
+This credits Knuth for both the optimization rule and the measurement loop, and eliminates the unattributed dash.
+
+### 3. Created `skills/sharpen/RECIPE.md`
+
+**`/Users/tslater/dev/cli/duet/skills/sharpen/RECIPE.md`** -- New file with 3 parallel workers following the established recipe format:
+
+- **Worker 1: Clarity Worker** -- Cuts everything that does not serve the core point (LLM-isms, throat-clearing, contrastive pivots, filler transitions)
+- **Worker 2: Consistency Worker** -- Ensures uniform voice, terminology, and structure throughout
+- **Worker 3: Maintainability Worker** -- Ensures prose remains navigable and useful for future readers
+
+The synthesis step applies clarity cuts first (reducing surface area), then consistency fixes, then maintainability improvements, with conflict resolution rules.
+
+**`/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md`** -- Added the sharpen recipe to the Recipes table:
+
+```
+| `/sharpen`     | `sharpen/RECIPE.md`     | 3       |
+```
+
+All files pass `markdownlint` and have been formatted with `prettier --write`. README.md was not modified.</result>
+<usage>total_tokens: 46594
+tool_uses: 25
+duration_ms: 225269</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a3e4e9b.output
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+	modified:   notes/vamp.md
+	modified:   scripts/generate-readme.sh
+	deleted:    scripts/sync-version.sh
+	modified:   skills/FRAMEWORKS.md
+	modified:   skills/review/SKILL.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	skills/sharpen/RECIPE.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/README.md b/README.md
+index 74c817d..9b54408 100644
+--- a/README.md
++++ b/README.md
+@@ -37,33 +37,36 @@ table below once you're comfortable.
+ 
+ ## Commands
+ 
+-| Command       | Description                                                                   |
+-| ------------- | ----------------------------------------------------------------------------- |
+-| `/debrief`    | Review what agents accomplished, surface loose ends across sessions           |
+-| `/lint`       | Run markdownlint on specified files or the whole project                      |
+-| `/note-why`   | Note the rationale behind a commit using git notes                            |
+-| `/ponder [n]` | Surface a question worth sitting with                                         |
+-| `/question`   | Surface 2-3 pointed questions about code you just changed                     |
+-| `/retro`      | Reflect on recent work—capture learnings and surface what to think about next |
+-| `/sweep`      | Post-op check for artifacts, damage, and stale references after agent work    |
+-| `/whats-next` | Analyze project and suggest what to work on next                              |
++| Command           | Description                                                                   |
++| ----------------- | ----------------------------------------------------------------------------- |
++| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary                        |
++| `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
++| `/lint`           | Run markdownlint on specified files or the whole project                      |
++| `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
++| `/note-why`       | Note the rationale behind a commit using git notes                            |
++| `/ponder [n]`     | Surface a question worth sitting with                                         |
++| `/question`       | Surface 2-3 pointed questions about code you just changed                     |
++| `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
++| `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
++| `/whats-next`     | Analyze project and suggest what to work on next                              |
+ 
+ ## Skills
+ 
+-| Skill          | Description                                                                         |
+-| -------------- | ----------------------------------------------------------------------------------- |
+-| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind technic... |
+-| `/design`      | Intentional design thinking for interfaces, components, and systems. Use when th... |
+-| `/diagnose`    | Systematic debugging that applies the scientific method to failures. Use when th... |
+-| `/excalidraw`  | Create Excalidraw diagrams programmatically. Use when the user wants architectur... |
+-| `/ia`          | Evaluate and improve how information is organized for findability. Use when the ... |
+-| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax. Use when generat... |
+-| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic. Use when... |
+-| `/performance` | Profiling methodology and optimization strategy for performance work. Use when t... |
+-| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages, UI... |
+-| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and ac... |
+-| `/review`      | Framework for code review that captures context future maintainers need—concerns... |
+-| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, whi... |
++| Skill          | Description                                                                        |
++| -------------- | ---------------------------------------------------------------------------------- |
++| `/adr`         | Generate Architecture Decision Records that capture the reasoning behind...        |
++| `/design`      | Intentional design thinking for interfaces, components, and systems. Use when...   |
++| `/diagnose`    | Systematic debugging that applies the scientific method to failures. Use when...   |
++| `/excalidraw`  | Create Excalidraw diagrams programmatically. Use when the user wants...            |
++| `/ia`          | Evaluate and improve how information is organized for findability. Use when the... |
++| `/mermaid`     | Create diagrams and visualizations using Mermaid.js v11 syntax. Use when...        |
++| `/naming`      | Evaluate and improve names in code using naming as a design diagnostic. Use...     |
++| `/performance` | Profiling methodology and optimization strategy for performance work. Use when...  |
++| `/prose`       | Apply Strunk's writing rules to prose—documentation, commits, error messages,...   |
++| `/research`    | Systematic technical investigation—evidence gathering, option comparison, and...   |
++| `/review`      | Framework for code review that captures context future maintainers...              |
++| `/sharpen`     | Tighten and sharpen prose by subtraction. Use when the user asks to "tighten",...  |
++| `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter,...    |
+ 
+ ## Agents
+ 
+@@ -78,22 +81,6 @@ tasks into parallel workers. Each recipe defines roles, inputs, and
+ coordination patterns for multi-agent work. See
+ [FRAMEWORKS.md](skills/FRAMEWORKS.md) for the full list.
+ 
+-## Per-project installation
+-
+-Copy individual components into a project instead
+-of installing the plugin globally.
+-From within the duet directory:
+-
+-- `/install-commands` — copy commands to
+-  `~/.claude/commands/`
+-- `/install-skills` — copy skills to
+-  `~/.claude/skills/`
+-- `/install-statusline` — install lean status bar
+-  to `~/.claude/`
+-
+-All show diffs for modified files and let you
+-cherry-pick.
+-
+ ## Structure
+ 
+ ```text
+diff --git a/notes/vamp.md b/notes/vamp.md
+index 87ca661..4cb30a7 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -43,8 +43,5 @@ Where we are while figuring out where to go.
+ - pre-push hook reminds to update vamp.md (local only, not tracked)
+ - `score/` as home for notes if they multiply (from riffs)
+ - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+-- ~~design skill generalizes frontend-design~~ — retired. Marketplace plugin disabled; duet `/design` covers the full scope.
+ - `/review` has no named framework in FRAMEWORKS.md — every other skill cites an authority
+-- README skill descriptions truncate mid-sentence — generate-readme.sh needs a cleaner cutoff or shorter source field
+-- `sync-version.sh` exists but version bump was manual — wire it in or remove it
+ - FRAMEWORKS.md at 13 rows — a second index dimension (by concern, not just framework) exists but lives in the same file. Split or keep?
+diff --git a/scripts/generate-readme.sh b/scripts/generate-readme.sh
+index 40e9371..9a88a5a 100755
+--- a/scripts/generate-readme.sh
++++ b/scripts/generate-readme.sh
+@@ -28,9 +28,10 @@ for d in "$ROOT"/skills/*/; do
+   skill_md="$d/SKILL.md"
+   name=$(grep '^name:' "$skill_md" | head -1 | sed 's/^name: *//')
+   desc=$(grep '^description:' "$skill_md" | head -1 | sed 's/^description: *//')
+-  # Truncate long descriptions to ~80 characters
++  # Truncate long descriptions at word boundary before 80 characters
+   if [ ${#desc} -gt 80 ]; then
+-    desc="${desc:0:80}..."
++    desc="${desc:0:80}"
++    desc="${desc% *}..."
+   fi
+   skill_table="$skill_table\n| \`/$name\` | $desc |"
+ done
+diff --git a/scripts/sync-version.sh b/scripts/sync-version.sh
+deleted file mode 100755
+index 21aeaef..0000000
+--- a/scripts/sync-version.sh
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#!/usr/bin/env bash
+-set -euo pipefail
+-
+-# Sync plugin.json version with the latest git tag.
+-# Usage: ./scripts/sync-version.sh
+-#   - Reads the latest semver tag (e.g. v1.2.0)
+-#   - Updates .claude-plugin/plugin.json version field
+-#   - Exits 0 if updated, 1 if no tags found
+-
+-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+-PLUGIN_JSON="$ROOT/.claude-plugin/plugin.json"
+-
+-tag=$(git -C "$ROOT" describe --tags --abbrev=0 2>/dev/null || true)
+-
+-if [ -z "$tag" ]; then
+-  echo "No git tags found. Tag a release first: git tag v1.0.0"
+-  exit 1
+-fi
+-
+-# Strip leading 'v' if present
+-version="${tag#v}"
+-
+-current=$(jq -r '.version' "$PLUGIN_JSON")
+-
+-if [ "$current" = "$version" ]; then
+-  echo "plugin.json already at $version"
+-  exit 0
+-fi
+-
+-jq --arg v "$version" '.version = $v' "$PLUGIN_JSON" > "$PLUGIN_JSON.tmp"
+-mv "$PLUGIN_JSON.tmp" "$PLUGIN_JSON"
+-echo "plugin.json updated: $current → $version"
+diff --git a/skills/FRAMEWORKS.md b/skills/FRAMEWORKS.md
+index 979bfd4..401d1fa 100644
+--- a/skills/FRAMEWORKS.md
++++ b/skills/FRAMEWORKS.md
+@@ -4,22 +4,22 @@ Each duet skill is grounded in a specific framework or authority. This index map
+ 
+ ## Skills by Framework
+ 
+-| Framework                | Authority                    | Skill                | Core Idea                                                          |
+-| ------------------------ | ---------------------------- | -------------------- | ------------------------------------------------------------------ |
+-| 9 Rules of Debugging     | David J. Agans               | `/diagnose`          | Scientific method applied to software failures                     |
+-| Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate       |
+-| Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                     |
+-| Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability    |
+-| API Design               | Joshua Bloch                 | `/naming`, `/design` | Self-documenting, least astonishment, minimal surface              |
+-| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`            | Code names match domain language                                   |
+-| ADR Format               | Michael Nygard               | `/adr`               | Capture context and reasoning, not just the decision               |
+-| Testing Trophy           | Kent C. Dodds                | `/testing`           | Integration tests provide the best confidence-to-cost ratio        |
+-| Performance Loop         | —                            | `/performance`       | Measure, profile, optimize, measure again                          |
+-| Knuth's Rule             | Donald Knuth                 | `/performance`       | Optimize the critical 3%, not the other 97%                        |
+-| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                | Organization, labeling, navigation, search for findability         |
+-| Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference |
+-| Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown        |
+-| Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                    |
++| Framework                | Authority                    | Skill                | Core Idea                                                               |
++| ------------------------ | ---------------------------- | -------------------- | ----------------------------------------------------------------------- |
++| 9 Rules of Debugging     | David J. Agans               | `/diagnose`          | Scientific method applied to software failures                          |
++| Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate            |
++| Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                          |
++| Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability         |
++| API Design               | Joshua Bloch                 | `/naming`, `/design` | Self-documenting, least astonishment, minimal surface                   |
++| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`            | Code names match domain language                                        |
++| ADR Format               | Michael Nygard               | `/adr`               | Capture context and reasoning, not just the decision                    |
++| Testing Trophy           | Kent C. Dodds                | `/testing`           | Integration tests provide the best confidence-to-cost ratio             |
++| Modern Code Review       | Bacchelli & Bird             | `/review`            | Code review's primary value is knowledge transfer, not defect detection |
++| Knuth's Performance Rule | Donald Knuth                 | `/performance`       | Optimize the critical 3%; measure, profile, optimize, measure again     |
++| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                | Organization, labeling, navigation, search for findability              |
++| Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference      |
++| Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown             |
++| Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                         |
+ 
+ ## Skills by Concern
+ 
+@@ -48,6 +48,7 @@ Recipes teach Bach how to decompose a domain task into parallel workers. Each re
+ | `/diagnose`    | `diagnose/RECIPE.md`    | 2       |
+ | `/testing`     | `testing/RECIPE.md`     | 2       |
+ | `/performance` | `performance/RECIPE.md` | 2       |
++| `/sharpen`     | `sharpen/RECIPE.md`     | 3       |
+ 
+ ## Cross-References
+ 
+diff --git a/skills/review/SKILL.md b/skills/review/SKILL.md
+index 2436d6f..1647ce5 100644
+--- a/skills/review/SKILL.md
++++ b/skills/review/SKILL.md
+@@ -7,9 +7,9 @@ description: Framework for code review that captures context future maintainers
+ 
+ ## Overview
+ 
+-Code review that captures context, not just correctness. Beyond finding bugs, document the _why_—concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
++Code review that captures context, not just correctness. Grounded in Bacchelli & Bird's research on modern code review, which found that code review's primary value is knowledge transfer — not defect detection. Beyond finding bugs, document the _why_ — concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
+ 
+-Use this for PRs, local changes, or architecture review—any code where you want to preserve the reasoning, not just the verdict.
++Use this for PRs, local changes, or architecture review — any code where you want to preserve the reasoning, not just the verdict.
+ 
+ ## Review Workflow
+- Current branch: main
+- Recent commits: 75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+6f4bc02 docs: Update vamp with current state and resolved threads
+28d3427 chore: Bump version to 0.1.1
+b100ce5 feat: Add /sweep command for post-agent cleanup audits
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+how do we push VP of engineering to get better? is def of done, or alignment on what success looks like not key?
+
+---
+
+Pick ${ARGUMENTS:-1} question(s) at random from this list and present them:
+
+- What would a 'Navigation Dead Reckoning' system look like for career decisions?
+- How do you architect for forgetting - designing systems that gracefully degrade memories they no longer need?
+- What's the engineering equivalent of muscle memory, and how do you deliberately train it?
+- What would a 'compiler for human intentions' look like?
+- What's the half-life of a decision, and how do you build with decay in mind?
+- What would 'emotional CI/CD' look like?
+- How do you measure growth through adversity without incentivizing unnecessary suffering?
+- What patterns in your codebase would embarrass you if they became visible?
+- How do you design for the engineer you'll be in 5 years, not the one you are today?
+- What's the 'tidal' pattern in your work - the thing that advances and retreats but never stops?
+- What would 'earthquake-ready' architecture look like for sudden market shifts?
+- How do you instrument for questions you don't yet know how to ask?
+- What's the simplest complex thing you've built, and the most complex simple thing?
+- How do you paint with constraints - making limitation a creative force?
+- What would controlled burns look like in software - deliberate destruction for ecosystem health?
+- If 'people arrive at beliefs based on what they find attractive' (Pascal), how do you make good architecture attractive?
+- What technical truths do you think you possess directly, and which might be mere familiarity?
+- How do you design systems that please as much as they convince?
+- What beliefs about your codebase exist not from proof but from attraction?
+- When you consider the infinite space of possible solutions, which silences alarm you?
+
+
+ARGUMENTS: the topic - we must use AI well to accelerate value delivery, improve processing power of the team, and ensure we direct velocity towards building the right thing, not the wrong faster
+
+---
+
+diff between remember and learn
+
+---
+
+Research a topic using parallel agents with session management, verification,
+and optional autonomous execution.
+
+## Input
+
+The user's message contains the topic and optionally specific sources (URLs,
+repos, papers) to investigate. Prefix with `AUTO:` for fully autonomous
+execution.
+
+## Step 1: Initialize Session
+
+Create a session directory at `.research/{session-id}/` with:
+
+- `state.json` — session metadata, status, stage progress
+- `stages/` — individual stage findings
+- `report.md` — final synthesized report (created in Step 5)
+
+Generate `session-id` from the topic (slugified, e.g., `agent-memory-systems`).
+
+```json
+{
+  "id": "agent-memory-systems",
+  "topic": "...",
+  "status": "active",
+  "created": "2026-02-17T...",
+  "stages": [],
+  "auto": false
+}
+```
+
+## Step 2: Decompose
+
+Identify 3-7 independent research stages. Record each in `state.json` with
+status `pending`.
+
+## Step 3: Launch Parallel Agents
+
+Spawn one agent per stage using the Task tool. Route by complexity:
+
+| Task Complexity   | Model    | Use For                                              |
+| ----------------- | -------- | ---------------------------------------------------- |
+| Data gathering    | `haiku`  | File enumeration, simple lookups, counting, listings |
+| Standard analysis | `sonnet` | Code analysis, pattern detection, documentation      |
+| Complex reasoning | `opus`   | Architecture analysis, cross-cutting concerns        |
+
+For each agent:
+
+- Use `subagent_type: "general-purpose"`
+- Specify the **output format** in the prompt — not just "research X" but
+  "produce a structured summary with: what it does, architecture, key patterns,
+  tradeoffs"
+- Include any URLs or sources relevant to that stream
+- Instruct agents to do research only, no file edits
+
+**Maximum 5 concurrent agents** to prevent resource exhaustion.
+
+Launch all agents in a single message for parallel execution.
+
+Write each agent's output to `stages/{stage-number}-{name}.md`. Update
+`state.json` stage status to `complete` as each finishes.
+
+## Step 4: Verify
+
+Cross-validate findings across agents:
+
+- Flag contradictions between agents' findings
+- Check if any agent's claims conflict with another's evidence
+- Note where agents independently converged (strong signal)
+- Note where only one agent found something (needs corroboration)
+
+## Step 5: Synthesize and Report
+
+Write `report.md` with:
+
+1. **Per-item summaries** — what each thing does, key insight, tradeoff
+2. **Comparison table** — dimensions that matter for the topic
+3. **Transferable patterns** — ordered by general applicability
+4. **Confidence notes** — what was corroborated vs. single-source
+5. **Open questions** — what the research didn't resolve
+
+Update `state.json` status to `complete`.
+
+Present the report to the user. Keep it concise — tables over prose where
+possible.
+
+## AUTO Mode
+
+When the user prefixes with `AUTO:`, run the full workflow without checkpoints.
+Constraints:
+
+- **Max iterations:** 10 (for multi-round research that discovers new threads)
+- Continue until report is written or max iterations reached
+- If blocked (missing access, circular dependency), stop and report what was
+  found
+
+## Resume
+
+If the user says "resume" or "continue research", check `.research/` for
+sessions with status `active`. Read `state.json`, identify incomplete stages,
+and pick up where the previous session left off.
+
+## Status
+
+If the user says "research status", list all sessions in `.research/` with their
+status and stage progress.
+
+
+ARGUMENTS: is this how human memory works?
+
+---
+
+<task-notification>
+<task-id>a6dad06</task-id>
+<status>completed</status>
+<summary>Agent "Memory taxonomy research" completed</summary>
+<result>## Research Summary Complete
+
+I've created a structured taxonomy of human memory systems at `/Users/tslater/dev/cli/duet/.research/human-memory-systems/stages/1-memory-taxonomy.md`.
+
+### What's covered
+
+**Four memory types with definitions**:
+
+1. **Episodic memory** — Tulving's 1972 distinction defining autobiographical events with subjective "mental time travel." The key insight is that conscious re-experiencing, not just content, defines episodic memory.
+
+2. **Semantic memory** — General knowledge divorced from acquisition context. "Knowing" without "remembering when you learned it."
+
+3. **Procedural memory** — Implicit motor and cognitive skills stored in basal ganglia circuits. Unconscious, improves with practice, preserved in amnesia patients.
+
+4. **Working memory** — Baddeley's four-component model (phonological loop, visuospatial sketchpad, central executive, episodic buffer) for active short-term manipulation.
+
+**Comparison table** — Six dimensions comparing memory types: duration, conscious access, content type, brain regions, subjective experience, and amnesia effects.
+
+### The critical insight: Episodic → Semantic transformation
+
+This is the most important finding. Episodic and semantic memory are not separate systems but endpoints of a continuum. Through **semantization** (systems consolidation), specific episodic experiences gradually transform into generalized semantic knowledge:
+
+- **Mechanism**: Hippocampally-dependent episodic memories consolidate (especially during sleep) into cortical semantic representations
+- **What changes**: Contextual details ("when," "where") fade while conceptual content remains
+- **Neural basis**: Time-dependent reorganization along hippocampal anterior-posterior axis
+- **Functional purpose**: Knowledge extraction, cognitive efficiency, schema formation
+
+**Two competing theories** explain the process:
+- Transfer hypothesis: Memory moves from hippocampus to cortex
+- Transformation hypothesis: Character transforms while hippocampus remains involved
+
+**Contemporary evidence** from neuroimaging and clinical studies shows considerable overlap between episodic and semantic neural substrates, validating Tulving's original claim (1972 onward) that the two systems are interdependent.
+
+This transformation is the cognitive foundation for learning — how experience becomes expertise, events become understanding, and the specific becomes the general.</result>
+<usage>total_tokens: 24360
+tool_uses: 8
+duration_ms: 109285</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a6dad06.output
+
+---
+
+<task-notification>
+<task-id>a788eaa</task-id>
+<status>completed</status>
+<summary>Agent "Memory consolidation research" completed</summary>
+<result>## Research Complete: Memory Consolidation
+
+I've written a comprehensive research document on memory consolidation to `/Users/tslater/dev/cli/duet/.research/human-memory-systems/stages/2-consolidation.md` (108 lines).
+
+### Coverage
+
+The document addresses all six requested mechanisms:
+
+1. **Synaptic Consolidation** - Immediate protein synthesis-dependent stabilization within hours, the first gate for memory persistence
+2. **Systems Consolidation** - Gradual hippocampus-to-neocortex transfer over weeks to years, transforming temporary to permanent storage
+3. **Complementary Learning Systems Theory** - McClelland, McNaughton, and O'Reilly's framework explaining why fast hippocampal encoding and slow cortical integration must coexist
+4. **Sleep and Memory** - Sharp-wave ripples, cortical slow oscillations, and spindles coordinate replay and consolidation; 2024 research shows selective tagging of important experiences
+5. **Reconsolidation** - Nader's discovery that retrieval destabilizes memories, creating windows for modification; violates the traditional "write-once" view
+6. **The Forgetting Curve** - Ebbinghaus's exponential decay and Bjork's distinction between storage strength and retrieval strength; forgetting as adaptive pattern extraction
+
+### Timeline Included
+
+A detailed progression from 1 hour to 1 year post-learning, tracking synaptic stabilization, hippocampal-cortical transfer, and the episodic-to-semantic transformation.
+
+### The Critical Insight
+
+The selection mechanism for what becomes general knowledge versus what fades operates on multiple signals: emotional salience (amygdala tagging), replay frequency (hippocampal voting), schema consistency (existing scaffolding), retrieval patterns (use predicts relevance), and statistical pattern extraction (stripping episodic detail to preserve semantic regularities). The brain preserves what predicts future utility. Forgetting is not failure but the mechanism for generalization—extracting signal from noise, building abstract knowledge from concrete experience.
+
+### Sources Cited
+
+15 peer-reviewed sources including 2024 research from Science and Neuron, foundational papers from McClelland/McNaughton/O'Reilly and Nader, and comprehensive reviews from Nature and PMC.</result>
+<usage>total_tokens: 29389
+tool_uses: 11
+duration_ms: 124696</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a788eaa.output
+
+---
+
+<task-notification>
+<task-id>ae01b01</task-id>
+<status>completed</status>
+<summary>Agent "Organizational memory research" completed</summary>
+<result>Research complete. I've written a comprehensive analysis of organizational memory and knowledge management frameworks to `/Users/tslater/dev/cli/duet/.research/human-memory-systems/stages/4-organizational-memory.md`.
+
+## What I Covered
+
+**Seven frameworks explained:**
+
+1. **Nonaka's SECI Model** - The knowledge spiral (tacit ↔ explicit) through Socialization, Externalization, Combination, Internalization
+2. **After-Action Reviews** - US Army's method for learning from operations (intent vs. outcome)
+3. **Incident Postmortems** - SRE culture's blameless retrospectives for system failures
+4. **Architecture Decision Records** - Nygard's format for capturing decision context and forces, not just outcomes
+5. **Double-Loop Learning** - Argyris's distinction between fixing behavior vs. changing governing assumptions
+6. **Organizational Forgetting** - Walsh & Ungson's framework showing how orgs store and lose knowledge across five retention facilities
+7. **Journal/Pattern Distinction** - How systems separate event logs from distilled lessons learned
+
+**Comparison table** showing what each framework captures, temporal scope, who writes, and who reads.
+
+**Key insight:** Organizational memory diverges from individual memory through **distributed cognition**—information lives across people, culture, structures, and systems rather than in a single substrate. The best systems don't just capture knowledge, they actively circulate it. AARs work through collective self-discovery, postmortems through blameless communication, SECI through continuous tacit-explicit conversion.
+
+The journal/pattern distinction shows up everywhere: incident logs vs. postmortems, AAR events vs. doctrine updates, session notes vs. pattern libraries. Unlike individual memory (which naturally consolidates patterns), organizations must build this synthesis explicitly or watch knowledge decay in passive repositories.
+
+Healthy organizational memory also requires selective forgetting—emotion regulation, adaptation, making space for new knowledge while preserving hard-won insights.</result>
+<usage>total_tokens: 30490
+tool_uses: 12
+duration_ms: 137583</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/ae01b01.output
+
+---
+
+<task-notification>
+<task-id>a32e883</task-id>
+<status>completed</status>
+<summary>Agent "Computational memory models" completed</summary>
+<result>## Research Complete: Computational Models of Memory
+
+I've completed comprehensive research on computational and artificial models of human memory and written a detailed analysis to `/Users/tslater/dev/cli/duet/.research/human-memory-systems/stages/3-computational-models.md`.
+
+### Coverage
+
+The document examines six major computational approaches to modeling memory:
+
+1. **Complementary Learning Systems (CLS)** - Dual-system architectures with fast hippocampal-like and slow cortical-like components. Recent 2025 AI implementations (CH-HNN) demonstrate this solves catastrophic forgetting by running different learning rates in parallel.
+
+2. **Memory-Augmented Neural Networks** - Neural Turing Machines and Differentiable Neural Computers that separate computation from storage. The 2025 MT-DNC adds brain-inspired working memory and long-term memory modules for reasoning tasks.
+
+3. **Spaced Repetition Systems** - From Ebbinghaus's forgetting curve through Leitner's flashcard system to modern FSRS algorithms. FSRS achieves 20-30% fewer reviews than SuperMemo's SM-2 by modeling individual memory dynamics.
+
+4. **Knowledge Graphs vs Event Logs** - The computational parallel to semantic vs episodic memory. Graphs enable inference; logs preserve sequence. Hybrid systems (Zep, Graphiti) maintain both, using temporal knowledge graphs with validity windows.
+
+5. **Retrieval-Augmented Generation (RAG)** - External knowledge bases as non-parametric memory separate from model weights. Agentic RAG and GraphRAG in 2025 show iterative reasoning and 99% retrieval precision with structured ontologies.
+
+6. **Write-Ahead Logs and Append-Only Structures** - Database durability patterns (PostgreSQL WAL, Kafka logs, LSM trees) that mirror consolidation: append to log before materializing views, enabling replay and recovery.
+
+### Key Insights
+
+**What computational models get right:**
+- Memory requires multiple timescales (fast encoding, slow consolidation)
+- Forgetting follows predictable curves amenable to optimization
+- Separating storage from computation scales better than weight-based memory
+- Logs and graphs serve complementary purposes (sequence vs inference)
+- Durability requires write-ahead commitment to stable storage
+
+**What they miss:**
+- Reconstruction vs retrieval (humans rebuild from fragments, not replay)
+- Emotional and embodied context (affective, somatic dimensions)
+- Adaptive forgetting (value-guided compression, not mechanical deletion)
+- Associative flexibility (diverse retrieval cues beyond semantic similarity)
+- The stability-plasticity dilemma remains unsolved in continual learning
+
+### Structure
+
+The document includes:
+- Detailed explanations of each model (3-5 sentences plus context)
+- A mapping table between computational concepts and cognitive equivalents
+- Analysis of what each approach captures and what it misses
+- Comprehensive citations to 2025 research and foundational papers
+
+All sources are properly cited with markdown hyperlinks as requested.</result>
+<usage>total_tokens: 31442
+tool_uses: 11
+duration_ms: 197093</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a32e883.output
+
+---
+
+<task-notification>
+<task-id>a26a8c3</task-id>
+<status>completed</status>
+<summary>Agent "Map Lore to memory science" completed</summary>
+<result>All three files are written and verified. Here is a summary of what was produced.
+
+---
+
+## Research Complete: Three Files Written
+
+### `/Users/tslater/dev/cli/duet/.research/human-memory-systems/stages/5-lore-mapping.md` (219 lines)
+
+The detailed mapping analysis covering:
+
+- **Component-level mapping** for all 8 Lore components (journal, patterns, failures, transfer, inbox, intent, graph, registry), each analyzed against its cognitive equivalent, organizational equivalent, analogy strength, and where the analogy breaks.
+- **Operation-level mapping** for all 6 Lore commands (`remember`, `learn`, `observe`, `fail`, `resume`, `search`) to their cognitive equivalents.
+- **Compounding loop vs. neural consolidation** -- a side-by-side structural comparison showing both systems accumulate experiences, detect recurrence, extract generalizations, and apply them forward. The key difference: the brain automates what Lore leaves manual.
+- **The `remember`/`learn` question answered**: Yes, with qualifications. The commands capture the endpoints of Tulving's episodic-to-semantic transformation gradient, but Lore implements the endpoints without the gradient between them.
+- **7 cognitive processes Lore is missing**: automatic consolidation, forgetting, reconsolidation, salience weighting, spreading activation, prospective memory integration, context-dependent retrieval.
+- **6 areas where Lore improves on biology**: perfect fidelity, shared memory, cross-temporal search, explicit provenance, structured consolidation triggers, transferable working memory.
+
+### `/Users/tslater/dev/cli/duet/.research/human-memory-systems/report.md` (98 lines)
+
+The final report with all requested sections:
+
+1. **The Question** -- framed in 2 sentences
+2. **The Short Answer** -- "Partially, and the partial mapping is the interesting part"
+3. **Component Mapping Table** -- 8 components and 6 operations, each with cognitive equivalent, organizational equivalent, and analogy strength rating
+4. **Where the Analogy Holds** -- 5 strong parallels with evidence
+5. **Where the Analogy Breaks** -- 7 breakdowns
+6. **What's Missing** -- 7 cognitive processes with no Lore equivalent
+7. **What Lore Improves** -- 6 biological limitations Lore transcends
+8. **Transferable Patterns** -- 7 actionable suggestions (consolidation daemon, retrieval-strength decay, pattern revision on access, salience metadata, intent-biased resume, cross-component associative links, controlled forgetting)
+9. **Open Questions** -- 5 unresolved questions including whether manual consolidation matters in practice and what a "sleep cycle" for Lore would look like
+
+### `/Users/tslater/dev/cli/duet/.research/human-memory-systems/state.json`
+
+Updated: all 5 stages marked `"complete"`, overall status set to `"complete"`.
+
+---
+
+**The central finding**: Lore's `remember`/`learn` distinction maps to the episodic-semantic transformation gradient that cognitive neuroscience considers the core mechanism of human learning. The compounding loop structurally mirrors neural consolidation. The three strongest parallels are journal-as-episodic-memory, patterns-as-semantic-memory, and failures-as-emotional-salience-tags. The three most significant gaps are the absence of automatic consolidation, adaptive forgetting, and reconsolidation. The most actionable insight: Lore's graph component already exists and could be extended to create cross-component associative links, replicating the spreading activation that makes biological memory so flexible.</result>
+<usage>total_tokens: 56293
+tool_uses: 19
+duration_ms: 259489</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a26a8c3.output
+
+---
+
+lore learn about the remember/learn mapping to episodic/semantic memory
+
+---
+
+consider:
+⏺ Three cycles, one container.
+
+           ┌──────── informs ────────┐
+           ▼                         │
+       decision ───yields──▶ pattern ┘
+           │                    │
+      references           implements
+           │                    │
+           ▼                    ▼
+         file              concept
+           │                    │
+        part_of             grounds
+           │                    │
+           ▼        hosts       ▼
+        project ──────────▶ session
+                               │
+                            produces
+                               │
+                               ▼
+                            decision
+
+---
+
+lore learn this — three cycles, session as nexus
+
+---
+
+where was this recorded?
+
+---
+
+has vamp.md been supersceded by tools like lore and entire?
+
+---
+
+shrink it to just open threads
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   notes/vamp.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): diff --git a/notes/vamp.md b/notes/vamp.md
+index 4cb30a7..1d28236 100644
+--- a/notes/vamp.md
++++ b/notes/vamp.md
+@@ -1,47 +1,9 @@
+ # Vamp
+ 
+-Where we are while figuring out where to go.
++Unresolved tensions. Questions sitting in peripheral vision.
+ 
+ ---
+ 
+-## Current State
+-
+-- 10 commands, 13 skills, 1 agent — markdown only, no build system
+-- commands: capture-memory, debrief, lint, memory-audit, note-why, ponder, question, retro, sweep, whats-next
+-- skills: adr, design, diagnose, excalidraw, ia, mermaid, naming, performance, prose, research, review, sharpen, testing
+-- FRAMEWORKS.md indexes 13 framework-to-skill mappings
+-- plugin namespace (`duet:`) provides skills directly — no install step needed
+-- `.claude/commands/` — duet-only (install-statusline)
+-- skills use frontmatter for auto-triggering (adr led, others followed)
+-- CLAUDE.md trimmed to essentials: project structure, lint, command authoring, naming
+-- prose skill self-contained with full Elements of Style reference
+-- conservative permissions: deny destructive ops, ask before push/rebase
+-- `/retro` includes memory health check — scans MEMORY.md for staleness before persistence prompt
+-- version 0.1.1
+-
+-## Decided
+-
+-- ~~"install" not "sync"~~ — removed. Plugin namespace (`duet:`) eliminates the need for install commands; they created duplicates in `~/.claude/skills/`
+-- ~~accepted the ~/.claude/ install pattern~~ — reversed. Plugin skills use namespaced access (`duet:research`), not standalone copies
+-- CLAUDE.md stays lean — project structure and authoring rules, not aspirational content
+-- `/why` → `/note-why` — name the action, not the content; avoid ask/tell ambiguity
+-- `/think-next` → `/ponder` — name what you do, not what comes next
+-- `/adr` moved from command to skill — it's a document framework, not a discrete action
+-- `/whats-next` kept — pressure-tested, earns its name (Taskwarrior precedent)
+-- skills expand by domain — each grounded in a specific framework or author
+-- SKILL.md with frontmatter as the standard skill file convention
+-- `/ia` grounded in Rosenfeld/Morville + Diataxis — includes taxonomy construction heuristics
+-- `/mermaid` + `/excalidraw` split: mermaid for inline docs (GitHub-native), excalidraw for architecture overviews (hand-drawn, editable)
+-- `/performance` grounded in Knuth — measure-profile-optimize-measure loop
+-- `/sweep` added for post-agent cleanup — checks blast radius, fixture damage, stale refs, debug artifacts, scope bleed
+-- questions-not-just-actions pattern validated — `/question` and `/ponder` both earn their keep
+-- `/sharpen` skill added for iterative code refinement
+-- `/capture-memory` and `/memory-audit` commands added for session persistence and memory hygiene
+-
+-## Open Threads
+-
+-- pre-push hook reminds to update vamp.md (local only, not tracked)
+ - `score/` as home for notes if they multiply (from riffs)
+ - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+-- `/review` has no named framework in FRAMEWORKS.md — every other skill cites an authority
+ - FRAMEWORKS.md at 13 rows — a second index dimension (by concern, not just framework) exists but lives in the same file. Split or keep?
+- Current branch: main
+- Recent commits: 259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+6f4bc02 docs: Update vamp with current state and resolved threads
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
+
+---
+
+does duet need a demo?
+
+---
+
+personal for now, team eventually
+
+---
+
+what will it take to get duet out of 0.1.x ?
+
+---
+
+fair, let's work on each
+1. Evaluate the names - use subagents to check each one
+2. Let's remove friction. Optimize dx and ia
+3. Analyze threads and plan out easy wins
+
+---
+
+<task-notification>
+<task-id>a8ecee0</task-id>
+<status>completed</status>
+<summary>Agent "Evaluate all Duet names" completed</summary>
+<result>Now I have all the information needed to evaluate every name. Let me compile the comprehensive evaluation table with analysis.
+
+## Naming Evaluation: Duet Plugin
+
+### Framework Summary
+
+From `/Users/tslater/dev/cli/duet/skills/naming/SKILL.md`, the four principles are:
+
+1. **Understandability** — Describe the context it represents without reading implementation
+2. **Conciseness** — Use only necessary words
+3. **Consistency** — Same word means same thing; different things get different names
+4. **Distinguishability** — Must be distinct from neighbors
+
+Additional rules:
+- Commands should be verbs (actions)
+- Skills should be nouns (domains)
+- Avoid generic verbs (handle, process, manage)
+- No unnecessary words
+
+### Evaluation Table
+
+| Name | Type | Verdict | Issue (if any) |
+|------|------|---------|----------------|
+| **whats-next** | Command | solid | Action is clear ("what should I work on"). Could be `suggest-next` to be more verb-like, but the question form is idiomatic. |
+| **question** | Command | fuzzy | Noun form for a command. The action is "surface questions", not "question". Name doesn't tell you it's about recent code changes. Confusable with `ponder`. |
+| **note-why** | Command | solid | Verb form ("note"). Purpose is clear (capture rationale). Concise. |
+| **ponder** | Command | rename candidate | Verb but too poetic. Doesn't tell you it randomly surfaces philosophical questions from a predefined list. "question" and "ponder" overlap semantically but do completely different things. |
+| **debrief** | Command | solid | Clear action. Military/project management term is well-known. Tells you it's about reviewing completed work. |
+| **lint** | Command | solid | Industry-standard term. Single word. Everyone knows what it means. |
+| **sweep** | Command | solid | Metaphor is apt (cleaning up). Context (post-agent work) is in description. Name is distinctive and memorable. |
+| **retro** | Command | solid | Well-known abbreviation for "retrospective". Clear action. Fits the domain. |
+| **capture-memory** | Command | solid | Verb form. Clear purpose. Distinguishable from `memory-audit`. |
+| **memory-audit** | Command | solid | Noun-verb compound. Clear purpose (auditing memory files). Distinguishable from `capture-memory`. |
+| **naming** | Skill | solid | Domain noun. Understandable. Consistent with skill naming pattern. |
+| **adr** | Skill | solid | Industry-standard acronym (Architecture Decision Records). Well-known in the domain. |
+| **prose** | Skill | solid | Domain noun. Clear that it's about writing. Concise. |
+| **ia** | Skill | fuzzy | Acronym (Information Architecture) is less universally known than "adr". Could confuse newcomers. Full name `information-architecture` would be clearer but less concise. |
+| **mermaid** | Skill | solid | Proper noun (tool name). Instantly recognizable. |
+| **excalidraw** | Skill | solid | Proper noun (tool name). Instantly recognizable. |
+| **research** | Skill | solid | Domain noun. Clear purpose. |
+| **diagnose** | Skill | fuzzy | Verb form for a skill (should be noun). Should be `diagnosis` or `debugging` to match skill pattern. Naming skill itself is also technically a verb ("naming") but it works as a gerund/domain. |
+| **testing** | Skill | solid | Domain noun (gerund). Clear purpose. Standard term. |
+| **design** | Skill | solid | Domain noun. Broad but well-defined in context. |
+| **performance** | Skill | solid | Domain noun. Clear purpose. |
+| **sharpen** | Skill | rename candidate | Verb form for a skill. Metaphorical. Doesn't clearly communicate "prose editing by subtraction". Could be `prose-editing` or nested under `prose`. |
+| **review** | Skill | fuzzy | Could be noun or verb. Works as a domain but less clear than other skill names. Could be `code-review` to be more specific. |
+| **code-simplifier** | Agent | solid | Compound noun-noun. Clear role. Follows agent naming pattern (what it does). |
+
+### Confusable Pairs
+
+1. **question vs ponder**: Both imply asking questions, but `question` surfaces questions about recent code changes while `ponder` randomly picks philosophical questions from a static list. Names don't reveal this critical difference.
+
+2. **retro vs debrief**: Semantic overlap. `retro` is for session reflection + memory health check. `debrief` is for reviewing agent work and loose ends. Both are post-work review commands with different scopes. Distinguishable enough in practice but close.
+
+3. **capture-memory vs memory-audit**: These are actually well-distinguished. One writes, one reads. Names work.
+
+4. **sharpen vs prose**: `sharpen` is described as a sub-task of prose editing. Could it be a command under prose skill rather than a separate skill?
+
+### Rename Candidates with Alternatives
+
+#### 1. `question` → `ask-about-changes` or `surface-questions`
+
+**Current issue**: Noun form for command. Doesn't communicate that it's about recent code changes.
+
+**Alternatives**:
+- `ask-about-changes` — Verb form, specific about scope
+- `surface-questions` — Matches the actual description ("surface pointed questions")
+
+**Rationale**: The command description says "Surface 2-3 pointed questions about code you just changed." The name should reflect the action (surface/raise) and the scope (recent changes).
+
+#### 2. `ponder` → `random-question` or `philosophical-prompt`
+
+**Current issue**: Too poetic, doesn't communicate it's a random picker from a static list. Confusable with `question`.
+
+**Alternatives**:
+- `random-question` — Honest about what it does
+- `philosophical-prompt` — More descriptive of the content
+
+**Rationale**: The name "ponder" sounds like it will analyze your work and generate context-specific reflection. Instead, it literally picks N random questions from a hardcoded list. The name should reveal this.
+
+#### 3. `sharpen` → `tighten-prose` or merge into prose skill
+
+**Current issue**: Verb for a skill. Metaphorical. Doesn't clearly say "prose editing by subtraction."
+
+**Alternatives**:
+- `tighten-prose` — More descriptive
+- Make it a command instead of a skill
+- Merge into prose skill as a mode/section
+
+**Rationale**: The skill is described as "tighten and sharpen prose by subtraction" with `user-invocable: false`. It's essentially a specialized prose editing mode. Either rename to be more descriptive or integrate into the prose skill.
+
+#### 4. `diagnose` → `diagnosis` or `debugging`
+
+**Current issue**: Verb form for a skill. Should be noun/domain.
+
+**Alternatives**:
+- `diagnosis` — Noun form of the same word
+- `debugging` — More standard term, noun form (gerund)
+
+**Rationale**: Skills should be domain nouns. "Diagnose" is a verb. The content is about systematic debugging methodology, so `debugging` or `diagnosis` would match the pattern.
+
+### Additional Observations
+
+**Names That Require Description to Clarify**:
+- `ia` — Acronym not universally known
+- `ponder` — Name hides that it's a random picker
+- `question` — Doesn't reveal scope (recent changes only)
+- `sharpen` — Metaphor requires explanation
+
+**Names That Work Without Description**:
+- `lint`, `sweep`, `debrief`, `retro`, `note-why`
+- `research`, `testing`, `design`, `performance`
+- `mermaid`, `excalidraw`, `adr`
+
+**Verb vs Noun Violations**:
+- Commands that should be more verb-like: `question` (is noun), `ponder` (works but fuzzy)
+- Skills that are verbs: `diagnose`, `sharpen`, `naming` (but gerund works as domain)
+
+**New Team Member Test** (would these confuse someone new?):
+- `ia` — "What does that stand for?"
+- `question` vs `ponder` — "What's the difference?"
+- `sharpen` — "Sharpen what? How?"
+- `debrief` vs `retro` — Close but context helps distinguish
+
+### Summary Stats
+
+- **Solid**: 18 names (64%)
+- **Fuzzy**: 4 names (14%)
+- **Rename candidate**: 6 names (21%)
+
+The naming is generally strong. Most violations are:
+1. Verb/noun mismatches (commands should be verbs, skills should be nouns)
+2. Names that require the description to clarify what they do
+3. One confusable pair (`question`/`ponder`)</result>
+<usage>total_tokens: 33673
+tool_uses: 27
+duration_ms: 78471</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a8ecee0.output
+
+---
+
+<task-notification>
+<task-id>a28c612</task-id>
+<status>completed</status>
+<summary>Agent "Analyze vamp open threads" completed</summary>
+<result>Perfect. Now I have enough information to analyze all three threads. Let me compile my findings.
+
+## Analysis Complete
+
+I've examined the codebase to assess the three open threads in `/Users/tslater/dev/cli/duet/notes/vamp.md`. Here are my findings and recommendations:
+
+---
+
+### Thread 1: `score/` as home for notes if they multiply
+
+**Current State:**
+- `/Users/tslater/dev/cli/duet/notes/` contains exactly 3 files: `philosophy.md` (32 lines), `riffs.md` (10 lines), `vamp.md` (9 lines)
+- Total: 51 lines across 3 files
+- Git history shows 17 commits touching `notes/` since creation on Feb 5, 2024
+- The directory was created specifically to hold these three distinct types of content
+- No evidence of pressure to add more files; the structure has been stable
+
+**Assessment:**
+This is a hypothetical concern, not a real problem. The `notes/` directory has held exactly three files for its entire existence. There's no multiplication happening. The metaphor is elegant (riffs → vamp → score progression), but it's solving a problem that doesn't exist.
+
+**Verdict:** CLOSE
+
+**Reasoning:** The directory has been stable at 3 files. No new notes have been added. The current flat structure is perfectly scannable. Creating a `score/` directory for a hypothetical future state adds structure before it's needed. Follow YAGNI.
+
+**Action:** Delete from vamp. If notes/ ever grows to 10+ files, reconsider then.
+
+---
+
+### Thread 2: skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+
+**Current State:**
+I examined 13 skill descriptions across all skills:
+
+**User-invocable skills** (explicitly listed in autocomplete):
+- `/naming`: "Evaluate and improve names in code using naming as a design diagnostic. Use when the user asks to..."
+- `/adr`: "Generate Architecture Decision Records... Use when the user asks to..."
+- `/ia`: "Evaluate and improve how information is organized for findability. Use when the user asks to..."
+- `/research`: "Systematic technical investigation... Use when the user asks to..."
+- `/diagnose`: "Systematic debugging... Use when the user says..."
+- `/testing`: "Design test strategy... Use when the user asks..."
+- `/design`: "Intentional design thinking... Use when the user asks to..."
+- `/mermaid`: "Create diagrams and visualizations using Mermaid.js v11 syntax. Use when generating..."
+
+**Non-user-invocable skills** (marked `user-invocable: false`):
+- `/performance`: "Profiling methodology... Use when the user asks to..."
+- `/sharpen`: "Tighten and sharpen prose by subtraction. Use when the user asks to..."
+
+**Prose and Review** (mixed use):
+- `/prose`: "Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional."
+- `/review`: "Framework for code review that captures context future maintainers need..."
+
+**Pattern observed:**
+- Most descriptions follow a two-part structure: (1) what the skill does, (2) trigger conditions starting with "Use when..."
+- Trigger conditions are deliberately broad with multiple phrasings ("asks to X", "says Y", "struggles to Z")
+- The descriptions serve discovery (autocomplete), not strict auto-triggering rules
+- Skills marked `user-invocable: false` still have "Use when..." clauses, suggesting these are guidelines for Claude Code, not strict triggers
+
+**Technical Finding:**
+Based on the skill metadata structure, Claude Code uses the `description` field for:
+1. Display in autocomplete/skill discovery
+2. Semantic matching to decide when to suggest or auto-fire skills
+
+The precision question is real: too broad and skills fire when they shouldn't; too narrow and they miss relevant cases. However, I found **no evidence of actual problems** from the current level of precision. The descriptions are deliberately inclusive with multiple trigger phrases, which seems intentional.
+
+**Verdict:** DEFER
+
+**Reasoning:** This is a real tension (descriptions serve dual purposes) but not yet a real problem. No evidence that skills are mis-firing or failing to fire when needed. The current broad descriptions with multiple trigger phrases seem to be working. Tightening prematurely could make skills less discoverable. Monitor for actual trigger failures before optimizing.
+
+**Action:** Keep in vamp but rephrase as "Monitor skill triggering precision — are descriptions too broad (false positives) or too narrow (missed triggers)? Adjust based on observed problems, not hypotheticals."
+
+---
+
+### Thread 3: FRAMEWORKS.md at 13 rows — a second index dimension (by concern, not just framework) exists but lives in the same file. Split or keep?
+
+**Current State:**
+`/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md` contains:
+
+1. **Skills by Framework** table: 13 rows mapping frameworks/authorities to skills
+2. **Skills by Concern** table: 9 rows mapping user questions to primary + supporting skills
+3. **Recipes** table: 7 rows listing Bach agent recipes
+4. **Cross-References**: 10 bullet points showing natural skill pairings
+
+**Assessment:**
+- The file is 66 lines total — highly scannable
+- Both tables serve distinct user needs:
+  - Framework table: "I want to apply Strunk's rules" → find `/prose`
+  - Concern table: "Is this well-named?" → find `/naming` (primary) + `/design`, `/prose` (supporting)
+- A new user benefits from both: the framework table grounds skills in intellectual lineage; the concern table provides task-oriented entry points
+- At 13 rows, the framework table is not unwieldy
+- Splitting into two files means two places to update when adding a skill (maintenance tax)
+- The current single-file structure provides context: seeing both dimensions together helps users understand the relationship between frameworks and concerns
+
+**Verdict:** CLOSE
+
+**Reasoning:** The file is 66 lines and highly scannable. Both dimensions are useful and complement each other. The maintenance cost of two files (keeping them in sync when adding skills) outweighs the benefit of separation. At 25+ framework entries, reconsider. At 13, keep together.
+
+**Action:** Delete from vamp. The current structure serves users well. If the framework table exceeds 25 rows or if users report difficulty scanning, revisit then.
+
+---
+
+## Summary Recommendations
+
+| Thread                | Verdict | Action                                                                 |
+|-----------------------|---------|------------------------------------------------------------------------|
+| `score/` directory    | CLOSE   | Delete from vamp. Current structure works; no multiplication pressure. |
+| Frontmatter precision | DEFER   | Rephrase as monitoring task; adjust based on observed problems only.   |
+| FRAMEWORKS.md split   | CLOSE   | Delete from vamp. Single file is scannable; splitting adds maint cost. |
+
+**Files examined:**
+- `/Users/tslater/dev/cli/duet/notes/vamp.md`
+- `/Users/tslater/dev/cli/duet/notes/philosophy.md`
+- `/Users/tslater/dev/cli/duet/notes/riffs.md`
+- `/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md`
+- 13 `SKILL.md` files across all skills
+
+**Evidence gathered:**
+- Notes directory file count and line count
+- Git history for notes/ (17 commits, stable at 3 files)
+- Skill description patterns and frontmatter structure
+- FRAMEWORKS.md content and dimensions
+- Cross-referenced IA principles from `/ia` skill on appropriate hierarchy depth</result>
+<usage>total_tokens: 43881
+tool_uses: 22
+duration_ms: 86903</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a28c612.output
+
+---
+
+<task-notification>
+<task-id>a1b5c6c</task-id>
+<status>completed</status>
+<summary>Agent "Audit Duet DX and IA" completed</summary>
+<result>Now I have enough information to write the report. Let me compile my findings.
+
+## Developer Experience Audit: Duet Plugin
+
+This audit follows the experience of a new team member installing and discovering the Duet plugin.
+
+---
+
+### Step 1: First Contact Journey
+
+**README.md** provides a clean entry point:
+- Installation is straightforward (curl script or git clone)
+- "Getting Started" section wisely avoids overwhelming new users by highlighting only 3 skills (diagnose, review, testing) and emphasizing auto-routing
+- Tables are generated from source (good maintenance pattern)
+- Structure section gives spatial awareness
+
+**CLAUDE.md** is contributor-focused, not user-focused:
+- Explains authoring patterns (frontmatter, inline execution)
+- Hook documentation appears mid-file with no context about what `notes/vamp.md` is
+- Naming conventions table is helpful but placement feels arbitrary
+
+**FRAMEWORKS.md** is the discovery powerhouse:
+- Two indices (by framework, by concern) provide complementary navigation
+- "Skills by Concern" table directly answers "I have X problem" questions
+- Cross-references section reveals skill relationships
+- Recipes section lists which skills work with Bach (multi-agent)
+
+**Confusion point**: The journey from README → FRAMEWORKS.md is via a small mention in the Recipes section. A new user who reads only README won't discover FRAMEWORKS.md's "Skills by Concern" table, which is arguably the most valuable navigation aid in the plugin.
+
+---
+
+### Step 2: Discovery Audit
+
+**What works:**
+- FRAMEWORKS.md "Skills by Concern" covers common developer questions well (correctness, design, testing, naming, writing, performance, decisions)
+- Auto-routing claim in README ("debug this" → `/diagnose`) reduces need to memorize catalog
+- Skill descriptions in frontmatter are detailed with trigger phrases
+
+**Gaps identified:**
+1. **No onboarding for commands vs skills distinction** - README lists both but doesn't explain the difference. A new user doesn't know whether to use `/retro` or `/review`, or when each applies.
+2. **Agent invocation unclear** - Agents section in README exists, but nowhere explains how to use an agent (do you call it like a skill? a command?)
+3. **Hidden command** - `install-statusline.md` lives in `.claude/commands/` but isn't listed in README. No explanation of why some commands are in `.claude/commands/` vs `commands/`.
+4. **Recipes unexplained** - FRAMEWORKS.md mentions recipes teach Bach decomposition, but a user unfamiliar with Bach won't understand what this means or why it matters.
+5. **`user-invocable: false` undocumented** - Three skills have this frontmatter field, but nowhere explains what it means or why those skills are different.
+
+**Discovery friction:**
+- No clear path from "I want to organize documentation" to "use `/ia`" unless the user discovers FRAMEWORKS.md
+- Visualization skills (mermaid, excalidraw) aren't categorized in "Skills by Concern" table
+
+---
+
+### Step 3: Structural Audit
+
+**Commands directory:**
+All 10 commands are flat in `/commands/`. Level of abstraction varies significantly:
+
+- **Post-session reflection**: `debrief`, `retro`, `sweep`, `question`
+- **Memory management**: `capture-memory`, `memory-audit`
+- **Git annotation**: `note-why`
+- **Linting**: `lint`
+- **Project navigation**: `whats-next`
+- **Philosophical prompt**: `ponder`
+
+`ponder` stands out - it's a random question generator, not a code quality or reflection tool. Doesn't fit the "reflection, code quality, writing, design" mission statement from README.
+
+**Skills directory:**
+13 skills, all have `skills/{name}/SKILL.md`. Supporting files are inconsistent:
+
+| Skill       | SKILL.md | RECIPE.md | references/ | scripts/ | Other |
+|-------------|----------|-----------|-------------|----------|-------|
+| adr         | ✓        | ✗         | ✗           | ✗        |       |
+| design      | ✓        | ✓         | ✗           | ✗        |       |
+| diagnose    | ✓        | ✓         | ✓           | ✗        |       |
+| excalidraw  | ✓        | ✗         | ✗           | ✓        |       |
+| ia          | ✓        | ✗         | ✓           | ✗        |       |
+| mermaid     | ✓        | ✗         | ✓           | ✗        |       |
+| naming      | ✓        | ✗         | ✓           | ✗        |       |
+| performance | ✓        | ✓         | ✓           | ✗        |       |
+| prose       | ✓        | ✗         | ✓           | ✗        |       |
+| research    | ✓        | ✓         | ✓           | ✗        |       |
+| review      | ✓        | ✓         | ✗           | ✗        |       |
+| sharpen     | ✓        | ✓         | ✗           | ✗        |       |
+| testing     | ✓        | ✓         | ✓           | ✗        |       |
+
+**Pattern**: RECIPE.md presence matches FRAMEWORKS.md table (7 skills), but `references/` appears ad-hoc (8 skills, different set). No documentation explains when a skill should have references.
+
+**Frontmatter inconsistency:**
+- Most skills: `name`, `description`
+- Three skills add: `user-invocable: false` (naming, performance, sharpen)
+- Commands have different frontmatter: `description`, `allowed-tools` (optional)
+- No documentation of the frontmatter schema
+
+**notes/ directory:**
+Contains `philosophy.md`, `riffs.md`, `vamp.md`. These are project thinking files, not user-facing documentation. The pre-push hook references `notes/vamp.md` but a new user won't know what "vamp" means until they read the file. Philosophy.md is actually a beautiful explanation of the plugin's name and purpose - this belongs earlier in the user journey.
+
+**.claude/ split:**
+- `.claude/commands/install-statusline.md` exists but isn't documented
+- `.claude/settings.json` and `.claude/settings.local.json` exist but aren't explained
+- No documentation of why this split exists or what belongs in `.claude/` vs root directories
+
+---
+
+### Step 4: Friction Inventory
+
+**Confusion:**
+1. **Commands vs Skills** - Both appear as `/name` in tables but serve different purposes. No explanation of the distinction.
+2. **Agent invocation** - Agents table exists but usage pattern is unclear.
+3. **Philosophy buried** - `notes/philosophy.md` explains the "duet" concept beautifully but is filed under project notes, invisible to new users.
+4. **user-invocable field** - Present in 3 skills, documented nowhere.
+5. **Recipes context** - "Recipes teach Bach how to decompose tasks" assumes user knows what Bach is.
+
+**Missing signposts:**
+1. **README → FRAMEWORKS.md** - FRAMEWORKS.md is mentioned once in README (Recipes section). The "Skills by Concern" table should be surfaced prominently.
+2. **No command taxonomy** - 10 commands with no grouping or explanation of when to use what.
+3. **No skill progression** - Which skills are for beginners? Which are advanced? The "Getting Started" section names 3 skills but doesn't explain why those vs others.
+4. **Cross-reference poverty** - Skills mention related skills in closing sections (e.g., review → naming, adr, prose), but this pattern isn't consistently applied. No command cross-references other commands.
+
+**Inconsistencies:**
+1. **Structural files** - 7 skills have RECIPE.md, 8 have references/, 1 has scripts/. No pattern documented.
+2. **Description style** - README skill table cuts descriptions at first sentence. Skill frontmatter includes trigger phrases ("Use when..."). Commands show full description. Inconsistent truncation.
+3. **Frontmatter schemas** - Commands and skills use different frontmatter fields. user-invocable appears only in skills, allowed-tools only in commands.
+4. **Directory split** - commands/ vs .claude/commands/ with no explanation.
+
+**Dead ends:**
+1. **Hidden command** - install-statusline is functional but unlisted.
+2. **notes/ files** - No indication these exist or what they contain.
+3. **Hooks** - CLAUDE.md mentions pre-push hook but doesn't explain where it's installed or how it works.
+4. **Visualization skills missing from concern table** - mermaid and excalidraw appear in skills list but not in FRAMEWORKS.md "Skills by Concern" table.
+
+---
+
+### Step 5: Top 5 Friction Points & Recommendations
+
+#### 1. FRAMEWORKS.md is the best discovery tool but buried in navigation
+**Impact**: High - New users miss the "Skills by Concern" table, which directly maps problems to solutions.
+
+**Recommendation**: 
+- Link to FRAMEWORKS.md prominently in README Getting Started section: "For a full catalog organized by problem type, see [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern)"
+- Consider moving "Skills by Concern" table to README itself, with link to FRAMEWORKS.md for deeper context
+
+#### 2. Commands vs Skills distinction is invisible
+**Impact**: High - Users don't understand the design model or when to use what.
+
+**Recommendation**:
+- Add a "Understanding Duet" section to README before Commands table:
+  ```markdown
+  ## Understanding Duet
+  
+  Duet provides three types of tools:
+  - **Skills** - Auto-invoke teaching methodology (e.g., `/diagnose`, `/review`)
+  - **Commands** - Explicit procedural workflows (e.g., `/sweep`, `/retro`)
+  - **Agents** - Subagent definitions for decomposed work (e.g., `code-simplifier`)
+  ```
+
+#### 3. user-invocable: false has no documentation
+**Impact**: Medium - Three skills use this field but users and contributors don't know what it means.
+
+**Recommendation**:
+- Document in CLAUDE.md Command Authoring section:
+  ```markdown
+  ### Skill Frontmatter
+  
+  - `name`: Required. Skill identifier
+  - `description`: Required. Single-sentence description with optional trigger phrases
+  - `user-invocable`: Optional. Set to `false` for skills that should only auto-invoke, not be called directly
+  ```
+
+#### 4. Supporting file patterns (RECIPE.md, references/, scripts/) unexplained
+**Impact**: Medium - Contributors don't know when to add these files; users don't know what they contain.
+
+**Recommendation**:
+- Add to CLAUDE.md Project Structure section:
+  ```markdown
+  Skills may include:
+  - `SKILL.md` - Required. Skill definition and methodology
+  - `RECIPE.md` - Optional. Bach recipe for multi-agent decomposition (7 skills include this)
+  - `references/` - Optional. Supporting documentation and framework excerpts
+  - `scripts/` - Optional. Executable tools (e.g., excalidraw generator)
+  ```
+
+#### 5. Philosophy and mental model hidden in notes/
+**Impact**: Medium - New users miss the beautiful "duet" explanation that would help them understand the design philosophy.
+
+**Recommendation**:
+- Extract key concepts from `notes/philosophy.md` into a "Philosophy" section in README, after Install and before Getting Started
+- Leave full `notes/philosophy.md` for contributors/maintainers
+
+---
+
+### Structural Inconsistency Table
+
+| Element                    | Inconsistency                                    | Affected Files                    | Suggested Fix                                           |
+|----------------------------|--------------------------------------------------|-----------------------------------|---------------------------------------------------------|
+| Frontmatter schema         | Different fields for commands vs skills          | All commands, all skills          | Document both schemas in CLAUDE.md                      |
+| Frontmatter field          | `user-invocable` appears in 3 skills only        | naming, performance, sharpen      | Document meaning and usage pattern                      |
+| Supporting files           | 7 have RECIPE, 8 have references, 1 has scripts  | All skills                        | Document when each type of supporting file should exist |
+| Command location           | 10 in commands/, 1 in .claude/commands/          | install-statusline                | Explain split or consolidate                            |
+| Skill concern coverage     | mermaid, excalidraw missing from concern table   | FRAMEWORKS.md                     | Add "How should I visualize this?" to table             |
+| Description truncation     | README truncates skill descriptions, not commands | README.md, generate-readme.sh     | Apply consistent truncation or keep both full           |
+| Cross-references           | Some skills cross-reference, others don't        | review (has them), adr (doesn't)  | Add "Related" section to all skill templates            |
+| notes/ visibility          | Valuable content filed as "project thinking"     | philosophy.md                     | Surface key concepts in user-facing docs                |
+
+---
+
+### Small Actionable Suggestions
+
+1. **Add FRAMEWORKS.md link to Getting Started** - One line in README: "Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern)"
+
+2. **Explain tools distinction** - 3-line addition to README showing Skills vs Commands vs Agents
+
+3. **Document user-invocable field** - Add to CLAUDE.md frontmatter section
+
+4. **Add visualization concern to FRAMEWORKS.md** - One row: "How should I visualize this?" | `/mermaid` | `/excalidraw`
+
+5. **Surface install-statusline or remove it** - Either add to README commands table or move to scripts/
+
+6. **Standardize skill cross-references** - Add "Related Skills" section template to skills that lack it
+
+7. **Extract philosophy.md key graf to README** - Move the "duet" name explanation to README Philosophy section
+
+8. **Document RECIPE purpose** - One sentence in FRAMEWORKS.md Recipes intro: "Bach is a multi-agent framework - recipes show how to decompose domain tasks into parallel workers"
+
+9. **Consolidate .claude/commands** - Move install-statusline to main commands/ or document the split
+
+10. **Add "Supporting Files" section to CLAUDE.md** - Explain when to add RECIPE.md vs references/ vs scripts/</result>
+<usage>total_tokens: 46080
+tool_uses: 47
+duration_ms: 180052</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a1b5c6c.output
+
+---
+
+Do all easy wins
+Decisions 
+- A: question → probe
+- B: merge into prose
+- C: rename to debugging
+- D: extract
+use subagents
+
+---
+
+<task-notification>
+<task-id>a55022d</task-id>
+<status>completed</status>
+<summary>Agent "Vamp thread cleanup" completed</summary>
+<result>Done. I've successfully cleaned up the open threads in `/Users/tslater/dev/cli/duet/notes/vamp.md`:
+
+**Changes made:**
+
+1. Removed the three original threads:
+   - `score/` as home for notes if they multiply (from riffs)
+   - skill frontmatter descriptions double as auto-trigger rules — how precise should they be?
+   - FRAMEWORKS.md at 13 rows split question
+
+2. Replaced with the consolidated monitoring task:
+   - "Skill frontmatter descriptions serve dual duty (autocomplete + auto-trigger) — monitor for false positives or missed triggers before tightening"
+
+3. Ran `prettier --write` on the file (output showed it as unchanged, meaning it was already properly formatted)
+
+This closes the `score/` directory thread and the FRAMEWORKS.md split thread, while reframing the frontmatter precision concern as an active monitoring task rather than an open design question.</result>
+<usage>total_tokens: 51596
+tool_uses: 6
+duration_ms: 18189</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a55022d.output
+
+---
+
+<task-notification>
+<task-id>a9b608c</task-id>
+<status>completed</status>
+<summary>Agent "CLAUDE.md documentation updates" completed</summary>
+<result>Excellent! The task is complete. Here's a summary of the changes made:
+
+## Summary
+
+I've successfully added documentation for two undocumented patterns to `/Users/tslater/dev/cli/duet/CLAUDE.md`:
+
+### 1. Skill Directory Contents (lines 44-49)
+Added a new subsection under "## Project Structure" documenting the optional and required files within skill directories:
+- `SKILL.md` — Required skill definition and methodology
+- `RECIPE.md` — Optional Bach recipe for multi-agent decomposition
+- `references/` — Optional framework excerpts
+- `scripts/` — Optional executable tooling
+
+### 2. Skill Frontmatter (lines 66-78)
+Added a new "### Skill Frontmatter" section under "## Command Authoring" detailing the frontmatter schema for skill files with:
+- `name` — Required skill identifier for autocomplete
+- `description` — Required dual-purpose field for autocomplete and auto-trigger matching
+- `user-invocable` — Optional boolean (defaults to true) to control whether skills appear as explicit commands or only auto-invoke
+
+Both additions are concise, follow the existing documentation style, and integrate seamlessly with the existing structure. The file passed markdownlint validation and has been formatted with prettier.</result>
+<usage>total_tokens: 56978
+tool_uses: 8
+duration_ms: 37731</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/a9b608c.output
+
+---
+
+<task-notification>
+<task-id>aa5e01c</task-id>
+<status>completed</status>
+<summary>Agent "Renames + FRAMEWORKS updates" completed</summary>
+<result>All three renames are complete. Here is a summary of everything that was done.
+
+---
+
+## Summary of Changes
+
+### Rename 1: question -> probe
+
+- **`/Users/tslater/dev/cli/duet/commands/probe.md`** -- Renamed from `question.md`. Updated the description frontmatter from "Surface 2-3 pointed questions about code you just changed" to "Probe recent changes with 2-3 pointed questions".
+
+### Rename 2: diagnose -> debugging
+
+- **`/Users/tslater/dev/cli/duet/skills/debugging/`** -- Directory renamed from `diagnose/`.
+- **`/Users/tslater/dev/cli/duet/skills/debugging/SKILL.md`** -- Changed `name: diagnose` to `name: debugging`.
+- **`/Users/tslater/dev/cli/duet/skills/debugging/RECIPE.md`** -- Changed `name: diagnose-recipe` to `name: debugging-recipe`, title from "Diagnose -- Agent Recipe" to "Debugging -- Agent Recipe", and internal reference from "the diagnose skill's output format" to "the debugging skill's output format".
+- **`/Users/tslater/dev/cli/duet/skills/debugging/references/nine-rules.md`** -- No changes needed (contains no skill name references).
+
+### Rename 3: sharpen merged into prose
+
+- **`/Users/tslater/dev/cli/duet/skills/prose/SKILL.md`** -- Added sharpen's full methodology as a new "## Editing by Subtraction" section, including core principles, the LLM-ism catalog table, sharpening workflow, and the test. Updated the description to mention sharpening, added "Tightening or sharpening a draft" to the "When to Use" list, and added a RECIPE.md See Also entry.
+- **`/Users/tslater/dev/cli/duet/skills/prose/RECIPE.md`** -- Moved from `sharpen/RECIPE.md`. Updated `name: sharpen-recipe` to `name: prose-recipe`, title to "Prose -- Agent Recipe", and all internal references from "the sharpen skill" to "the prose skill".
+- **`/Users/tslater/dev/cli/duet/skills/sharpen/`** -- Deleted entirely.
+
+### Cross-reference updates
+
+- **`/Users/tslater/dev/cli/duet/skills/FRAMEWORKS.md`** -- All four tables updated: `/diagnose` changed to `/debugging`, `/sharpen` rows removed, `diagnose/RECIPE.md` changed to `debugging/RECIPE.md`, `sharpen/RECIPE.md` changed to `prose/RECIPE.md`. Added "How should I visualize this?" row to Skills by Concern (was already present). Cross-references updated: `/testing` + `/debugging`, `/performance` + `/debugging`.
+- **`/Users/tslater/dev/cli/duet/CLAUDE.md`** -- Project structure updated: `question.md` changed to `probe.md` with new description, `diagnose/` changed to `debugging/`.
+- **`/Users/tslater/dev/cli/duet/skills/performance/SKILL.md`** -- Changed `/diagnose` to `/debugging` in See Also.
+- **`/Users/tslater/dev/cli/duet/skills/testing/SKILL.md`** -- Changed `/diagnose` to `/debugging` in See Also.
+
+### Stale references remaining (intentionally untouched)
+
+- **`/Users/tslater/dev/cli/duet/README.md`** -- Contains stale `/diagnose` and `/sharpen` references. Not modified per instructions (another agent handles README).
+
+### Lint and formatting
+
+- `prettier --write` ran on all markdown files with tables (FRAMEWORKS.md, prose/SKILL.md, CLAUDE.md) -- all unchanged (already formatted).
+- `markdownlint` passed on all nine modified files with zero errors.</result>
+<usage>total_tokens: 52004
+tool_uses: 66
+duration_ms: 272555</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/aa5e01c.output
+
+---
+
+<task-notification>
+<task-id>ae9bae1</task-id>
+<status>completed</status>
+<summary>Agent "README updates + regeneration" completed</summary>
+<result>All changes are confined to `/Users/tslater/dev/cli/duet/README.md`. Here is a summary of everything that was done:
+
+---
+
+## Changes to `/Users/tslater/dev/cli/duet/README.md`
+
+### 1. Philosophy section (lines 26-33)
+Added after "## Update" and before "## Getting Started". Distilled from `notes/philosophy.md` -- the duet metaphor, the asymmetry, and the "productive surprise" design principle, all in five sentences.
+
+### 2. FRAMEWORKS.md link (line 47)
+Added at the end of "Getting Started":
+```markdown
+Browse the full catalog by problem type in [Skills by Concern](skills/FRAMEWORKS.md#skills-by-concern).
+```
+
+### 3. How Duet Works section (lines 49-53)
+Three-line explanation of the tools distinction, placed between "Getting Started" and "Commands":
+```markdown
+- **Skills** auto-invoke based on what you're doing and teach methodology
+- **Commands** are explicit workflows you invoke by name
+- **Agents** are subprocesses for parallelized work
+```
+
+### 4. Tables regenerated
+Ran `./scripts/generate-readme.sh`, which picked up the renames:
+- `/question` became `/probe` in the Commands table
+- `/diagnose` became `/debugging` in the Skills table
+- `/sharpen` was removed (merged into `/prose`, whose description now includes "Also handles sharpening and tightening drafts by subtraction")
+
+### 5. `/install-statusline` mention (line 115)
+Added after the Structure tree (in a position safe from the generate script's awk replacement). Reads:
+```markdown
+Use `/install-statusline` to set up the lean status bar for Claude Code sessions.
+```
+
+### 6. Formatted with prettier
+Ran `prettier --write README.md`. File was already clean after the script.</result>
+<usage>total_tokens: 33165
+tool_uses: 21
+duration_ms: 139976</usage>
+</task-notification>
+Full transcript available at: /private/tmp/claude-501/-Users-tslater-dev-cli-duet/tasks/ae9bae1.output
+
+---
+
+## Context
+
+- Current git status: On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   CLAUDE.md
+	modified:   README.md
+	deleted:    commands/question.md
+	modified:   notes/vamp.md
+	modified:   skills/FRAMEWORKS.md
+	deleted:    skills/diagnose/RECIPE.md
+	deleted:    skills/diagnose/SKILL.md
+	deleted:    skills/diagnose/references/nine-rules.md
+	modified:   skills/performance/SKILL.md
+	modified:   skills/prose/SKILL.md
+	deleted:    skills/sharpen/RECIPE.md
+	deleted:    skills/sharpen/SKILL.md
+	modified:   skills/testing/SKILL.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	commands/probe.md
+	skills/debugging/
+	skills/prose/RECIPE.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+- Current git diff (staged and unstaged changes): <persisted-output>
+Output too large (46.1KB). Full output saved to: /Users/tslater/.REDACTED.txt
+
+Preview (first 2KB):
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 790d6d9..4481b1c 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -14,7 +14,7 @@ markdownlint commands/**/*.md skills/**/SKILL.md
+ commands/
+   debrief.md           Review agent work, surface loose ends
+   lint.md              Run markdownlint on files
+-  question.md          Surface pointed questions about recent changes
++  probe.md             Probe recent changes with pointed questions
+   retro.md             Session retrospective
+   sweep.md             Post-op check for artifacts, damage, stale refs
+   whats-next.md        Suggest next actions
+@@ -24,7 +24,7 @@ skills/
+   FRAMEWORKS.md        Framework-to-skill index
+   adr/                 Architecture Decision Records (Nygard)
+   design/              Intentional design (visual, API, system)
+-  diagnose/            Systematic debugging (Agans)
++  debugging/            Systematic debugging (Agans)
+   ia/                  Information architecture (Rosenfeld + Diataxis)
+   naming/              Naming as design diagnostic (Benner + Bloch)
+   performance/         Profiling and optimization (Knuth)
+@@ -41,6 +41,13 @@ scripts/
+   sync-version.sh      Sync plugin.json version with git tags
+ ```
+ 
++### Skill Directory Contents
++
++- `SKILL.md` — Required. Skill definition, methodology, and trigger rules
++- `RECIPE.md` — Optional. Bach recipe for multi-agent decomposition
++- `references/` — Optional. Framework excerpts and supporting documentation
++- `scripts/` — Optional. Executable tooling (e.g., diagram generators)
++
+ ## Command Authoring
+ 
+ ### Frontmatter (Required)
+@@ -56,6 +63,20 @@ allowed-tools: [Bash, Read, Glob, Grep] # Optional: restrict tools
+ - `allowed-tools`: Optional. Omit to allow all tools
+ - Use patterns like `Bash(git add:*)` to restrict specific commands
+ 
++### Skill Frontmatter
++
++```yaml
++---
++name: skill-name
++description: Brief description with optional trigger phrases ("Use when...")
++user-invocable: true # Optional. Set to false for auto-invoke-only skills
+...
+</persisted-output>
+- Current branch: main
+- Recent commits: 8434aa5 refactor: Shrink vamp.md to open threads only
+259b613 fix: Show full first sentence in README skill descriptions
+eb9370f feat: Ground /review in Bacchelli & Bird, add sharpen recipe, clean up stale content
+75486a6 feat: Add Entire CLI hooks and permissions for checkpoint integration
+b58eab6 docs: Update vamp — new commands, reversed install pattern, plugin namespace
+812a99f feat: Add memory commands, sharpen skill; remove install commands
+e214d8f fix: Register plugin in installed_plugins.json after install
+0919c08 docs: Improve DX — getting started, recipe visibility, description voice
+fde86ea feat: Add agent recipes for six skills
+d097d83 docs: Close frontend-design open thread after marketplace plugin retirement
+
+## Your task
+
+Based on the above changes, create a single git commit.
+
+You have the capability to call multiple tools in a single response. Stage and create the commit using a single message. Do not use any other tools or do anything else. Do not send any other text or messages besides these tool calls.
