@@ -20,22 +20,23 @@ if [ ! -f "$PLUGINS_JSON" ]; then
   echo '{"version":2,"plugins":{}}' > "$PLUGINS_JSON"
 fi
 
-if command -v jq &>/dev/null; then
-  jq --arg path "$DEST" '.plugins.duet = {path: $path, enabled: true}' "$PLUGINS_JSON" > "$PLUGINS_JSON.tmp" \
-    && mv "$PLUGINS_JSON.tmp" "$PLUGINS_JSON"
-else
-  # Fallback without jq
-  cat > "$PLUGINS_JSON" <<EOF
-{
-  "version": 2,
-  "plugins": {
-    "duet": {
-      "path": "$DEST",
-      "enabled": true
-    }
-  }
-}
-EOF
-fi
+VERSION=$(jq -r '.version // "0.0.0"' "$DEST/.claude-plugin/plugin.json" 2>/dev/null || echo "0.0.0")
+NOW=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+SHA=$(git -C "$DEST" rev-parse HEAD 2>/dev/null || echo "")
 
-echo "duet registered. Restart Claude to load."
+if command -v jq &>/dev/null; then
+  jq --arg path "$DEST" --arg ver "$VERSION" --arg now "$NOW" --arg sha "$SHA" \
+    '.plugins["duet@local"] = [{
+      scope: "user",
+      installPath: $path,
+      version: $ver,
+      installedAt: $now,
+      lastUpdated: $now,
+      gitCommitSha: $sha
+    }]' "$PLUGINS_JSON" > "$PLUGINS_JSON.tmp" \
+    && mv "$PLUGINS_JSON.tmp" "$PLUGINS_JSON"
+  echo "duet registered. Restart Claude to load."
+else
+  echo "jq required for plugin registration. Install with: brew install jq"
+  exit 1
+fi
