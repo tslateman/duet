@@ -75,6 +75,7 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 | `/research`    | Systematic technical investigation—evidence gathering, option comparison, and actionable recommendations.                                                                                  |
 | `/review`      | Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted.                                                            |
 | `/testing`     | Design test strategy using Beck's Test Desiderata — which properties matter, which tradeoffs to make.                                                                                      |
+| `/vibe-check`  | Judgment linter for vibe-coded output — reads the energy of the code, not just correctness.                                                                                                |
 
 ## Agents
 

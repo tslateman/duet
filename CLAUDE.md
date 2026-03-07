@@ -35,6 +35,7 @@ skills/
   research/            Systematic technical investigation
   review/              Structured code review with context capture
   testing/             Test strategy (Beck's Test Desiderata)
+  vibe-check/          Judgment linter for vibe-coded output
 agents/
   code-simplifier.md   Refine code for clarity and maintainability
 statusline/

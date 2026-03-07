@@ -20,21 +20,23 @@ Each duet skill is grounded in a specific framework or authority. This index map
 | Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference      |
 | Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown             |
 | Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                         |
+| Judgment Linting         | Anthropic eval methodology   | `/vibe-check`        | Higher-order code assertions that require AI reasoning, not regexes     |
 
 ## Skills by Concern
 
-| Concern                             | Primary Skill  | Supporting Skills      |
-| ----------------------------------- | -------------- | ---------------------- |
-| "Is this correct?"                  | `/debugging`   | `/testing`, `/review`  |
-| "Is this well-designed?"            | `/design`      | `/naming`, `/adr`      |
-| "Is this well-tested?"              | `/testing`     | `/review`              |
-| "Is this well-named?"               | `/naming`      | `/design`, `/prose`    |
-| "Is this well-written?"             | `/prose`       | `/review`              |
-| "Is this fast enough?"              | `/performance` | `/debugging`           |
-| "Should we document this decision?" | `/adr`         | `/review`, `/research` |
-| "What should we use?"               | `/research`    | `/adr`                 |
-| "Can people find this?"             | `/ia`          | `/naming`, `/design`   |
-| "How should I visualize this?"      | `/mermaid`     | `/excalidraw`          |
+| Concern                                | Primary Skill  | Supporting Skills      |
+| -------------------------------------- | -------------- | ---------------------- |
+| "Is this correct?"                     | `/debugging`   | `/testing`, `/review`  |
+| "Is this well-designed?"               | `/design`      | `/naming`, `/adr`      |
+| "Is this well-tested?"                 | `/testing`     | `/review`              |
+| "Is this well-named?"                  | `/naming`      | `/design`, `/prose`    |
+| "Is this well-written?"                | `/prose`       | `/review`              |
+| "Is this fast enough?"                 | `/performance` | `/debugging`           |
+| "Should we document this decision?"    | `/adr`         | `/review`, `/research` |
+| "What should we use?"                  | `/research`    | `/adr`                 |
+| "Can people find this?"                | `/ia`          | `/naming`, `/design`   |
+| "How should I visualize this?"         | `/mermaid`     | `/excalidraw`          |
+| "Does this vibe-coded output hold up?" | `/vibe-check`  | `/review`, `/naming`   |
 
 ## Recipes
 
@@ -63,3 +65,5 @@ Skills that pair naturally:
 - `/ia` + `/naming` — IA labeling problems are naming problems; naming reveals structural confusion
 - `/mermaid` + `/excalidraw` — Mermaid for inline docs (GitHub-native); Excalidraw for architecture overviews (hand-drawn, editable)
 - `/mermaid` + `/design` — Diagram layout is visual design; the same composition principles apply
+- `/vibe-check` + `/review` — Vibe-check is the quick pre-commit read; review is the deep post-push audit
+- `/vibe-check` + `/naming` — Shallow naming findings in vibe-check warrant a full naming pass
