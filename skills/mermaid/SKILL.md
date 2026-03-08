@@ -55,7 +55,7 @@ flowchart LR
 ```
 ````
 
-**Comments:** Use `%% ` prefix for single-line comments.
+**Comments:** Use `%%` prefix for single-line comments.
 
 ## Syntax Rules
 

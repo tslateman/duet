@@ -9,7 +9,7 @@ Generate Excalidraw diagrams programmatically using Python. Produces professiona
 
 **Output format**: `.excalidraw` JSON files that can be:
 
-- Opened at https://excalidraw.com (drag and drop the file)
+- Opened at <https://excalidraw.com> (drag and drop the file)
 - Edited in VS Code with the Excalidraw extension
 - Exported to SVG/PNG for embedding in documentation
 
@@ -372,7 +372,7 @@ arch.save("microservices.excalidraw")
 
 After generating a `.excalidraw` file:
 
-1. **Excalidraw.com**: Go to https://excalidraw.com and drag the file onto the canvas
+1. **Excalidraw.com**: Go to <https://excalidraw.com> and drag the file onto the canvas
 2. **VS Code**: Install the "Excalidraw" extension, then open the file
 3. **CLI**: Use `open filename.excalidraw` on macOS
 
