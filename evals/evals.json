@@ -6,22 +6,22 @@
         {
           "id": "api-handler",
           "capability": "Missing skepticism, shallow naming, cargo-culted patterns",
-          "assertions": 5
+          "assertions": 8
         },
         {
           "id": "react-component",
           "capability": "Earned complexity, prompt-shaped code, integration blindness",
-          "assertions": 4
+          "assertions": 7
         },
         {
           "id": "data-pipeline",
           "capability": "Missing skepticism, shallow naming, silent failures",
-          "assertions": 5
+          "assertions": 8
         },
         {
           "id": "config-sprawl",
           "capability": "Cargo-culted patterns, earned complexity, prompt-shaped code",
-          "assertions": 4
+          "assertions": 7
         }
       ]
     },
@@ -30,17 +30,17 @@
         {
           "id": "security-oversight",
           "capability": "Security vulnerability detection and severity classification",
-          "assertions": 5
+          "assertions": 6
         },
         {
           "id": "missing-context",
           "capability": "Context gathering before review, anti-rubber-stamping",
-          "assertions": 5
+          "assertions": 7
         },
         {
           "id": "trade-off-documentation",
           "capability": "Architectural trade-off capture and assumption documentation",
-          "assertions": 6
+          "assertions": 7
         }
       ]
     },

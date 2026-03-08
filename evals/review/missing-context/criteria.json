@@ -23,5 +23,15 @@
     "id": "captures-design-dimension",
     "text": "Review evaluates the design dimension: comments on the pipeline pattern trade-offs (composability vs. explicit flow, debugging complexity, testability)",
     "type": "recommended"
+  },
+  {
+    "id": "format-has-summary-section",
+    "text": "Output includes a '## Summary' section with a 1-2 sentence assessment",
+    "type": "required"
+  },
+  {
+    "id": "format-has-feedback-categories",
+    "text": "Output includes categorized feedback subsections: 'Must Address' (or equivalent blocking category), 'Should Consider', and 'Observations'",
+    "type": "required"
   }
 ]

@@ -18,5 +18,20 @@
     "id": "prompt-shaped-code-three-handlers",
     "text": "Flags the rigid three-handler setup (console + file + error file) as prompt-shaped — it reads like a response to 'set up logging with console, file, and error file' rather than a configurable system",
     "type": "includes"
+  },
+  {
+    "id": "format-category-headers",
+    "text": "Findings are grouped under markdown headers that include category name and severity, e.g., '## Missing Skepticism (error)' or '## Shallow Naming (warn)'",
+    "type": "required"
+  },
+  {
+    "id": "format-summary-line",
+    "text": "Output ends with a summary line matching the pattern 'vibe-check: N errors, N warnings across N files'",
+    "type": "required"
+  },
+  {
+    "id": "format-file-line-refs",
+    "text": "Each finding includes a file:line reference like 'handler.ts:35' or 'src/config.py:12'",
+    "type": "required"
   }
 ]

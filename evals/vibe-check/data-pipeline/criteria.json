@@ -23,5 +23,20 @@
     "id": "missing-skepticism-no-transaction",
     "text": "Flags that a partial import leaves committed rows in the database with no rollback — if the process dies mid-file, there is no way to know what was imported",
     "type": "includes"
+  },
+  {
+    "id": "format-category-headers",
+    "text": "Findings are grouped under markdown headers that include category name and severity, e.g., '## Missing Skepticism (error)' or '## Shallow Naming (warn)'",
+    "type": "required"
+  },
+  {
+    "id": "format-summary-line",
+    "text": "Output ends with a summary line matching the pattern 'vibe-check: N errors, N warnings across N files'",
+    "type": "required"
+  },
+  {
+    "id": "format-file-line-refs",
+    "text": "Each finding includes a file:line reference like 'handler.ts:35' or 'src/config.py:12'",
+    "type": "required"
   }
 ]
