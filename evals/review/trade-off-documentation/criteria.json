@@ -1,0 +1,32 @@
+[
+  {
+    "id": "documents-trade-off",
+    "text": "Review includes a Concerns for the Record or Alternatives Considered section that captures the Redis-vs-cookies trade-off, the 4KB limit, and the motivation from connection storms",
+    "type": "required"
+  },
+  {
+    "id": "session-secret-rotation",
+    "text": "Review raises that cookie-based sessions require a secret rotation strategy — if SESSION_SECRET is compromised, all sessions are forgeable",
+    "type": "required"
+  },
+  {
+    "id": "session-invalidation-gap",
+    "text": "Review identifies that server-side session invalidation (e.g., forcing logout of a compromised account) is lost when moving from Redis to cookies",
+    "type": "required"
+  },
+  {
+    "id": "express-session-leftover",
+    "text": "Review notices that express-session remains in package.json despite the migration to iron-session and flags it as a dead dependency",
+    "type": "recommended"
+  },
+  {
+    "id": "assumptions-documented",
+    "text": "Review explicitly states at least one forward-looking assumption, such as session data staying under 4KB or no need for server-side revocation",
+    "type": "required"
+  },
+  {
+    "id": "structured-output",
+    "text": "Review follows the skill's documented output structure with categorized feedback sections rather than a flat list of comments",
+    "type": "required"
+  }
+]

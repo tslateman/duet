@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "skills": {
+    "vibe-check": {
+      "scenarios": [
+        {
+          "id": "api-handler",
+          "capability": "Missing skepticism, shallow naming, cargo-culted patterns",
+          "assertions": 5
+        },
+        {
+          "id": "react-component",
+          "capability": "Earned complexity, prompt-shaped code, integration blindness",
+          "assertions": 4
+        },
+        {
+          "id": "data-pipeline",
+          "capability": "Missing skepticism, shallow naming, silent failures",
+          "assertions": 5
+        },
+        {
+          "id": "config-sprawl",
+          "capability": "Cargo-culted patterns, earned complexity, prompt-shaped code",
+          "assertions": 4
+        }
+      ]
+    },
+    "review": {
+      "scenarios": [
+        {
+          "id": "security-oversight",
+          "capability": "Security vulnerability detection and severity classification",
+          "assertions": 5
+        },
+        {
+          "id": "missing-context",
+          "capability": "Context gathering before review, anti-rubber-stamping",
+          "assertions": 5
+        },
+        {
+          "id": "trade-off-documentation",
+          "capability": "Architectural trade-off capture and assumption documentation",
+          "assertions": 6
+        }
+      ]
+    },
+    "prose": {
+      "scenarios": [
+        {
+          "id": "bloated-readme",
+          "capability": "Passive voice, hedge words, needless qualifiers, vague language",
+          "assertions": 5
+        },
+        {
+          "id": "error-messages",
+          "capability": "Active voice, positive form, actionable language",
+          "assertions": 5
+        },
+        {
+          "id": "commit-messages",
+          "capability": "Conventional prefixes, active voice, emphatic placement, concision",
+          "assertions": 5
+        }
+      ]
+    }
+  }
+}

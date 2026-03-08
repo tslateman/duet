@@ -1,0 +1,1 @@
+Detects earned complexity, prompt-shaped code, and integration blindness in a React component

@@ -42,6 +42,12 @@ statusline/
   statusline-command.sh  Lean status bar (dir, git, model, context, vim)
 scripts/
   generate-readme.sh   Auto-generate README tables from source
+evals/
+  evals.json           Master eval registry
+  run.sh               Eval runner (with/without skill + grader)
+  vibe-check/          4 scenarios: api-handler, react-component, data-pipeline, config-sprawl
+  review/              3 scenarios: security-oversight, missing-context, trade-off-documentation
+  prose/               3 scenarios: bloated-readme, error-messages, commit-messages
 ```
 
 ### Skill Directory Contents
@@ -50,6 +56,16 @@ scripts/
 - `RECIPE.md` — Optional. Bach recipe for multi-agent decomposition
 - `references/` — Optional. Framework excerpts and supporting documentation
 - `scripts/` — Optional. Executable tooling (e.g., diagram generators)
+
+### Eval Scenario Contents
+
+Each scenario directory (`evals/<skill>/<scenario>/`) contains:
+
+- `capability.txt` — One-line description of what this scenario tests
+- `task.md` — Realistic prompt with inline code/text fixture
+- `criteria.json` — Array of assertions: `id`, `text`, `type` (required/recommended/includes)
+
+Run evals: `bash evals/run.sh [skill] [scenario]`. Uses `claude -p` with and without the skill, then grades output against assertions. Set `EVAL_MODEL` to override the default (claude-sonnet-4-6).
 
 ## Command Authoring
 

@@ -1,0 +1,1 @@
+Detects missing skepticism, shallow naming, and security surface issues in a Python data pipeline script

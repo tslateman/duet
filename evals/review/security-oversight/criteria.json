@@ -1,0 +1,27 @@
+[
+  {
+    "id": "sql-injection-detected",
+    "text": "Review identifies the SQL injection risk from interpolating searchField directly into the query string, even though the allowedFields check provides partial mitigation",
+    "type": "required"
+  },
+  {
+    "id": "classified-as-must-address",
+    "text": "The SQL injection or query construction concern appears under a Must Address or equivalent blocking-issue category, not merely as a suggestion or observation",
+    "type": "required"
+  },
+  {
+    "id": "auth-gap-noted",
+    "text": "Review notes that the /search endpoint uses requireAuth but not requireRole('admin'), unlike the DELETE endpoint, and flags this authorization inconsistency",
+    "type": "required"
+  },
+  {
+    "id": "structured-output",
+    "text": "Review follows the skill's documented output structure: includes a Summary, a What This Changes section, and categorized feedback (Must Address, Should Consider, Observations)",
+    "type": "required"
+  },
+  {
+    "id": "explains-why",
+    "text": "Feedback items explain WHY they matter (e.g., how the SQL injection could be exploited, what the auth gap enables) rather than just stating what is wrong",
+    "type": "required"
+  }
+]

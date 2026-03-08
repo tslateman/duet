@@ -20,3 +20,7 @@ node_modules/
 
 # Local research data
 .research/
+
+# Eval results (generated, not tracked)
+evals/results/
+!evals/results/.gitkeep

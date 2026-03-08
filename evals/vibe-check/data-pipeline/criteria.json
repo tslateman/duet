@@ -1,0 +1,27 @@
+[
+  {
+    "id": "missing-skepticism-bare-except",
+    "text": "Flags the bare except Exception that logs a generic 'Skipped row' with no detail — silently swallows parse errors, key errors, and data corruption without recording which row failed or why",
+    "type": "includes"
+  },
+  {
+    "id": "shallow-naming-handle-data",
+    "text": "Flags handle_data as a shallow name that describes mechanics rather than intent — something like import_transactions_from_csv would convey the domain operation",
+    "type": "includes"
+  },
+  {
+    "id": "shallow-naming-items-table",
+    "text": "Flags the table name 'items' as generic — the domain concept is transactions, not items",
+    "type": "includes"
+  },
+  {
+    "id": "missing-skepticism-magic-numbers",
+    "text": "Flags the magic threshold numbers 10000 and 1000 for categorization — unexplained business rules baked into code with no documentation or named constants",
+    "type": "includes"
+  },
+  {
+    "id": "missing-skepticism-no-transaction",
+    "text": "Flags that a partial import leaves committed rows in the database with no rollback — if the process dies mid-file, there is no way to know what was imported",
+    "type": "includes"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "asks-for-context",
+    "text": "Review explicitly calls out the missing PR description and asks clarifying questions about why this refactor was undertaken or what problem it solves",
+    "type": "required"
+  },
+  {
+    "id": "identifies-error-handling-change",
+    "text": "Review observes that the old code threw PaymentError while the new code returns a halt result, and flags the behavioral difference in error handling semantics",
+    "type": "required"
+  },
+  {
+    "id": "notes-logging-removal",
+    "text": "Review notices that the original processOrder had explicit logger.info calls that are absent from the new pipeline execution path",
+    "type": "recommended"
+  },
+  {
+    "id": "no-rubber-stamp",
+    "text": "Review does NOT simply approve the change — it either requests changes, requests context, or flags the review as incomplete due to missing information",
+    "type": "required"
+  },
+  {
+    "id": "captures-design-dimension",
+    "text": "Review evaluates the design dimension: comments on the pipeline pattern trade-offs (composability vs. explicit flow, debugging complexity, testability)",
+    "type": "recommended"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "conventional-prefixes",
+    "text": "Each rewritten message starts with an appropriate conventional commit prefix (feat:, fix:, refactor:, test:, docs:, chore:)",
+    "type": "required"
+  },
+  {
+    "id": "active-voice",
+    "text": "All six messages use active voice ('Bug was found... has been resolved' -> 'fix: Fix...', 'Tests were added' -> 'test: Add...', 'was done' -> active verb)",
+    "type": "required"
+  },
+  {
+    "id": "vague-language-eliminated",
+    "text": "Removes vague terms ('some changes', 'a bunch of stuff', 'work better', 'certain conditions', 'not working properly') and replaces with specific descriptions or cuts them",
+    "type": "required"
+  },
+  {
+    "id": "emphatic-end",
+    "text": "At least 3 of the 6 messages place the most important word or phrase at the end of the subject line (Strunk's rule 18)",
+    "type": "required"
+  },
+  {
+    "id": "concise",
+    "text": "Each rewritten subject line is under 72 characters and contains no filler phrases ('so that it would', 'to make it so that', 'in the last sprint')",
+    "type": "required"
+  }
+]

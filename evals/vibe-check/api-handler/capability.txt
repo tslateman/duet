@@ -1,0 +1,1 @@
+Detects missing skepticism, shallow naming, and cargo-culted patterns in an Express API handler

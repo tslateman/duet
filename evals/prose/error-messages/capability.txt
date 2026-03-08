@@ -1,0 +1,1 @@
+Rewrite user-facing error messages to be direct, active, and actionable per Strunk's rules on positive form, active voice, and definite language

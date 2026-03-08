@@ -1,0 +1,27 @@
+[
+  {
+    "id": "active-voice",
+    "text": "All five messages use active voice instead of passive ('could not be established' -> 'failed to connect' or equivalent, 'was not able to be completed' -> direct equivalent)",
+    "type": "required"
+  },
+  {
+    "id": "positive-form",
+    "text": "States what is true or what to do rather than what is not ('does not appear to be valid' -> 'is invalid' or states the expected format, 'not in compliance' -> states what is expected)",
+    "type": "required"
+  },
+  {
+    "id": "actionable",
+    "text": "Each message tells the user a concrete next step (e.g., 'Check directory permissions', 'Verify the database server is running', 'Broaden your search')",
+    "type": "required"
+  },
+  {
+    "id": "wordy-phrases-cut",
+    "text": "Eliminates verbose constructions ('due to the fact that' -> 'because', 'whether or not' -> 'whether', 'at a later time' -> 'later', 'that were specified' -> cut entirely)",
+    "type": "required"
+  },
+  {
+    "id": "message3-gutted",
+    "text": "Message 3 ('An error has occurred...') is dramatically shortened — the original says nothing concrete and the rewrite either names the operation or reduces to a single actionable sentence",
+    "type": "required"
+  }
+]

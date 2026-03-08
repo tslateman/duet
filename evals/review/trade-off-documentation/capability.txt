@@ -1,0 +1,1 @@
+Captures architectural trade-offs, rejected alternatives, and assumptions in the for-the-record section

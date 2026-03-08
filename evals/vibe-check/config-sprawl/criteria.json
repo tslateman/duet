@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cargo-culted-abstract-base",
+    "text": "Flags the LogFormatter ABC as pure ceremony — it declares an abstract format() method but adds nothing over logging.Formatter, and the subclasses already inherit from logging.Formatter directly",
+    "type": "includes"
+  },
+  {
+    "id": "cargo-culted-factory",
+    "text": "Flags LogHandlerFactory as a cargo-culted pattern — a class of static methods with no shared state is just a namespace; plain functions would be simpler",
+    "type": "includes"
+  },
+  {
+    "id": "earned-complexity-formatter-branching",
+    "text": "Flags the duplicated if/else formatter_type branching across create_console_handler and create_file_handler — the same two-branch conditional is copy-pasted rather than extracted",
+    "type": "includes"
+  },
+  {
+    "id": "prompt-shaped-code-three-handlers",
+    "text": "Flags the rigid three-handler setup (console + file + error file) as prompt-shaped — it reads like a response to 'set up logging with console, file, and error file' rather than a configurable system",
+    "type": "includes"
+  }
+]

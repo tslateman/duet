@@ -1,0 +1,1 @@
+Tighten documentation prose by eliminating passive voice, hedge words, needless qualifiers, and vague language per Strunk's rules

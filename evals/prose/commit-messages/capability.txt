@@ -1,0 +1,1 @@
+Rewrite commit messages using active voice, conventional prefixes, definite language, and emphatic word placement per Strunk's rules

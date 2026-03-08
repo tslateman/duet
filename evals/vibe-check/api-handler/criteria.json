@@ -1,0 +1,27 @@
+[
+  {
+    "id": "missing-skepticism-no-validation",
+    "text": "Flags missing input validation on req.body — email, role, and teamId are trusted without sanitization or schema check",
+    "type": "includes"
+  },
+  {
+    "id": "missing-skepticism-no-error-handling",
+    "text": "Flags the absent try/catch or error middleware — any db or email failure crashes the request with an unhandled rejection",
+    "type": "includes"
+  },
+  {
+    "id": "security-surface-weak-token",
+    "text": "Flags Math.random() for token generation as cryptographically insecure",
+    "type": "includes"
+  },
+  {
+    "id": "shallow-naming-request-data",
+    "text": "Flags RequestData as a shallow name that mirrors prompt language rather than the domain concept (e.g., InvitationRequest or InvitePayload)",
+    "type": "includes"
+  },
+  {
+    "id": "cargo-culted-class",
+    "text": "Flags InvitationService as a stateless class wrapper that adds indirection without value — a plain function would suffice",
+    "type": "includes"
+  }
+]

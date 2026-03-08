@@ -1,0 +1,1 @@
+Detects cargo-culted patterns, earned complexity, and prompt-shaped code in generated configuration code

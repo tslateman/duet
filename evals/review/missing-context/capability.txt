@@ -1,0 +1,1 @@
+Asks for missing context before diving into review when PR description is absent or insufficient

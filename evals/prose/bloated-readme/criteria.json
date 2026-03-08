@@ -1,0 +1,27 @@
+[
+  {
+    "id": "passive-voice-removed",
+    "text": "Rewrites passive constructions ('was originally built', 'is able to be used', 'can be utilized', 'are provided by', 'can be ingested', 'are able to be defined', 'are supported', 'are handled') into active voice",
+    "type": "required"
+  },
+  {
+    "id": "hedge-words-cut",
+    "text": "Removes hedge phrases and throat-clearing openers ('It should be noted that', 'It is important to understand that', 'When it comes to', 'quite', 'generally')",
+    "type": "required"
+  },
+  {
+    "id": "needless-words-omitted",
+    "text": "Cuts wordy phrases to their essence ('in order to' -> 'to', 'for the purpose of' -> 'for/to', 'a variety of different' -> 'many/multiple', 'a number of' -> removed or specific count)",
+    "type": "required"
+  },
+  {
+    "id": "concrete-language",
+    "text": "Replaces vague claims ('quite fast', 'without any significant issues', 'complex data pipelines') with definite, specific statements or removes them entirely",
+    "type": "required"
+  },
+  {
+    "id": "shorter-than-original",
+    "text": "The rewritten text is at least 40% shorter than the original while preserving all factual content (features list, not-a-replacement caveat, performance claim)",
+    "type": "required"
+  }
+]

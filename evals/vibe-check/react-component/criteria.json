@@ -1,0 +1,22 @@
+[
+  {
+    "id": "prompt-shaped-code-section-split",
+    "text": "Flags the three useMemo filters as prompt-shaped — the general/notification/advanced split is hardcoded by key prefix convention rather than driven by a schema or config",
+    "type": "includes"
+  },
+  {
+    "id": "earned-complexity-generic-setting-item",
+    "text": "Flags the generic SettingItem interface with a union type and type discriminator as premature generalization — it creates a mini type system instead of modeling concrete settings",
+    "type": "includes"
+  },
+  {
+    "id": "missing-skepticism-fetch-errors",
+    "text": "Flags that both fetch calls ignore HTTP errors and have no .catch handler — a non-200 response silently produces bad state",
+    "type": "includes"
+  },
+  {
+    "id": "missing-skepticism-save-no-feedback",
+    "text": "Flags that handleSave does not handle failure — if the PUT fails, the user sees Save re-enabled with no error indication",
+    "type": "includes"
+  }
+]
