@@ -47,17 +47,18 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 
 ## Commands
 
-| Command           | Description                                                                   |
-| ----------------- | ----------------------------------------------------------------------------- |
-| `/capture-memory` | Capture learnings to MEMORY.md, output compact summary                        |
-| `/debrief`        | Review what agents accomplished, surface loose ends across sessions           |
-| `/lint`           | Run markdownlint on specified files or the whole project                      |
-| `/memory-audit`   | Audit project memory files for staleness, orphans, bloat, and duplication     |
-| `/ponder [n]`     | Surface a question worth sitting with                                         |
-| `/probe`          | Probe recent changes with 2-3 pointed questions                               |
-| `/retro`          | Reflect on recent work—capture learnings and surface what to think about next |
-| `/sweep`          | Post-op check for artifacts, damage, and stale references after agent work    |
-| `/vamp`           | Survey the project and choose what to play next                               |
+| Command               | Description                                                                   |
+| --------------------- | ----------------------------------------------------------------------------- |
+| `/capture-memory`     | Capture learnings to MEMORY.md, output compact summary                        |
+| `/debrief`            | Review what agents accomplished, surface loose ends across sessions           |
+| `/install-statusline` | Install duet statusline to ~/.claude for a lean, informative status bar       |
+| `/lint`               | Run markdownlint on specified files or the whole project                      |
+| `/memory-audit`       | Audit project memory files for staleness, orphans, bloat, and duplication     |
+| `/ponder [n]`         | Surface a question worth sitting with                                         |
+| `/probe`              | Probe recent changes with 2-3 pointed questions                               |
+| `/retro`              | Reflect on recent work—capture learnings and surface what to think about next |
+| `/sweep`              | Post-op check for artifacts, damage, and stale references after agent work    |
+| `/vamp`               | Survey the project and choose what to play next                               |
 
 ## Skills
 
