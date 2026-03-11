@@ -18,6 +18,12 @@ node_modules/
 # Claude local settings (keep settings.json for shared permissions)
 .claude/settings.local.json
 
+# Local AI tool configs
+.codex/
+.gemini/
+.mcp.json
+tessl.json
+
 # Local research data
 .research/
 
