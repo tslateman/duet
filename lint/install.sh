@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: ~/dev/cli/duet/lint/install.sh [target-dir]
+# Usage: ~/dev/duet/lint/install.sh [target-dir]
 # Copies .vale.ini to target, runs vale sync to download packages.
 
 set -e
