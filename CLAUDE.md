@@ -13,18 +13,15 @@ markdownlint commands/**/*.md skills/**/SKILL.md
 ```
 commands/
   capture-memory.md    Capture learnings to MEMORY.md
-  debrief.md           Review agent work, surface loose ends
   lint.md              Run markdownlint on files
   memory-audit.md      Audit project memory files for staleness
   ponder.md            Surface a question worth sitting with
   probe.md             Probe recent changes with pointed questions
-  retro.md             Session retrospective
-  sweep.md             Post-op check for artifacts, damage, stale refs
-  vamp.md              Survey the project and choose what to play next
 skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
   debugging/           Systematic debugging (Agans)
+  debrief/             Review agent work, surface loose ends
   design/              Intentional design (visual, API, system)
   excalidraw/          Programmatic Excalidraw diagrams
   ia/                  Information architecture (Rosenfeld + Diataxis)
@@ -33,8 +30,11 @@ skills/
   performance/         Profiling and optimization (Knuth)
   prose/               Strunk's Elements of Style for all writing
   research/            Systematic technical investigation
+  retro/               Session retrospective
   review/              Structured code review with context capture
+  sweep/               Post-op audit for artifacts, damage, stale refs
   testing/             Test strategy (Beck's Test Desiderata)
+  vamp/                Survey the project, choose what to play next
   vibe-check/          Judgment linter for vibe-coded output
 agents/
   code-simplifier.md   Refine code for clarity and maintainability

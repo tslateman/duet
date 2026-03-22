@@ -1,9 +1,13 @@
 ---
+name: retro
 description: Reflect on recent work—capture learnings and surface what to think about next
-allowed-tools: [AskUserQuestion, Read, Edit, Write]
 ---
 
-Reflect on the work just completed in this conversation.
+# Session Retrospective
+
+## Overview
+
+Reflect on the work just completed in this conversation. Extract insights, not summaries.
 
 ## What I Learned
 

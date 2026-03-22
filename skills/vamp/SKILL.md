@@ -1,7 +1,11 @@
 ---
+name: vamp
 description: Survey the project and choose what to play next
-allowed-tools: [Read, Glob]
 ---
+
+# Project Survey
+
+## Overview
 
 Survey this project and suggest what to play next.
 

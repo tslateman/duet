@@ -1,7 +1,11 @@
 ---
+name: debrief
 description: Review what agents accomplished, surface loose ends across sessions
-allowed-tools: [Bash, Read, Glob, Grep]
 ---
+
+# Agent Debrief
+
+## Overview
 
 Consolidate work done by agents or across sessions. Review what landed and what's still open.
 

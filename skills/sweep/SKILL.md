@@ -1,8 +1,11 @@
 ---
+name: sweep
 description: Post-op check for artifacts, damage, and stale references after agent work
-allowed-tools:
-  [Bash(git diff:*), Bash(git status:*), Bash(git log:*), Read, Glob, Grep]
 ---
+
+# Post-Op Sweep
+
+## Overview
 
 Audit the working tree after agent work completes. Find what the agents left behind.
 
