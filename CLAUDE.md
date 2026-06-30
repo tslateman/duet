@@ -1,6 +1,6 @@
 # Duet
 
-Claude Code plugin for reflection, code quality, writing, and design. Markdown only — no build system.
+Claude Code plugin for reflection, code quality, writing, and design. Markdown only, no build system.
 
 ## Lint
 
@@ -20,22 +20,28 @@ commands/
 skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
-  debugging/           Systematic debugging (Agans)
-  debrief/             Review agent work, surface loose ends
-  design/              Intentional design (visual, API, system)
-  excalidraw/          Programmatic Excalidraw diagrams
-  ia/                  Information architecture (Rosenfeld + Diataxis)
-  mermaid/             Mermaid.js diagrams for GitHub markdown
-  naming/              Naming as design diagnostic (Benner + Bloch)
-  performance/         Profiling and optimization (Knuth)
-  prose/               Strunk's Elements of Style for all writing
-  research/            Systematic technical investigation
-  retro/               Session retrospective
-  review/              Structured code review with context capture
-  sweep/               Post-op audit for artifacts, damage, stale refs
-  testing/             Test strategy (Beck's Test Desiderata)
-  vamp/                Survey the project, choose what to play next
-  vibe-check/          Judgment linter for vibe-coded output
+  caveman/                       Ultra-compressed output mode (~75% token reduction)
+  debrief/                       Review agent work, surface loose ends
+  debugging/                     Systematic debugging (Agans)
+  design/                        Intentional design (visual, API, system)
+  excalidraw/                    Programmatic Excalidraw diagrams
+  grill-with-docs/               Interview-driven design with CONTEXT.md/ADR upkeep
+  ia/                            Information architecture (Rosenfeld + Diataxis)
+  improve-codebase-architecture/ Find deepening opportunities (Ousterhout + Feathers)
+  mermaid/                       Mermaid.js diagrams for GitHub markdown
+  naming/                        Naming as design diagnostic (Benner + Bloch)
+  performance/                   Profiling and optimization (Knuth)
+  prose/                         Strunk's Elements of Style for all writing
+  research/                      Systematic technical investigation
+  retro/                         Session retrospective
+  review/                        Structured code review with context capture
+  sweep/                         Post-op audit for artifacts, damage, stale refs
+  testing/                       Test strategy (Beck's Test Desiderata)
+  vamp/                          Survey the project, choose what to play next
+  vibe-check/                    Judgment linter for vibe-coded output
+  visual-recap/                  Structured visual recap of a diff (BuilderIO)
+  writing-great-skills/          Reference for writing skills well (mattpocock)
+  zoom-out/                      Map callers and neighbors before reading details
 agents/
   code-simplifier.md   Refine code for clarity and maintainability
 statusline/
@@ -52,18 +58,18 @@ evals/
 
 ### Skill Directory Contents
 
-- `SKILL.md` — Required. Skill definition, methodology, and trigger rules
-- `RECIPE.md` — Optional. Bach recipe for multi-agent decomposition
-- `references/` — Optional. Framework excerpts and supporting documentation
-- `scripts/` — Optional. Executable tooling (e.g., diagram generators)
+- `SKILL.md`: Required. Skill definition, methodology, and trigger rules
+- `RECIPE.md`: Optional. Bach recipe for multi-agent decomposition
+- `references/`: Optional. Framework excerpts and supporting documentation
+- `scripts/`: Optional. Executable tooling (e.g., diagram generators)
 
 ### Eval Scenario Contents
 
 Each scenario directory (`evals/<skill>/<scenario>/`) contains:
 
-- `capability.txt` — One-line description of what this scenario tests
-- `task.md` — Realistic prompt with inline code/text fixture
-- `criteria.json` — Array of assertions: `id`, `text`, `type` (required/recommended/includes)
+- `capability.txt`: One-line description of what this scenario tests
+- `task.md`: Realistic prompt with inline code/text fixture
+- `criteria.json`: Array of assertions: `id`, `text`, `type` (required/recommended/includes)
 
 Run evals: `bash evals/run.sh [skill] [scenario]`. Uses `claude -p` with and without the skill, then grades output against assertions. Set `EVAL_MODEL` to override the default (claude-sonnet-4-6).
 
@@ -98,8 +104,8 @@ user-invocable: true # Optional. Set to false for auto-invoke-only skills
 
 ### Inline Execution
 
-- `` !`git status` `` — Executes command and injects output
-- `${ARGUMENTS:-default}` — Accesses command arguments
+- `` !`git status` ``: Executes command and injects output
+- `${ARGUMENTS:-default}`: Accesses command arguments
 
 ### Formatting Rules
 
