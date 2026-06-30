@@ -1,96 +1,42 @@
 ---
 name: ia
-description: Evaluate and improve how information is organized for findability. Use when the user asks to "organize this", "restructure docs", "improve navigation", "where should this go", "review file structure", struggles to place content, or when documentation grows beyond a single page.
+description: Evaluate and improve how information is organized for findability. Use when the user asks to "organize this", "restructure docs", "improve navigation", "where should this go", "review file structure", or when documentation grows beyond a single page.
 ---
 
 # Information Architecture
 
 ## Overview
 
-Information architecture is the structural design of shared information environments. When someone asks "where does this go?" or "I can't find anything" — that's an IA problem.
+Information architecture is the structural design of shared information environments. When someone asks "where does this go?" or "I can't find anything", that's an IA problem.
 
 Grounded in Rosenfeld, Morville & Arango's _Information Architecture_ (4th ed.) and the Diataxis documentation framework. See `references/rosenfeld-morville.md` for the core systems.
 
-## When to Use This Skill
-
-- Organizing a new project's file structure
-- Restructuring documentation that outgrew its layout
-- Deciding where new content belongs
-- Reviewing a README or docs site for findability
-- Designing navigation (tables of contents, cross-references, indexes)
-- Auditing content for gaps, duplication, and orphans
-
-**If someone can't find what they need, or you can't decide where something belongs, use this skill.**
-
 ## The Four Systems
 
-Every information space has four structural systems. Evaluate each when reviewing or designing.
+Every information space has four structural systems; evaluate each when reviewing or designing. `references/rosenfeld-morville.md` carries the full treatment (schemes, structures, label types, navigation modes, search components); this is the working summary.
 
-### 1. Organization
+1. **Organization**: how content is grouped. Choose one primary scheme per level (exact: alphabetical, chronological, geographic; ambiguous: by topic, task, audience). Mixing schemes at one level confuses navigation.
+2. **Labeling**: what things are called. Describe content, not container ("Authentication", not "Section 3"); match the words users search for; introduce jargon inside, not at top levels.
+3. **Navigation**: how people move. Global (always visible), local (within a section), contextual (inline links), supplemental (index, site map, search). Three clicks to any content, or flatten the hierarchy.
+4. **Search**: how people find without browsing. Grep-friendly file names (`signal-contract.md`, not `doc-7.md`), headings that match search terms, synonym cross-references, consistent metadata.
 
-How content is grouped and classified.
-
-**Exact schemes** — unambiguous, mutually exclusive:
-
-- Alphabetical (glossaries, API references)
-- Chronological (changelogs, history tables)
-- Geographic (regional docs, locale configs)
-
-**Ambiguous schemes** — subjective, require judgment:
-
-- By topic (most documentation)
-- By task ("How do I...")
-- By audience (developer vs. operator vs. user)
-- By metaphor (domain-driven structures)
-
-**Rule:** Choose one primary scheme per level. Mixing schemes at the same level confuses navigation.
-
-#### Taxonomy Construction
+### Taxonomy Construction
 
 When reviewing a project's organization, evaluate whether the taxonomy is sound:
 
-1. **Can every item be placed in exactly one group?** — If not, categories
+1. **Can every item be placed in exactly one group?** If not, categories
    overlap. Tighten the scheme.
-2. **Are items at the same level comparable in scope?** — "utils" alongside
+2. **Are items at the same level comparable in scope?** "utils" alongside
    "authentication" mixes granularity.
-3. **Does depth exceed three levels?** — Over-splitting signals the taxonomy
+3. **Does depth exceed three levels?** Over-splitting signals the taxonomy
    is too fine-grained. Flatten by merging related categories.
-4. **Can a newcomer predict where to find something?** — If not, the grouping
+4. **Can a newcomer predict where to find something?** If not, the grouping
    reflects how the author thinks, not how readers seek.
-5. **Can a newcomer predict where to put something new?** — If not, the scheme
+5. **Can a newcomer predict where to put something new?** If not, the scheme
    has gaps or ambiguous boundaries.
 
 **Card sort heuristic:** If three people disagree on where an item belongs, the
 categories are ambiguous. Rename or restructure until placement is obvious.
-
-### 2. Labeling
-
-What things are called — the names users scan to orient themselves.
-
-- Labels must describe content, not container ("Authentication" not "Section 3")
-- Consistent granularity — don't mix concepts and tasks at the same level
-- Match user vocabulary — use the words people search for
-- Avoid jargon at top levels; introduce it inside
-
-### 3. Navigation
-
-How people move through the space.
-
-- **Global navigation** — always visible, orients the reader (README, sidebar, table of contents)
-- **Local navigation** — within a section (prev/next, related pages, "See Also")
-- **Contextual navigation** — inline links from content to related content
-- **Supplemental navigation** — indexes, site maps, search
-
-**Depth rule:** Three clicks (or three levels) to any content. If deeper, the hierarchy needs flattening or the content needs relocating.
-
-### 4. Search
-
-How people find specific things without browsing.
-
-- File naming that greps well (`signal-contract.md` not `doc-7.md`)
-- Headings that match search terms
-- Cross-references from synonyms to canonical locations
-- Consistent metadata (frontmatter, tags) for programmatic discovery
 
 ## Diataxis for Documentation
 
@@ -189,7 +135,7 @@ When deciding where new content goes:
 
 ## See Also
 
-- `/naming` — IA labeling problems are naming problems
-- `/design` — IA is structural design for information
-- `/prose` — Clear writing makes content findable through scanning
-- `skills/FRAMEWORKS.md` — Full framework index
+- `/naming`: IA labeling problems are naming problems
+- `/design`: IA is structural design for information
+- `/prose`: Clear writing makes content findable through scanning
+- `skills/FRAMEWORKS.md`: Full framework index

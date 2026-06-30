@@ -1,17 +1,13 @@
 ---
 name: excalidraw
-description: Create Excalidraw diagrams programmatically. Use when the user wants architecture diagrams, system designs, flowcharts, or any visual diagram with a hand-drawn aesthetic. Outputs editable .excalidraw JSON files. Best for architecture overviews and presentations where the hand-drawn style and drag-and-drop editing add value over Mermaid's text-only approach.
+description: Create Excalidraw diagrams programmatically. Use when the user wants architecture diagrams, flowcharts, or any visual diagram with a hand-drawn aesthetic, where editable output and drag-and-drop editing add value over Mermaid's text-only approach.
 ---
 
 # Excalidraw Diagram Generator
 
 Generate Excalidraw diagrams programmatically using Python. Produces professional-looking, editable `.excalidraw` files instead of ASCII art.
 
-**Output format**: `.excalidraw` JSON files that can be:
-
-- Opened at <https://excalidraw.com> (drag and drop the file)
-- Edited in VS Code with the Excalidraw extension
-- Exported to SVG/PNG for embedding in documentation
+**Output format**: editable `.excalidraw` JSON files, not ASCII art. See Viewing the Output to open them and Exporting to PNG to render images.
 
 **Token cost note**: Excalidraw JSON is verbose (4,000-22,000+ tokens per file). Delegate diagram generation to subagents when context is tight.
 

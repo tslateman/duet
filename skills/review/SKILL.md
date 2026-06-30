@@ -1,15 +1,15 @@
 ---
 name: review
-description: Framework for code review that captures context future maintainers need—concerns raised, alternatives rejected, risks accepted. Use for PRs, local changes, or architecture review when the decision matters more than the diff. Produces structured feedback with must-address issues, suggestions, and observations "for the record."
+description: Framework for code review that captures context future maintainers need: concerns raised, alternatives rejected, risks accepted. Use for PRs, local changes, or architecture review when the decision matters more than the diff. Produces structured feedback with must-address issues, suggestions, and observations "for the record."
 ---
 
 # Structured Code Review
 
 ## Overview
 
-Code review that captures context, not just correctness. Grounded in Bacchelli & Bird's research on modern code review, which found that code review's primary value is knowledge transfer — not defect detection. Beyond finding bugs, document the _why_ — concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
+Code review that captures context, not just correctness. Grounded in Bacchelli & Bird's research on modern code review, which found that code review's primary value is knowledge transfer, not defect detection. Beyond finding bugs, document the _why_, concerns raised, alternatives considered, risks accepted. This creates organizational memory for future maintainers.
 
-Use this for PRs, local changes, or architecture review — any code where you want to preserve the reasoning, not just the verdict.
+Use this for PRs, local changes, or architecture review, any code where you want to preserve the reasoning, not just the verdict.
 
 ## Review Workflow
 
@@ -28,24 +28,24 @@ If context is missing, ask before reviewing.
 
 ### 2. Evaluate on Multiple Dimensions
 
-**Correctness** — Does it work?
+**Correctness**, Does it work?
 
 - Logic errors, edge cases, error handling
 - Does it match stated requirements?
 
-**Design** — Is this the right approach?
+**Design**, Is this the right approach?
 
 - Does it fit existing patterns in the codebase?
 - Are there simpler alternatives?
 - Will this scale if assumptions change?
 
-**Maintainability** — Can others work with this?
+**Maintainability**, Can others work with this?
 
 - Is the code readable without comments?
 - Are names clear and consistent?
 - Is complexity justified?
 
-**Risk** — What could go wrong?
+**Risk**, What could go wrong?
 
 - Performance implications
 - Security considerations
@@ -81,7 +81,7 @@ Structure feedback for the record:
 
 ## Concerns for the Record
 
-[Risks accepted, alternatives rejected, assumptions made—future maintainers need this]
+[Risks accepted, alternatives rejected, assumptions made; future maintainers need this]
 
 ## Alternatives Considered
 
@@ -152,15 +152,15 @@ For larger changes:
 
 ## Anti-Patterns
 
-**Rubber stamping** — Approving without understanding. If you don't have time, say so.
+**Rubber stamping**, Approving without understanding. If you don't have time, say so.
 
-**Style nitpicking** — Bikeshedding on preferences not in project standards. Automate style with linters.
+**Style nitpicking**, Bikeshedding on preferences not in project standards. Automate style with linters.
 
-**Drive-by criticism** — Pointing out problems without suggesting solutions or understanding constraints.
+**Drive-by criticism**, Pointing out problems without suggesting solutions or understanding constraints.
 
-**Scope creep** — Requesting changes unrelated to the PR's purpose. File separate issues.
+**Scope creep**, Requesting changes unrelated to the PR's purpose. File separate issues.
 
-**Assumption silence** — Noticing risks but not documenting them. Future you will wish you had.
+**Assumption silence**, Noticing risks but not documenting them. Future you will wish you had.
 
 ## The "For the Record" Principle
 
@@ -185,8 +185,8 @@ A good review:
 
 ## See Also
 
-- `/naming` — Code review surfaces naming problems; naming review deepens code review
-- `/adr` — Reviews that capture architectural decisions belong in ADRs
-- `/prose` — Write review comments clearly using Strunk's rules
-- `skills/FRAMEWORKS.md` — Full framework index
-- `RECIPE.md` — Agent recipe for parallel decomposition (3 workers)
+- `/naming`: Code review surfaces naming problems; naming review deepens code review
+- `/adr`: Reviews that capture architectural decisions belong in ADRs
+- `/prose`: Write review comments clearly using Strunk's rules
+- `skills/FRAMEWORKS.md`: Full framework index
+- `RECIPE.md`: Agent recipe for parallel decomposition (3 workers)

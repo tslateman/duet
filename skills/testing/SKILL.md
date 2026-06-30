@@ -7,7 +7,7 @@ description: Design test strategy using Beck's Test Desiderata — which propert
 
 ## Overview
 
-Test _strategy_, not test generation. Treat test design as an act of specification — articulate the contract, find the boundaries, surface hidden assumptions. Use Beck's Test Desiderata to make testing tradeoffs deliberate instead of accidental.
+Test _strategy_, not test generation. Treat test design as an act of specification, articulate the contract, find the boundaries, surface hidden assumptions. Use Beck's Test Desiderata to make testing tradeoffs deliberate instead of accidental.
 
 ## Beck's 12 Test Desiderata
 
@@ -47,24 +47,24 @@ If you can't answer these, the code's contract is unclear. Fix that first.
 
 Every contract has edges. Test them:
 
-- **Empty/zero/null** — the degenerate case
-- **One** — the simplest non-empty case
-- **Many** — the normal case
-- **Boundary** — max values, off-by-one, type limits
-- **Error** — invalid input, unavailable dependencies
-- **Concurrent** — multiple callers, race conditions
+- **Empty/zero/null**, the degenerate case
+- **One**, the simplest non-empty case
+- **Many**, the normal case
+- **Boundary**, max values, off-by-one, type limits
+- **Error**, invalid input, unavailable dependencies
+- **Concurrent**, multiple callers, race conditions
 
 ### 3. Choose the Testing Approach
 
 Match the approach to what you're testing:
 
-**Example-based tests** — specific inputs and expected outputs. Best for known contracts with clear boundaries.
+**Example-based tests**, specific inputs and expected outputs. Best for known contracts with clear boundaries.
 
-**Property-based tests** — invariants that hold for all inputs. Best for algorithms, parsers, serialization (encode/decode roundtrip), and sorting.
+**Property-based tests**, invariants that hold for all inputs. Best for algorithms, parsers, serialization (encode/decode roundtrip), and sorting.
 
-**Integration tests** — multiple components together. Best for verifying wiring, data flow, and contracts between modules.
+**Integration tests**, multiple components together. Best for verifying wiring, data flow, and contracts between modules.
 
-**Snapshot tests** — output matches recorded baseline. Best for rendering, serialization, and configuration.
+**Snapshot tests**, output matches recorded baseline. Best for rendering, serialization, and configuration.
 
 ### 4. Apply the Testing Trophy
 
@@ -106,6 +106,14 @@ Ask of each test:
 | Giant arrange          | 30 lines of setup for 1 assertion         | Simplify the interface or use builders |
 | Invisible assertion    | `expect(result).toBeTruthy()`             | Assert specific values                 |
 | Test per method        | One test per function, misses integration | Test use cases, not methods            |
+
+## Red-Green Discipline
+
+Two failure modes when building test-first. Adapted from mattpocock/skills `tdd` (MIT).
+
+**Horizontal slicing.** Writing all the tests, then all the implementation, treats RED as "write every test" and GREEN as "write every impl". It produces crap tests: authored in bulk against _imagined_ behavior, they assert the shape of things (signatures, data structures) rather than user-facing behavior, and they go insensitive to real change. Slice vertically instead, one tracer bullet at a time: one test, then the minimal code to pass it, then the next test informed by what that one taught you. Because you just wrote the code, you know exactly what behavior matters and how to verify it.
+
+**Tautological tests.** A test whose expected value is computed the way the code computes it can never disagree with the code: break the code wrong and the assertion breaks wrong with it. `expect(add(a, b)).toBe(a + b)`, a figure hand-snapshotted the code's own way, a constant asserted against itself, all pass by construction and give zero confidence. The expected value must come from an _independent source of truth_: a known-good literal, a worked example, the spec.
 
 ## Strategy Templates
 
@@ -196,11 +204,11 @@ When designing test strategy:
 
 ## The Confidence Question
 
-After designing the test suite, ask: "If all these tests pass, would you deploy with confidence?" If no, identify what's missing. If yes, stop — more tests beyond confidence are waste.
+After designing the test suite, ask: "If all these tests pass, would you deploy with confidence?" If no, identify what's missing. If yes, stop, more tests beyond confidence are waste.
 
 ## See Also
 
-- `/debugging` — Test failures trigger debugging; debugging reveals missing tests
-- `/review` — Reviews assess test coverage alongside code quality
-- `skills/FRAMEWORKS.md` — Full framework index
-- `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)
+- `/debugging`: Test failures trigger debugging; debugging reveals missing tests
+- `/review`: Reviews assess test coverage alongside code quality
+- `skills/FRAMEWORKS.md`: Full framework index
+- `RECIPE.md`: Agent recipe for parallel decomposition (2 workers)

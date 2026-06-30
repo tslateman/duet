@@ -12,14 +12,16 @@ Optimize what you've measured, not what you suspect. Performance work without pr
 
 ## The Performance Loop
 
-1. **Define the goal** — What metric matters? Latency, throughput, memory, startup time?
-2. **Measure the baseline** — Quantify current performance with reproducible benchmarks
-3. **Profile** — Identify where time and resources actually go
-4. **Hypothesize** — What change would improve the bottleneck?
-5. **Optimize** — Make one change
-6. **Measure again** — Did it help? By how much? Any regressions elsewhere?
+1. **Define the goal**, What metric matters? Latency, throughput, memory, startup time?
+2. **Measure the baseline**, Quantify current performance with reproducible benchmarks
+3. **Profile**, Identify where time and resources actually go
+4. **Hypothesize**, What change would improve the bottleneck?
+5. **Optimize**, Make one change
+6. **Measure again**, Did it help? By how much? Any regressions elsewhere?
 
 Never skip from step 1 to step 5.
+
+For concrete profiler commands and a step-by-step run of this loop per language, see [`references/profiling-checklist.md`](references/profiling-checklist.md).
 
 ## Trade-off Framework
 
@@ -42,10 +44,10 @@ Ask: "Which resource is scarce in this context?" Optimize for the scarce one.
 
 Start with the outermost measurement, narrow inward:
 
-1. **End-to-end timing** — Total wall-clock time for the operation
-2. **Component breakdown** — Which phase takes the most time?
-3. **Hot path analysis** — Which functions dominate the profile?
-4. **Allocation analysis** — Where is memory allocated and freed?
+1. **End-to-end timing**, Total wall-clock time for the operation
+2. **Component breakdown**, Which phase takes the most time?
+3. **Hot path analysis**, Which functions dominate the profile?
+4. **Allocation analysis**, Where is memory allocated and freed?
 
 ### What Tools Reveal
 
@@ -96,15 +98,15 @@ Use at least two tool types. A CPU profiler won't find a database bottleneck.
 
 ## Anti-Patterns
 
-**Premature optimization** — Optimizing before measuring. The bottleneck is never where you think.
+**Premature optimization**, Optimizing before measuring. The bottleneck is never where you think.
 
-**Micro-benchmarking in isolation** — Benchmarking a function outside its real context misses cache effects, GC pressure, and contention.
+**Micro-benchmarking in isolation**, Benchmarking a function outside its real context misses cache effects, GC pressure, and contention.
 
-**Optimizing the wrong metric** — Reducing P50 latency when users complain about P99. Improving throughput when the problem is startup time.
+**Optimizing the wrong metric**, Reducing P50 latency when users complain about P99. Improving throughput when the problem is startup time.
 
-**Death by a thousand cuts** — No single bottleneck, just accumulated inefficiency. Profile holistically, not function-by-function.
+**Death by a thousand cuts**, No single bottleneck, just accumulated inefficiency. Profile holistically, not function-by-function.
 
-**Caching without invalidation strategy** — Cache speeds reads but stale data causes correctness bugs. Define TTL and invalidation before adding a cache.
+**Caching without invalidation strategy**, Cache speeds reads but stale data causes correctness bugs. Define TTL and invalidation before adding a cache.
 
 ## Output Format
 
@@ -143,6 +145,6 @@ Optimize the critical 3%, not the other 97%.
 
 ## See Also
 
-- `/debugging` — Performance regressions are bugs; profiling is debugging for speed
-- `skills/FRAMEWORKS.md` — Full framework index
-- `RECIPE.md` — Agent recipe for parallel decomposition (2 workers)
+- `/debugging`: Performance regressions are bugs; profiling is debugging for speed
+- `skills/FRAMEWORKS.md`: Full framework index
+- `RECIPE.md`: Agent recipe for parallel decomposition (2 workers)

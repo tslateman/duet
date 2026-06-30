@@ -1,13 +1,13 @@
 ---
 name: mermaid
-description: Create diagrams and visualizations using Mermaid.js v11 syntax. Use when generating flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, user journeys, timelines, or any of 24+ diagram types. Supports CLI rendering to SVG/PNG/PDF, theming, and configuration. Essential for inline documentation diagrams that render natively on GitHub.
+description: Create diagrams and visualizations using Mermaid.js v11 syntax. Use when generating flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, user journeys, timelines, or any of 24+ diagram types. Supports CLI rendering to SVG/PNG/PDF, theming, and configuration.
 ---
 
 # Mermaid.js v11
 
 ## Overview
 
-Create text-based diagrams using Mermaid.js v11 declarative syntax. Mermaid is the only diagram format that renders natively in GitHub markdown -- no exported images to commit.
+Mermaid is the only diagram format that renders natively in GitHub markdown: no exported images to commit.
 
 ## Quick Start
 
@@ -86,7 +86,7 @@ mmdc -i input.mmd -o output.png -t dark -b transparent
 mmdc -i diagram.mmd --cssFile style.css -o output.svg
 ```
 
-See `references/cli-usage.md` for Docker, batch processing, and advanced workflows.
+See `references/cli-usage.md` for Docker, batch processing, and advanced workflows. To render from JavaScript instead of the CLI, see `references/integration.md` for the API and embedding.
 
 ## Configuration & Theming
 
@@ -109,14 +109,6 @@ Load `references/examples.md` for:
 - Project timelines
 - State machines
 - User journey maps
-
-## Resources
-
-- `references/diagram-types.md` - Syntax for all 24+ diagram types
-- `references/configuration.md` - Config, theming, accessibility
-- `references/cli-usage.md` - CLI commands and workflows
-- `references/integration.md` - JavaScript API and embedding
-- `references/examples.md` - Practical patterns and use cases
 
 ## See Also
 

@@ -1,6 +1,5 @@
 ---
 name: naming
-user-invocable: false
 description: Evaluate and improve names in code using naming as a design diagnostic. Use when the user asks to "name this", "rename", "review naming", "what should I call", struggles to name something, or when a code review surfaces vague or misleading names.
 ---
 
@@ -14,10 +13,10 @@ Naming difficulty is a design smell. When you struggle to name something, the ab
 
 Every name balances four properties. When they conflict, make the tradeoff deliberate.
 
-1. **Understandability** — Describe the context it represents. A reader should know what it does without reading the implementation
-2. **Conciseness** — Use only the words necessary. Longer is not clearer if the extra words add no meaning
-3. **Consistency** — Same word means the same thing everywhere. Different things get different names
-4. **Distinguishability** — A name must be distinct from its neighbors. Similar names for different things cause bugs
+1. **Understandability**, Describe the context it represents. A reader should know what it does without reading the implementation
+2. **Conciseness**, Use only the words necessary. Longer is not clearer if the extra words add no meaning
+3. **Consistency**, Same word means the same thing everywhere. Different things get different names
+4. **Distinguishability**, A name must be distinct from its neighbors. Similar names for different things cause bugs
 
 See `references/principles.md` for detailed rules and naming smells.
 
@@ -40,7 +39,7 @@ Examine names in recently changed code:
 When naming is hard, use the struggle as a diagnostic:
 
 1. What does this thing _actually do_? List its responsibilities
-2. If the list has more than one item, the naming problem is a design problem — split it
+2. If the list has more than one item, the naming problem is a design problem, split it
 3. Who calls it? What do they expect?
 4. If it disappeared, what would break? That's what it is
 5. What would the domain expert call it?
@@ -60,7 +59,7 @@ Names that signal design confusion:
 
 ## Bloch's API Design Maxims
 
-For public interfaces — APIs, library boundaries, module exports:
+For public interfaces, APIs, library boundaries, module exports:
 
 - **Names should be self-documenting.** If you need a comment to explain what a function does, rename it
 - **Same word, same meaning.** Don't use "remove" in one place and "delete" in another for the same operation
@@ -73,7 +72,7 @@ Code names should match how domain experts talk:
 
 - If the business says "order" and code says "purchase", one of them is wrong
 - Naming mismatches between code and conversation reveal domain misunderstanding
-- When renaming, update tests, docs, and conversations — not just code
+- When renaming, update tests, docs, and conversations, not just code
 
 ## Naming Checklist
 
@@ -119,6 +118,8 @@ When reviewing names:
 
 ## Before/After Examples
 
+Strunk's Rule 12 applied to code: use definite, specific, concrete names. (`/prose` carries the same rule for English prose.)
+
 ### Functions
 
 | Before               | After                               | Why                                                            |
@@ -127,6 +128,7 @@ When reviewing names:
 | `handleClick()`      | `submitPayment()`                   | Name the business action, not the DOM event                    |
 | `doStuff(items)`     | `deduplicateContacts(contacts)`     | Eliminate weasel verbs; name what it actually does             |
 | `run()`              | `pollForStatusUpdates()`            | Ambiguous in any class with more than one operation            |
+| `getData()`          | `fetchUserProfile()`                | "Get" hides the source and subject; name the fetch and the domain |
 
 ### Variables
 
@@ -155,21 +157,9 @@ When reviewing names:
 | `disableFeature` | `featureEnabled` (invert usage) | Positive form reads naturally in `if` statements |
 | `check`          | `hasPermission`                 | "Check" doesn't say what the answer means        |
 
-## Strunk's Rule 12
-
-"Use definite, specific, concrete language." The prose skill teaches this for English. Apply it identically to code:
-
-| Vague     | Specific           |
-| --------- | ------------------ |
-| `getData` | `fetchUserProfile` |
-| `item`    | `cartLineItem`     |
-| `result`  | `validationErrors` |
-| `info`    | `shippingAddress`  |
-| `temp`    | `unsavedDraft`     |
-
 ## See Also
 
-- `/design` — Hard-to-name things signal design problems
-- `/review` — Code review surfaces naming issues; naming review deepens code review
-- `/prose` — Strunk's rules apply to code names identically to English prose
-- `skills/FRAMEWORKS.md` — Full framework index
+- `/design`: Hard-to-name things signal design problems
+- `/review`: Code review surfaces naming issues; naming review deepens code review
+- `/prose`: Strunk's rules apply to code names identically to English prose
+- `skills/FRAMEWORKS.md`: Full framework index

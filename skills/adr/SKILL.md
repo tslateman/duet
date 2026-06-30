@@ -64,29 +64,29 @@ What becomes easier or more difficult to do because of this change?
 
 ## Instructions
 
-1. **Extract from context** — Use the conversation to identify:
+1. **Extract from context**: Use the conversation to identify:
    - The problem or decision being made
    - Options that were discussed
    - The chosen approach and rationale
    - Trade-offs acknowledged
 
-2. **Find the ADR location** — Look for existing ADRs:
+2. **Find the ADR location**: Look for existing ADRs:
    - `docs/adr/` or `docs/decisions/`
    - `adr/` at project root
    - If none exist, suggest creating `docs/adr/`
 
-3. **Number appropriately** — Check existing ADRs and use the next number
+3. **Number appropriately**: Check existing ADRs and use the next number
 
-4. **Write concisely** — ADRs should be scannable:
+4. **Write concisely**: ADRs should be scannable:
    - Context: 2-4 sentences
    - Decision: 1-2 sentences
    - Consequences: Bullet points
    - Alternatives: Brief, focused on why rejected
 
-5. **Capture the why** — The decision itself ages; the reasoning stays valuable
+5. **Capture the why**: The decision itself ages; the reasoning stays valuable
 
 ## See Also
 
-- `/research` — Research informs the decision; ADR captures it
-- `/review` — Reviews that surface architectural decisions belong in ADRs
-- `skills/FRAMEWORKS.md` — Full framework index
+- `/research`: Research informs the decision; ADR captures it
+- `/review`: Reviews that surface architectural decisions belong in ADRs
+- `skills/FRAMEWORKS.md`: Full framework index

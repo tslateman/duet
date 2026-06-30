@@ -1,17 +1,17 @@
 ---
 name: vibe-check
-description: Judgment linter for vibe-coded output — reads the energy of the code, not just correctness. Use when the user says "vibe check", "check this vibe code", "does this hold up", "sanity check this AI code", or after a fast generation session before committing.
+description: Judgment linter for vibe-coded output: reads the energy of the code, not just correctness. Use when the user says "vibe check", "does this hold up", "sanity check this AI code", or after a fast generation session before committing.
 ---
 
 # Vibe Check
 
 ## Overview
 
-"Vibe check?" — a way of asking _what's the energy like right now?_
+"Vibe check?", a way of asking _what's the energy like right now?_
 
 Static linters catch syntax. Code review catches everything but takes time. Vibe-check sits between: a quick judgment pass that asks whether AI-generated code feels like it was written with thought or just generated on autopilot.
 
-Single-agent, one pass. Runs on the diff by default. Surfaces higher-order problems that require reasoning — the things a thoughtful reviewer notices in the first 30 seconds that no regex can detect.
+Single-agent, one pass. Runs on the diff by default. Surfaces higher-order problems that require reasoning, the things a thoughtful reviewer notices in the first 30 seconds that no regex can detect.
 
 ## Input
 
@@ -29,7 +29,7 @@ Single-agent, one pass. Runs on the diff by default. Surfaces higher-order probl
 
 ## Assertion Categories
 
-Each category reads a specific vibe. Findings require AI judgment — if a static linter could catch it, it doesn't belong here.
+Each category reads a specific vibe. Findings require AI judgment, if a static linter could catch it, it doesn't belong here.
 
 | Category                  | The vibe                                             | What it catches                                                                                                                     |
 | ------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,8 +38,8 @@ Each category reads a specific vibe. Findings require AI judgment — if a stati
 | **Missing skepticism**    | "This feels like nothing can go wrong"               | Happy-path-only logic, unchallenged assumptions, no failure modes considered, silent swallowing of errors                           |
 | **Cargo-culted patterns** | "This feels ceremonial"                              | Design patterns applied without justification, boilerplate that adds ceremony without value, framework idioms used out of context   |
 | **Integration blindness** | "This feels written in a vacuum"                     | Duplicates existing utilities, contradicts established codebase patterns, ignores conventions visible in surrounding code           |
-| **Shallow naming**        | "This feels like nobody thought about what it means" | Names describe implementation (`handleData`, `processItems`) instead of intent — a signal the author didn't reason about the domain |
-| **Security surface**      | "This feels like it trusts too much"                 | Auth gaps, unsanitized boundaries, trust assumptions — only the ones requiring judgment, not what semgrep catches                   |
+| **Shallow naming**        | "This feels like nobody thought about what it means" | Names describe implementation (`handleData`, `processItems`) instead of intent, a signal the author didn't reason about the domain |
+| **Security surface**      | "This feels like it trusts too much"                 | Auth gaps, unsanitized boundaries, trust assumptions, only the ones requiring judgment, not what semgrep catches                   |
 
 ## Severity
 
@@ -102,17 +102,17 @@ Dense findings across multiple categories — consider running /review for a dee
 ## Guidelines
 
 - **One pass, no back-and-forth.** Read the code, report findings, done.
-- **Be assertive, not exhaustive.** Flag what stands out. A vibe check is quick — 30 seconds of focused attention, not a thorough audit.
+- **Be assertive, not exhaustive.** Flag what stands out. A vibe check is quick, 30 seconds of focused attention, not a thorough audit.
 - **Require judgment.** Every finding should need reasoning to identify. If `ruff` or `eslint` could catch it, skip it.
 - **Include file:line references.** Every finding points to a specific location.
-- **Explain the why.** Don't just name the smell — say what's wrong with the energy. "This wrapper adds a layer of indirection but every caller passes through unchanged" beats "unnecessary abstraction."
+- **Explain the why.** Don't just name the smell, say what's wrong with the energy. "This wrapper adds a layer of indirection but every caller passes through unchanged" beats "unnecessary abstraction."
 - **Respect language idioms.** A Go error check isn't cargo cult. A React `useEffect` cleanup isn't ceremony. Know the difference.
 - **No rewrites.** Flag the problem, don't fix it. The developer decides what to do.
 
 ## See Also
 
-- `/review` — Full structured review when vibe-check suggests escalation
-- `/naming` — Deep dive when shallow-naming findings accumulate
-- `/testing` — When missing-skepticism reveals untested assumptions
-- `/sweep` — Post-op damage check; vibe-check is pre-commit, sweep is post-merge
-- `skills/FRAMEWORKS.md` — Full framework index
+- `/review`: Full structured review when vibe-check suggests escalation
+- `/naming`: Deep dive when shallow-naming findings accumulate
+- `/testing`: When missing-skepticism reveals untested assumptions
+- `/sweep`: Post-op damage check; vibe-check is pre-commit, sweep is post-merge
+- `skills/FRAMEWORKS.md`: Full framework index

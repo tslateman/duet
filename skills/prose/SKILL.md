@@ -1,6 +1,6 @@
 ---
 name: prose
-description: Apply Strunk's writing rules to prose—documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also handles sharpening and tightening drafts by subtraction.
+description: Apply Strunk's writing rules to prose: documentation, commits, error messages, UI text. Clearer, stronger, more professional. Also sharpens and tightens overlong drafts by subtraction.
 ---
 
 # Writing Clearly and Concisely
@@ -101,13 +101,9 @@ Recognizable AI writing patterns and their fixes:
 
 Can you remove this sentence without losing meaning? Remove it.
 
-## Bottom Line
-
-Writing for humans? Read `references/elements-of-style.md` and apply the rules. Low on tokens? Dispatch a subagent to copyedit with the guide.
-
 ## See Also
 
-- `/naming` — Strunk's Rule 12 applies identically to code names
-- `/review` — Write review comments clearly using these rules
-- `skills/FRAMEWORKS.md` — Full framework index
-- `RECIPE.md` — Agent recipe for parallel sharpening (3 workers)
+- `/naming`: Strunk's Rule 12 applies identically to code names
+- `/review`: Write review comments clearly using these rules
+- `skills/FRAMEWORKS.md`: Full framework index
+- `RECIPE.md`: Agent recipe for parallel sharpening (3 workers)
