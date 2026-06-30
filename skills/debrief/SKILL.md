@@ -34,7 +34,7 @@ Produce a brief debrief:
 
 ### What Landed
 
-- Summarize completed work (be specific—name files, features, fixes)
+- Summarize completed work (be specific, name files, features, fixes)
 
 ### Loose Ends
 
@@ -52,3 +52,10 @@ Produce a brief debrief:
 - Concrete steps to consolidate or continue the work
 
 Keep it actionable. Skip anything that's already clean and integrated.
+
+## See Also
+
+The post-agent triad: debrief recaps what got done, the other two check it.
+
+- `/sweep`: post-op check for artifacts, damage, and stale refs left behind
+- `/agent-watchdog`: audit whether an agent did what was asked, with a gap report and a narrow fix

@@ -23,7 +23,7 @@ git diff --cached --stat
 
 If other repos were modified (check recent tool output or plan files for cross-repo work), run `git diff --stat` there too.
 
-Flag anything unexpected — files not mentioned in the plan or task.
+Flag anything unexpected, files not mentioned in the plan or task.
 
 ## 2. Fixture and Example Damage
 
@@ -72,8 +72,15 @@ If plan files exist for the work just completed, check acceptance criteria:
 
 Present findings as a short checklist:
 
-- **Clean** — no issues found (say so and stop)
-- **Fix** — items that need correction (damaged fixtures, stale refs, debug artifacts)
-- **Note** — items worth awareness but not blocking (scope bleed, unrelated changes)
+- **Clean**, no issues found (say so and stop)
+- **Fix**, items that need correction (damaged fixtures, stale refs, debug artifacts)
+- **Note**, items worth awareness but not blocking (scope bleed, unrelated changes)
 
 Be terse. Name files and line numbers. Skip categories with no findings.
+
+## See Also
+
+The post-agent triad: sweep checks for collateral damage, the other two check fidelity and threads.
+
+- `/debrief`: cross-session recap of what agents accomplished and the loose ends
+- `/agent-watchdog`: audit whether an agent did what was asked, with a gap report and a narrow fix
