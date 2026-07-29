@@ -21,7 +21,7 @@ if git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
   else
     git_status=""
   fi
-  git_info=" \033[36m${branch}${git_status}\033[0m"
+  git_info="\033[36m${branch}${git_status}\033[0m"
 fi
 
 components=()
@@ -33,5 +33,10 @@ components+=("\033[32m${model}\033[0m")
 [ -n "$vim_mode" ] && components+=("\033[31m${vim_mode}\033[0m")
 [ -n "$agent_name" ] && components+=("\033[34magent:${agent_name}\033[0m")
 
-IFS=' | '
-printf '%b\n' "${components[*]}"
+line=""
+for component in "${components[@]}"; do
+  [ -n "$line" ] && line+=" | "
+  line+="$component"
+done
+
+printf '%b\n' "$line"
