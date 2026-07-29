@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-strategy-sections",
+    "text": "Output is structured as a test strategy or review with Contract, Priority Properties, and Test Plan sections",
+    "type": "required"
+  },
+  {
+    "id": "diagnoses-implementation-coupling",
+    "text": "Diagnoses the suite as asserting implementation and call order rather than behavior, so it breaks on refactors while missing real defects",
+    "type": "required"
+  },
+  {
+    "id": "explains-coverage-gap",
+    "text": "Explains why 97% coverage coexisted with both shipped bugs: the tests execute the lines but assert nothing about the outcomes",
+    "type": "required"
+  },
+  {
+    "id": "connects-bugs-to-gap",
+    "text": "Connects both shipped bugs to the missing behavioral assertions: no test asserts rejection of a duplicate email or a short password",
+    "type": "includes"
+  },
+  {
+    "id": "flags-call-order-test",
+    "text": "Specifically flags the hasher-before-repository ordering test as testing an implementation detail with no behavioral meaning",
+    "type": "includes"
+  },
+  {
+    "id": "flags-vacuous-test",
+    "text": "Flags test_create_user_does_not_raise as vacuous, since it asserts nothing and passes on almost any implementation",
+    "type": "includes"
+  },
+  {
+    "id": "proposes-behavioral-tests",
+    "text": "Proposes concrete replacement tests stated in terms of observable behavior rather than mock call assertions",
+    "type": "required"
+  },
+  {
+    "id": "names-desiderata",
+    "text": "Names the Beck desiderata at stake, for example that these tests are not behavior-sensitive and not structure-insensitive",
+    "type": "required"
+  }
+]

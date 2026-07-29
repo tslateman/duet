@@ -1,0 +1,1 @@
+Gather facts and check the obvious before theorizing on an intermittent production failure

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rejects-all-e2e",
+    "text": "Rejects putting all 20 eligibility rules at the end-to-end level, and gives the reason in terms of cost, speed, and failure-localization rather than dogma",
+    "type": "required"
+  },
+  {
+    "id": "assigns-levels-per-piece",
+    "text": "Assigns a specific test level to each of the five pieces rather than answering only in general terms",
+    "type": "required"
+  },
+  {
+    "id": "unit-tests-pure-logic",
+    "text": "Puts the eligibility rules and parsing at the unit level, since both are pure functions with many branches",
+    "type": "includes"
+  },
+  {
+    "id": "integration-for-endpoint",
+    "text": "Puts the endpoint at the integration level, covering wiring, auth, and rate limiting rather than re-testing the rules",
+    "type": "includes"
+  },
+  {
+    "id": "minimal-e2e",
+    "text": "Keeps end-to-end coverage to a small number of critical paths, for example one happy path and one rejection path through the UI",
+    "type": "required"
+  },
+  {
+    "id": "names-testing-trophy",
+    "text": "Grounds the shape in a named model such as the Testing Trophy or the confidence-to-cost ratio",
+    "type": "required"
+  },
+  {
+    "id": "format-strategy-sections",
+    "text": "Output is structured as a test strategy with Contract or Priority Properties, a Test Plan, and Tradeoffs Accepted",
+    "type": "required"
+  },
+  {
+    "id": "names-tradeoffs",
+    "text": "Names what the recommended shape gives up, for example that unit-level rule tests will not catch a wiring mistake in the endpoint",
+    "type": "required"
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "format-nygard-sections",
+    "text": "Output contains the ADR section headers: Context, Decision, Consequences, Alternatives Considered, and References",
+    "type": "required"
+  },
+  {
+    "id": "format-metadata-block",
+    "text": "Output includes a metadata block with Date, Status, and Deciders fields near the top",
+    "type": "required"
+  },
+  {
+    "id": "format-consequences-subsections",
+    "text": "The Consequences section is split into Positive, Negative, and Risks subsections",
+    "type": "required"
+  },
+  {
+    "id": "format-numbering",
+    "text": "The ADR is numbered 0003 (or ADR-3), following the existing 0001 and 0002, and proposes the path docs/adr/",
+    "type": "required"
+  },
+  {
+    "id": "alternatives-both-rejected",
+    "text": "Both RabbitMQ and Kafka appear under Alternatives Considered, each with an explicit rejection reason drawn from the thread (RabbitMQ: SQS is zero-ops on existing AWS; Kafka: no in-house operational experience, would use a fraction of it)",
+    "type": "includes"
+  },
+  {
+    "id": "captures-accepted-tradeoff",
+    "text": "Records the knowingly accepted trade-off: SQS has no priority queues, with the stated mitigation of adding a second queue if needed",
+    "type": "includes"
+  },
+  {
+    "id": "captures-visibility-timeout",
+    "text": "Records the 15-minute visibility timeout constraint against the 40-minute reconciliation job, and the chunking decision that resolves it",
+    "type": "includes"
+  },
+  {
+    "id": "deciders-named",
+    "text": "Names maya, dev, and priya as deciders (Tom may be noted as approver)",
+    "type": "required"
+  },
+  {
+    "id": "concise-context",
+    "text": "The Context section is 2-4 sentences, not a transcript restatement",
+    "type": "recommended"
+  }
+]

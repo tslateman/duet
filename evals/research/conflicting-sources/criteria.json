@@ -1,0 +1,47 @@
+[
+  {
+    "id": "reaches-correct-conclusion",
+    "text": "Concludes that polling is still needed alongside LISTEN/NOTIFY, with LISTEN serving as a latency optimization rather than a delivery guarantee",
+    "type": "required"
+  },
+  {
+    "id": "discounts-stale-source",
+    "text": "Explicitly discounts source A on age (2016, never edited) despite its high vote count, rather than treating upvotes as authority",
+    "type": "required"
+  },
+  {
+    "id": "rejects-affiliate-source",
+    "text": "Explicitly rejects source C, naming its red flags: undated, no author, affiliate-driven, and an unsupported performance claim",
+    "type": "required"
+  },
+  {
+    "id": "weights-official-docs",
+    "text": "Weights the official Postgres documentation and the maintainer's field report above the community answer",
+    "type": "required"
+  },
+  {
+    "id": "connects-failover-evidence",
+    "text": "Connects the RDS failover behavior to the missed-notification mechanism, showing the sources reinforce each other",
+    "type": "includes"
+  },
+  {
+    "id": "does-not-average",
+    "text": "Does not present the disagreement as a balanced two-sided debate or split the difference without adjudicating",
+    "type": "required"
+  },
+  {
+    "id": "format-summary-first",
+    "text": "Output opens with a Summary giving a direct answer to the question asked",
+    "type": "required"
+  },
+  {
+    "id": "format-key-findings-cited",
+    "text": "Key findings are attributed to specific sources by label or name",
+    "type": "required"
+  },
+  {
+    "id": "format-open-questions",
+    "text": "Output names what remains uncertain or what to verify in our own environment",
+    "type": "required"
+  }
+]

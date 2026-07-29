@@ -1,0 +1,42 @@
+[
+  {
+    "id": "states-purpose",
+    "text": "States the page's purpose and audience explicitly before designing, not just the visual result",
+    "type": "required"
+  },
+  {
+    "id": "states-tone",
+    "text": "Commits to a named tone (for example austere, precise, raw, technical) and holds the whole design to it",
+    "type": "required"
+  },
+  {
+    "id": "states-differentiation",
+    "text": "Names the one thing worth getting right for this page, given a skeptical staff-engineer audience arriving from a colleague's link",
+    "type": "required"
+  },
+  {
+    "id": "avoids-default-fonts",
+    "text": "Avoids the default font families (Arial, Inter, Roboto, system-ui) and justifies the typeface pairing chosen instead",
+    "type": "required"
+  },
+  {
+    "id": "avoids-generic-aesthetic",
+    "text": "Avoids generic patterns: purple-gradient-on-white, predictable three-card feature grids, and flat solid backgrounds with no texture",
+    "type": "required"
+  },
+  {
+    "id": "audience-fit",
+    "text": "Design choices are justified against this specific audience, for example leading with real terminal output or a concrete result rather than testimonials or a logo wall",
+    "type": "includes"
+  },
+  {
+    "id": "format-the-test",
+    "text": "Output closes by answering the design test questions, including what was deliberately left out",
+    "type": "required"
+  },
+  {
+    "id": "format-code-delivered",
+    "text": "Output includes the actual HTML and CSS in fenced code blocks, matching the direction it committed to",
+    "type": "required"
+  }
+]

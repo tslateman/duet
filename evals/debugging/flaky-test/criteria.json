@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rejects-rerun-band-aid",
+    "text": "Rejects or defers the flaky(reruns=3) suggestion as hiding the failure rather than diagnosing it",
+    "type": "required"
+  },
+  {
+    "id": "identifies-shared-state",
+    "text": "Identifies module-level EXPORT_CACHE as shared mutable state that leaks across tests, so test ordering determines whether the cache-length assertion holds",
+    "type": "includes"
+  },
+  {
+    "id": "identifies-date-boundary",
+    "text": "Identifies date.today() in the cache signature as a second failure source: a run crossing midnight produces two signatures",
+    "type": "includes"
+  },
+  {
+    "id": "make-it-fail-step",
+    "text": "Proposes a concrete way to reproduce deterministically, for example forcing a specific test order, running the suite twice in one process, or seeding the cache before the test",
+    "type": "required"
+  },
+  {
+    "id": "one-variable-experiment",
+    "text": "Designs experiments that isolate one hypothesis at a time, with a stated pass/fail criterion before running",
+    "type": "required"
+  },
+  {
+    "id": "no-premature-fix",
+    "text": "Does not present a code fix as the answer before the cause is isolated; any fix is stated as conditional on a confirming experiment",
+    "type": "required"
+  },
+  {
+    "id": "format-loop-or-rules",
+    "text": "Output is organized around the debugging loop (Observe, Hypothesize, Predict, Test, Conclude) or names specific Agans rules such as Make It Fail or Change One Thing at a Time",
+    "type": "required"
+  },
+  {
+    "id": "format-hypotheses-ranked",
+    "text": "Hypotheses are presented as an explicit ranked or enumerated list, not buried in prose",
+    "type": "required"
+  }
+]

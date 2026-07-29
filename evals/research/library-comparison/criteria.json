@@ -1,0 +1,47 @@
+[
+  {
+    "id": "format-summary-first",
+    "text": "Output opens with a Summary section giving a 1-2 sentence answer to the core question",
+    "type": "required"
+  },
+  {
+    "id": "format-key-findings",
+    "text": "Output has a Key Findings section with findings attributed to their source",
+    "type": "required"
+  },
+  {
+    "id": "format-comparison-table",
+    "text": "Output includes a comparison table with criteria as rows or columns across the four options",
+    "type": "required"
+  },
+  {
+    "id": "format-recommendation",
+    "text": "Output has an explicit Recommendation section naming one option with rationale",
+    "type": "required"
+  },
+  {
+    "id": "format-open-questions",
+    "text": "Output has an Open Questions section naming what remains uncertain or what to monitor",
+    "type": "required"
+  },
+  {
+    "id": "weights-no-redis-constraint",
+    "text": "Weights the platform team's no-Redis constraint as a real filter, which eliminates RQ and makes Celery costlier",
+    "type": "includes"
+  },
+  {
+    "id": "flags-long-job-conflict",
+    "text": "Flags the 40-minute reconciliation job against Celery's stated weakness for long-running tasks",
+    "type": "includes"
+  },
+  {
+    "id": "flags-maturity-risk",
+    "text": "Names the maturity or maintenance risk on the Postgres-native options (django-q2 as a fork with a small community, Procrastinate's recent API instability) rather than recommending purely on constraint fit",
+    "type": "includes"
+  },
+  {
+    "id": "no-invented-evidence",
+    "text": "Does not introduce claims, benchmarks, or version facts absent from the provided material",
+    "type": "required"
+  }
+]

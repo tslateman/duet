@@ -1,0 +1,42 @@
+[
+  {
+    "id": "consistency-verb-collision",
+    "text": "Flags the inconsistent verb vocabulary for one concept: create, add, and push for sending, and get and fetch for reading, and proposes one verb per operation kind",
+    "type": "includes"
+  },
+  {
+    "id": "minimal-surface-state",
+    "text": "Flags the public mutable state (cacheRef, lastResponse, internalRetryCount) as surface that cannot be removed later and should not ship",
+    "type": "includes"
+  },
+  {
+    "id": "least-astonishment-naming",
+    "text": "Flags doDelete and updateNotificationStatusById as violating least astonishment or self-documentation, and proposes better names",
+    "type": "includes"
+  },
+  {
+    "id": "constructor-params",
+    "text": "Flags the seven positional constructor parameters and proposes an options object or builder",
+    "type": "includes"
+  },
+  {
+    "id": "escape-hatches",
+    "text": "Addresses rawRequest and getHttpAgent as escape hatches that leak the transport and permanently constrain the implementation",
+    "type": "includes"
+  },
+  {
+    "id": "weak-types",
+    "text": "Flags the bare object and unknown payload and return types as failing to be self-documenting for a published SDK",
+    "type": "includes"
+  },
+  {
+    "id": "format-left-out",
+    "text": "Explicitly states what was deliberately left out of the redesigned surface and why, not only what was added or renamed",
+    "type": "required"
+  },
+  {
+    "id": "format-revised-interface",
+    "text": "Output includes a concrete revised interface in a fenced code block, not only prose critique",
+    "type": "required"
+  }
+]

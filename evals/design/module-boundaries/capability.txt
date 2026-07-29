@@ -1,0 +1,1 @@
+Diagnose system-design boundary failures (hidden coupling, global state, irreversible decisions) rather than proposing cosmetic reorganization

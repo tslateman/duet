@@ -1,0 +1,37 @@
+[
+  {
+    "id": "format-fenced-mermaid",
+    "text": "Output wraps the diagram in a fenced code block tagged mermaid",
+    "type": "required"
+  },
+  {
+    "id": "format-state-diagram",
+    "text": "Uses stateDiagram-v2 rather than a flowchart, matching the lifecycle nature of the problem",
+    "type": "required"
+  },
+  {
+    "id": "format-start-marker",
+    "text": "Marks the entry point with [*] transitioning into the requested state",
+    "type": "required"
+  },
+  {
+    "id": "format-terminal-markers",
+    "text": "Marks the terminal states (rejected, settled, abandoned) with transitions to [*]",
+    "type": "required"
+  },
+  {
+    "id": "retry-loop",
+    "text": "Represents the failed-to-submitted retry transition and labels the 3-attempt limit",
+    "type": "includes"
+  },
+  {
+    "id": "expiry-transition",
+    "text": "Includes the 30-day auto-expiry transition from requested to abandoned",
+    "type": "includes"
+  },
+  {
+    "id": "labeled-transitions",
+    "text": "Transitions carry labels naming the triggering event (approve, reject, webhook, resubmit, expire) rather than being unlabeled arrows",
+    "type": "required"
+  }
+]

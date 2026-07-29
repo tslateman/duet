@@ -1,0 +1,1 @@
+Derive a test plan from the code's contract and name which Beck desiderata are prioritized and which are traded away

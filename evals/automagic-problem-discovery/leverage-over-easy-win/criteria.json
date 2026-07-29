@@ -1,0 +1,47 @@
+[
+  {
+    "id": "finds-five-candidates",
+    "text": "Names at least five candidate frictions, each tied to a specific artifact in the snapshot",
+    "type": "required"
+  },
+  {
+    "id": "identifies-shared-pattern",
+    "text": "Identifies the shared pattern across both scripts: an unconditional success line appended after a command whose exit status is never checked, so every job reports success while failing",
+    "type": "required"
+  },
+  {
+    "id": "prefers-leverage-over-symptom",
+    "text": "Selects the success-reporting pattern (or an equivalent cross-job fix) over the single-job fix of the Postgres connection error, and justifies it by the number of jobs it covers",
+    "type": "required"
+  },
+  {
+    "id": "applies-5-whys",
+    "text": "Shows explicit multi-tier why-chain reasoning rather than jumping straight from symptom to fix",
+    "type": "required"
+  },
+  {
+    "id": "names-runner-up",
+    "text": "Names the runner-up problem and states why it lost",
+    "type": "required"
+  },
+  {
+    "id": "spots-index-notes-anomaly",
+    "text": "Notes the anomaly that index-notes exits 0 but is also run by hand, or that it never runs on schedule, rather than treating an exit-0 job as healthy",
+    "type": "recommended"
+  },
+  {
+    "id": "builds-a-tool",
+    "text": "Delivers an actual script or tool, in a fenced code block, not a list of recommendations",
+    "type": "required"
+  },
+  {
+    "id": "format-three-part-report",
+    "text": "Output closes with a report covering what was audited, why this problem over the alternatives, and how to run the tool",
+    "type": "required"
+  },
+  {
+    "id": "separates-verified",
+    "text": "States separately what was verified and what was not, rather than asserting the fix works",
+    "type": "required"
+  }
+]

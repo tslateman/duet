@@ -1,0 +1,1 @@
+Split an over-dense diagram request into focused diagrams instead of producing one unreadable chart

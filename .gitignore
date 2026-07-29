@@ -30,3 +30,8 @@ tessl.json
 # Eval results (generated, not tracked)
 evals/results/
 !evals/results/.gitkeep
+
+# Eval run artifacts. Diagram scenarios tell the agent to save a file, and the
+# runner invokes claude from the repo root, so the output lands here.
+/*.excalidraw
+/*.png

@@ -30,6 +30,7 @@ Each duet skill is grounded in a specific framework or authority. This index map
 | Lightweight ADR          | mattpocock/skills            | `/grill-with-docs`               | 1–3 sentence inline ADR for crystallising decisions during a grilling        |
 | Visual Recap             | BuilderIO/skills             | `/visual-recap`                  | Map a diff to structured blocks before reading raw lines                     |
 | Skill Craft              | mattpocock/skills            | `/writing-great-skills`          | Predictability via leading words, information hierarchy, and pruning         |
+| 5 Whys | Sakichi Toyoda (Toyota) | `/automagic-problem-discovery` | Dig past the symptom to the leverage point underneath it |
 
 ## Skills by Concern
 
@@ -50,6 +51,7 @@ Each duet skill is grounded in a specific framework or authority. This index map
 | "I'm lost in this code"                | `/zoom-out`                      | `/naming`, `/design`              |
 | "Where should we refactor?"            | `/improve-codebase-architecture` | `/zoom-out`, `/naming`, `/design` |
 | "Stress-test this plan with me"        | `/grill-with-docs`               | `/naming`, `/adr`, `/research`    |
+| "What should I automate?" | `/automagic-problem-discovery` | `/debugging`, `/research` |
 
 ## Recipes
 
@@ -86,3 +88,5 @@ Skills that pair naturally:
 - `/improve-codebase-architecture` + `/grill-with-docs` — Architectural candidates are the _what_; grill-with-docs is the _how_ of walking the design tree with the user
 - `/grill-with-docs` + `/adr` — Grill-with-docs offers lightweight inline ADRs during a session; /adr writes the heavyweight Nygard-style record when a decision needs full context
 - `/improve-codebase-architecture` + `/zoom-out` — Render the map first; then propose which modules to deepen against that map
+- `/automagic-problem-discovery` + `/debugging` — Discovery finds the failing job; debugging finds why it fails
+- `/automagic-problem-discovery` + `/adr` — Discovery builds the fix; the ADR records why that fix over the alternatives

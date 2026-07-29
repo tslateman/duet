@@ -61,6 +61,8 @@ Use `/install-statusline` to set up a lean status bar for Claude Code sessions.
 | Skill | Description |
 | --- | --- |
 | `/adr` | Generate Architecture Decision Records that capture the reasoning behind technical decisions. |
+| `/agent-watchdog` | Audit whether another agent actually did what was asked, not just whether the code is good. |
+| `/automagic-problem-discovery` | Audit a workspace for recurring friction, pick the highest-leverage one, and build the automation that removes it. |
 | `/caveman` | Ultra-compressed response mode. Cuts token usage ~75% while keeping full technical accuracy. |
 | `/debrief` | Review what agents accomplished, surface loose ends across sessions. |
 | `/debugging` | Systematic debugging that applies the scientific method to failures. |

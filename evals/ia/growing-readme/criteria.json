@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-ia-review-sections",
+    "text": "Output is structured as an IA review with sections covering structure issues, navigation, and labeling",
+    "type": "required"
+  },
+  {
+    "id": "applies-diataxis",
+    "text": "Explicitly sorts content into the four Diataxis modes (tutorial, how-to, explanation, reference) and uses that to drive the split",
+    "type": "required"
+  },
+  {
+    "id": "names-duplicates",
+    "text": "Names the duplicated or overlapping pairs, for example Configuration versus Configuration Reference, CLI Commands versus CLI Reference, and Troubleshooting versus FAQ versus Common Errors",
+    "type": "includes"
+  },
+  {
+    "id": "changelog-extraction",
+    "text": "Calls out the 300-line inline changelog as belonging in its own CHANGELOG file",
+    "type": "includes"
+  },
+  {
+    "id": "readme-remainder",
+    "text": "States what stays in the README after the split, rather than only listing what leaves",
+    "type": "required"
+  },
+  {
+    "id": "navigation-paths",
+    "text": "Gives every extracted destination a navigation path from the README, so nothing becomes an orphan",
+    "type": "required"
+  },
+  {
+    "id": "three-click-check",
+    "text": "Evaluates reachability, for example that any content is reachable in about three steps",
+    "type": "recommended"
+  },
+  {
+    "id": "format-target-tree",
+    "text": "Output includes a concrete target file or directory tree",
+    "type": "required"
+  }
+]

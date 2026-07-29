@@ -1,0 +1,42 @@
+[
+  {
+    "id": "answers-directly",
+    "text": "Gives a direct answer to the yes-or-no question up front rather than opening with background or methodology",
+    "type": "required"
+  },
+  {
+    "id": "names-specific-deviations",
+    "text": "Names the documented deviations that could apply and maps them to the repo facts given",
+    "type": "required"
+  },
+  {
+    "id": "applies-repo-facts",
+    "text": "Uses the repo facts to narrow the answer, noting that with no multi-line del statements that deviation cannot apply, while the 4 fmt: skip sites are the real risk",
+    "type": "includes"
+  },
+  {
+    "id": "answers-ongoing-vs-onetime",
+    "text": "Answers the actual decision framing: whether this is a one-time diff or an ongoing disagreement",
+    "type": "required"
+  },
+  {
+    "id": "proposes-cheap-verification",
+    "text": "Proposes the cheap definitive check, running both formatters over the repo and diffing, rather than reasoning from documentation alone",
+    "type": "required"
+  },
+  {
+    "id": "stays-in-scope",
+    "text": "Stays on the question asked and does not expand into a general ruff-versus-black tooling survey, linting scope, or migration project plan",
+    "type": "required"
+  },
+  {
+    "id": "no-invented-evidence",
+    "text": "Does not introduce version facts, benchmarks, or deviations absent from the provided material",
+    "type": "required"
+  },
+  {
+    "id": "format-summary-first",
+    "text": "Output opens with a Summary section giving the 1-2 sentence answer",
+    "type": "required"
+  }
+]

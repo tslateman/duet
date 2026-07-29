@@ -1,0 +1,1 @@
+Produce valid Mermaid sequence-diagram syntax for a multi-party flow, including the failure path

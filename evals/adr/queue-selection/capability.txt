@@ -1,0 +1,1 @@
+Produce a full Nygard-format ADR from a decision conversation, capturing rejected alternatives and their reasons

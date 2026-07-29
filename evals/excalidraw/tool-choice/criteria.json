@@ -1,0 +1,37 @@
+[
+  {
+    "id": "recommends-mermaid",
+    "text": "Recommends Mermaid over Excalidraw for this case, given inline GitHub markdown rendering and text-diffable editing in pull requests",
+    "type": "required"
+  },
+  {
+    "id": "cites-github-native",
+    "text": "Names GitHub-native rendering as the deciding factor, since an .excalidraw file does not render inline in a markdown file",
+    "type": "includes"
+  },
+  {
+    "id": "cites-diffability",
+    "text": "Names reviewability or diffability in pull requests as a reason, since Excalidraw JSON is not meaningfully reviewable in a diff",
+    "type": "includes"
+  },
+  {
+    "id": "cites-token-cost",
+    "text": "Notes that Excalidraw JSON is verbose for a three-node diagram",
+    "type": "recommended"
+  },
+  {
+    "id": "still-delivers",
+    "text": "Still delivers a working diagram rather than only refusing, providing the Mermaid version ready to paste",
+    "type": "required"
+  },
+  {
+    "id": "format-fenced-block",
+    "text": "The delivered diagram is in a fenced code block tagged mermaid",
+    "type": "required"
+  },
+  {
+    "id": "names-when-excalidraw-wins",
+    "text": "States the condition under which Excalidraw would be the right pick instead, for example presentation decks or hand-drawn architecture overviews",
+    "type": "recommended"
+  }
+]

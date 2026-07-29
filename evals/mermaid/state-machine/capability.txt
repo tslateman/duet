@@ -1,0 +1,1 @@
+Choose stateDiagram-v2 over a flowchart for lifecycle modeling and encode start, terminal, and self-transitions

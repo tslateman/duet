@@ -1,0 +1,1 @@
+Identify names that hide responsibility and propose replacements that state what the code actually does

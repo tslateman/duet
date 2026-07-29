@@ -1,0 +1,42 @@
+[
+  {
+    "id": "targets-dominant-cost",
+    "text": "Targets the exchange-rate HTTP calls (about 2801s of 3061s cumulative, roughly 92%) as the only change that matters",
+    "type": "required"
+  },
+  {
+    "id": "rejects-cython-suggestion",
+    "text": "Rejects the Cython rewrite of format_row, noting it accounts for roughly 94s and cannot move the total meaningfully",
+    "type": "required"
+  },
+  {
+    "id": "rejects-parallel-sort",
+    "text": "Rejects parallelizing sort_rows, noting it is about 28s of a 3061s run",
+    "type": "required"
+  },
+  {
+    "id": "quantifies-ceiling",
+    "text": "Quantifies the ceiling on the rejected optimizations, for example that eliminating both entirely saves under 5% of wall clock",
+    "type": "required"
+  },
+  {
+    "id": "proposes-caching-rates",
+    "text": "Proposes the structural fix: cache or batch the exchange-rate lookups, since 240310 calls almost certainly resolve to a small set of currency pairs and dates",
+    "type": "includes"
+  },
+  {
+    "id": "notes-per-call-latency",
+    "text": "Notes the roughly 12ms per call and that the calls are serial, so batching or concurrency is the lever",
+    "type": "includes"
+  },
+  {
+    "id": "format-analysis-sections",
+    "text": "Output is structured as a performance analysis with Goal, Baseline, Profile Summary, and Recommendations sections",
+    "type": "required"
+  },
+  {
+    "id": "format-tradeoffs-named",
+    "text": "Each recommendation names its expected improvement and its trade-off, for example rate staleness from caching",
+    "type": "required"
+  }
+]

@@ -1,0 +1,1 @@
+Choose the right test level for the risk rather than defaulting to end-to-end coverage of everything

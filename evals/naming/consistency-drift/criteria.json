@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-naming-review",
+    "text": "Output is structured as a naming review with tiers such as Must Rename and Consider Renaming",
+    "type": "required"
+  },
+  {
+    "id": "format-arrow-pairs",
+    "text": "Each finding is given as a current-to-proposed pair with a reason",
+    "type": "required"
+  },
+  {
+    "id": "flags-read-verb-drift",
+    "text": "Flags the four different verbs for one read operation (Get, Fetch, Load, Retrieve) and picks a single verb for the whole package",
+    "type": "required"
+  },
+  {
+    "id": "flags-create-verb-drift",
+    "text": "Flags the three different verbs for one create operation (Create, New, Make) and picks one",
+    "type": "required"
+  },
+  {
+    "id": "flags-update-drift",
+    "text": "Flags Update versus Save as inconsistent, and notes that their signatures also differ (id plus input versus a whole struct)",
+    "type": "includes"
+  },
+  {
+    "id": "distinguishes-cancel",
+    "text": "Recognizes that CancelSubscription may be a genuinely different domain operation from delete or remove, rather than blindly renaming it for symmetry",
+    "type": "required"
+  },
+  {
+    "id": "consistency-principle-named",
+    "text": "Names consistency or distinguishability as the principle at stake, framing it as a set-level rather than a single-name problem",
+    "type": "required"
+  },
+  {
+    "id": "proposes-full-table",
+    "text": "Proposes the corrected name for every function in the set, not a partial sample",
+    "type": "required"
+  }
+]

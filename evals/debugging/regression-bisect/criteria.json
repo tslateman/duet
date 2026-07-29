@@ -1,0 +1,42 @@
+[
+  {
+    "id": "proposes-git-bisect",
+    "text": "Proposes binary search across the commit range, specifically git bisect, rather than reading candidate commits by hand",
+    "type": "required"
+  },
+  {
+    "id": "uses-existing-repro-script",
+    "text": "Wires the existing repro.sh into the search as the automated verdict, for example git bisect run, using its exit-0 and exit-1 contract",
+    "type": "required"
+  },
+  {
+    "id": "estimates-search-cost",
+    "text": "States that binary search over 214 commits resolves in roughly 8 steps, justifying it over linear inspection",
+    "type": "recommended"
+  },
+  {
+    "id": "confirms-endpoints-first",
+    "text": "Confirms the known-good and known-bad endpoints reproduce before starting the search, so the bisect is not seeded with a wrong boundary",
+    "type": "required"
+  },
+  {
+    "id": "dependency-bump-caveat",
+    "text": "Notes that the babel bump means dependencies must be reinstalled at each bisect step, or the search will attribute a dependency-caused failure to an unrelated commit",
+    "type": "includes"
+  },
+  {
+    "id": "no-guess-first",
+    "text": "Does not simply assert that the formatting module or the babel bump is the cause; treats them as hypotheses the bisect will confirm or refute",
+    "type": "required"
+  },
+  {
+    "id": "format-loop-or-rules",
+    "text": "Output is organized around the debugging loop or names specific Agans rules such as Divide and Conquer",
+    "type": "required"
+  },
+  {
+    "id": "format-audit-trail",
+    "text": "Recommends recording what was tried and the result at each step, rather than relying on memory",
+    "type": "recommended"
+  }
+]

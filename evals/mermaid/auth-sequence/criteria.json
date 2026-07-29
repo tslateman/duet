@@ -1,0 +1,37 @@
+[
+  {
+    "id": "format-fenced-mermaid",
+    "text": "Output wraps the diagram in a fenced code block tagged mermaid, so it renders natively on GitHub",
+    "type": "required"
+  },
+  {
+    "id": "format-sequence-type",
+    "text": "Uses sequenceDiagram (not flowchart) for this request-response flow, with participant declarations",
+    "type": "required"
+  },
+  {
+    "id": "format-arrow-syntax",
+    "text": "Uses valid Mermaid sequence arrow syntax such as ->> for calls and -->> for responses",
+    "type": "required"
+  },
+  {
+    "id": "all-participants",
+    "text": "Declares all four parties: browser or user agent, the API, the identity provider, and Postgres or the database",
+    "type": "includes"
+  },
+  {
+    "id": "failure-path",
+    "text": "Represents the failed code exchange path, using alt/else or opt rather than omitting it",
+    "type": "includes"
+  },
+  {
+    "id": "server-to-server-distinct",
+    "text": "Distinguishes the back-channel code-for-token exchange from the browser redirects, rather than drawing every hop as a browser call",
+    "type": "includes"
+  },
+  {
+    "id": "no-trailing-whitespace",
+    "text": "Diagram body has consistent indentation and no trailing whitespace, per the syntax rules that cause parse failures",
+    "type": "required"
+  }
+]

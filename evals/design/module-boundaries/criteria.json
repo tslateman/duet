@@ -1,0 +1,42 @@
+[
+  {
+    "id": "circular-dependency",
+    "text": "Names the orders and billing circular dependency as the primary structural defect and proposes a specific break, for example inverting the dependency, extracting a shared pricing module, or passing the discount result in",
+    "type": "includes"
+  },
+  {
+    "id": "global-state-coupling",
+    "text": "Flags the middleware-mutated module globals as hidden coupling that makes behavior depend on request order and breaks tests, and proposes explicit passing or dependency injection",
+    "type": "includes"
+  },
+  {
+    "id": "misplaced-models",
+    "text": "Flags Customer and Invoice living in the orders models module as a boundary violation, since neither is an order concept",
+    "type": "includes"
+  },
+  {
+    "id": "reversibility",
+    "text": "Distinguishes reversible from irreversible parts of the restructure and sequences the work so hard-to-undo pieces come after the safe ones",
+    "type": "required"
+  },
+  {
+    "id": "legacy-handled",
+    "text": "Handles the legacy module deliberately: names a way to establish who actually calls it before either moving or freezing it, rather than restructuring around a do-not-touch comment or deleting it outright",
+    "type": "includes"
+  },
+  {
+    "id": "ownership-boundary",
+    "text": "Addresses that no team owns the utils module, treating unowned code as a boundary problem and not only a code-organization problem",
+    "type": "includes"
+  },
+  {
+    "id": "format-target-structure",
+    "text": "Output includes a concrete proposed structure (a directory or module tree, or an explicit dependency-direction diagram), not only principles",
+    "type": "required"
+  },
+  {
+    "id": "format-left-out",
+    "text": "States what is deliberately left alone in this pass and why",
+    "type": "required"
+  }
+]

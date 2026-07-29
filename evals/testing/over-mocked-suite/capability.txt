@@ -1,0 +1,1 @@
+Diagnose tests that assert implementation rather than behavior, and say what confidence they fail to provide

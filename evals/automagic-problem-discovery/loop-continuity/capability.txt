@@ -1,0 +1,1 @@
+Read the prior cycle log first and build on it, rather than restarting the audit or repeating completed work
