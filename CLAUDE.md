@@ -24,6 +24,7 @@ commands/
 skills/
   FRAMEWORKS.md        Framework-to-skill index
   adr/                 Architecture Decision Records (Nygard)
+  automagic-problem-discovery/  Friction audit that ends in a built tool (5 Whys)
   debugging/           Systematic debugging (Agans)
   design/              Intentional design (visual, API, system)
   excalidraw/          Programmatic Excalidraw diagrams
@@ -43,11 +44,9 @@ statusline/
 scripts/
   generate-readme.sh   Auto-generate README tables from source
 evals/
-  evals.json           Master eval registry
+  evals.json           Master eval registry (generated from the scenario tree)
   run.sh               Eval runner (with/without skill + grader)
-  vibe-check/          4 scenarios: api-handler, react-component, data-pipeline, config-sprawl
-  review/              3 scenarios: security-oversight, missing-context, trade-off-documentation
-  prose/               3 scenarios: bloated-readme, error-messages, commit-messages
+  <skill>/<scenario>/  43 scenarios across all 14 skills; vibe-check has 4, the rest 3 each
 ```
 
 ### Skill Directory Contents

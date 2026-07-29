@@ -4,39 +4,41 @@ Each duet skill is grounded in a specific framework or authority. This index map
 
 ## Skills by Framework
 
-| Framework                | Authority                    | Skill                | Core Idea                                                               |
-| ------------------------ | ---------------------------- | -------------------- | ----------------------------------------------------------------------- |
-| 9 Rules of Debugging     | David J. Agans               | `/debugging`         | Scientific method applied to software failures                          |
-| Test Desiderata          | Kent Beck                    | `/testing`           | 12 properties every test balances; make tradeoffs deliberate            |
-| Elements of Style        | William Strunk Jr.           | `/prose`             | Active voice, omit needless words, be specific                          |
-| Naming Principles        | Benner                       | `/naming`            | Understandability, conciseness, consistency, distinguishability         |
-| API Design               | Joshua Bloch                 | `/naming`, `/design` | Self-documenting, least astonishment, minimal surface                   |
-| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`            | Code names match domain language                                        |
-| ADR Format               | Michael Nygard               | `/adr`               | Capture context and reasoning, not just the decision                    |
-| Testing Trophy           | Kent C. Dodds                | `/testing`           | Integration tests provide the best confidence-to-cost ratio             |
-| Modern Code Review       | Bacchelli & Bird             | `/review`            | Code review's primary value is knowledge transfer, not defect detection |
-| Knuth's Performance Rule | Donald Knuth                 | `/performance`       | Optimize the critical 3%; measure, profile, optimize, measure again     |
-| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                | Organization, labeling, navigation, search for findability              |
-| Diataxis                 | Daniele Procida              | `/ia`                | Four documentation modes: tutorial, how-to, explanation, reference      |
-| Mermaid.js v11           | Mermaid project              | `/mermaid`           | Text-based diagrams that render natively in GitHub markdown             |
-| Excalidraw Generator     | Excalidraw project           | `/excalidraw`        | Programmatic hand-drawn diagrams via Python API                         |
-| Judgment Linting         | Anthropic eval methodology   | `/vibe-check`        | Higher-order code assertions that require AI reasoning, not regexes     |
+| Framework                | Authority                    | Skill                          | Core Idea                                                               |
+| ------------------------ | ---------------------------- | ------------------------------ | ----------------------------------------------------------------------- |
+| 9 Rules of Debugging     | David J. Agans               | `/debugging`                   | Scientific method applied to software failures                          |
+| Test Desiderata          | Kent Beck                    | `/testing`                     | 12 properties every test balances; make tradeoffs deliberate            |
+| Elements of Style        | William Strunk Jr.           | `/prose`                       | Active voice, omit needless words, be specific                          |
+| Naming Principles        | Benner                       | `/naming`                      | Understandability, conciseness, consistency, distinguishability         |
+| API Design               | Joshua Bloch                 | `/naming`, `/design`           | Self-documenting, least astonishment, minimal surface                   |
+| Ubiquitous Language      | Eric Evans (DDD)             | `/naming`                      | Code names match domain language                                        |
+| ADR Format               | Michael Nygard               | `/adr`                         | Capture context and reasoning, not just the decision                    |
+| Testing Trophy           | Kent C. Dodds                | `/testing`                     | Integration tests provide the best confidence-to-cost ratio             |
+| Modern Code Review       | Bacchelli & Bird             | `/review`                      | Code review's primary value is knowledge transfer, not defect detection |
+| Knuth's Performance Rule | Donald Knuth                 | `/performance`                 | Optimize the critical 3%; measure, profile, optimize, measure again     |
+| Information Architecture | Rosenfeld, Morville & Arango | `/ia`                          | Organization, labeling, navigation, search for findability              |
+| Diataxis                 | Daniele Procida              | `/ia`                          | Four documentation modes: tutorial, how-to, explanation, reference      |
+| Mermaid.js v11           | Mermaid project              | `/mermaid`                     | Text-based diagrams that render natively in GitHub markdown             |
+| Excalidraw Generator     | Excalidraw project           | `/excalidraw`                  | Programmatic hand-drawn diagrams via Python API                         |
+| Judgment Linting         | Anthropic eval methodology   | `/vibe-check`                  | Higher-order code assertions that require AI reasoning, not regexes     |
+| 5 Whys                   | Sakichi Toyoda (Toyota)      | `/automagic-problem-discovery` | Dig past the symptom to the leverage point underneath it                |
 
 ## Skills by Concern
 
-| Concern                                | Primary Skill  | Supporting Skills      |
-| -------------------------------------- | -------------- | ---------------------- |
-| "Is this correct?"                     | `/debugging`   | `/testing`, `/review`  |
-| "Is this well-designed?"               | `/design`      | `/naming`, `/adr`      |
-| "Is this well-tested?"                 | `/testing`     | `/review`              |
-| "Is this well-named?"                  | `/naming`      | `/design`, `/prose`    |
-| "Is this well-written?"                | `/prose`       | `/review`              |
-| "Is this fast enough?"                 | `/performance` | `/debugging`           |
-| "Should we document this decision?"    | `/adr`         | `/review`, `/research` |
-| "What should we use?"                  | `/research`    | `/adr`                 |
-| "Can people find this?"                | `/ia`          | `/naming`, `/design`   |
-| "How should I visualize this?"         | `/mermaid`     | `/excalidraw`          |
-| "Does this vibe-coded output hold up?" | `/vibe-check`  | `/review`, `/naming`   |
+| Concern                                | Primary Skill                  | Supporting Skills         |
+| -------------------------------------- | ------------------------------ | ------------------------- |
+| "Is this correct?"                     | `/debugging`                   | `/testing`, `/review`     |
+| "Is this well-designed?"               | `/design`                      | `/naming`, `/adr`         |
+| "Is this well-tested?"                 | `/testing`                     | `/review`                 |
+| "Is this well-named?"                  | `/naming`                      | `/design`, `/prose`       |
+| "Is this well-written?"                | `/prose`                       | `/review`                 |
+| "Is this fast enough?"                 | `/performance`                 | `/debugging`              |
+| "Should we document this decision?"    | `/adr`                         | `/review`, `/research`    |
+| "What should we use?"                  | `/research`                    | `/adr`                    |
+| "Can people find this?"                | `/ia`                          | `/naming`, `/design`      |
+| "How should I visualize this?"         | `/mermaid`                     | `/excalidraw`             |
+| "Does this vibe-coded output hold up?" | `/vibe-check`                  | `/review`, `/naming`      |
+| "What should I automate?"              | `/automagic-problem-discovery` | `/debugging`, `/research` |
 
 ## Recipes
 
@@ -67,3 +69,5 @@ Skills that pair naturally:
 - `/mermaid` + `/design` — Diagram layout is visual design; the same composition principles apply
 - `/vibe-check` + `/review` — Vibe-check is the quick pre-commit read; review is the deep post-push audit
 - `/vibe-check` + `/naming` — Shallow naming findings in vibe-check warrant a full naming pass
+- `/automagic-problem-discovery` + `/debugging` — Discovery finds the failing job; debugging finds why it fails
+- `/automagic-problem-discovery` + `/adr` — Discovery builds the fix; the ADR records why that fix over the alternatives
