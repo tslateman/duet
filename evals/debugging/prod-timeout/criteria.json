@@ -1,0 +1,42 @@
+[
+  {
+    "id": "flags-log-contradiction",
+    "text": "Treats the contradiction between sub-900ms handler logs and gateway 504s as the central clue, meaning time is spent outside the measured handler span",
+    "type": "required"
+  },
+  {
+    "id": "flags-pod-clustering",
+    "text": "Flags the 3-of-12 pod clustering as evidence against a vendor-wide cause and toward a per-pod condition such as connection pool exhaustion, a bad node, or uneven load balancing",
+    "type": "includes"
+  },
+  {
+    "id": "flags-monday-change",
+    "text": "Flags the Monday read-replica change as the leading correlate of the Tuesday onset despite no API deploy, and proposes testing whether connection pooling or routing changed",
+    "type": "includes"
+  },
+  {
+    "id": "rejects-vendor-theory",
+    "text": "Pushes back on the vendor theory and the retry wrapper as unsupported by the evidence, noting a retry would multiply load and could worsen a pool-exhaustion cause",
+    "type": "required"
+  },
+  {
+    "id": "check-the-plug",
+    "text": "Names a concrete environment or configuration difference to verify, such as staging having fewer pods, no read replica, or different pool sizing",
+    "type": "includes"
+  },
+  {
+    "id": "proposes-observability",
+    "text": "Names the specific missing measurement that would settle it, for example queue or wait time before handler entry, connection pool saturation metrics, or per-pod latency breakdown",
+    "type": "required"
+  },
+  {
+    "id": "format-loop-or-rules",
+    "text": "Output is organized around the debugging loop (Observe, Hypothesize, Predict, Test, Conclude) or names specific Agans rules",
+    "type": "required"
+  },
+  {
+    "id": "format-hypotheses-ranked",
+    "text": "Hypotheses are presented as an explicit ranked or enumerated list with testability noted",
+    "type": "required"
+  }
+]

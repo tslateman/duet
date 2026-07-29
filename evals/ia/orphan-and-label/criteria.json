@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-ia-review-sections",
+    "text": "Output is structured as an IA review with sections covering structure issues, navigation gaps, and labeling problems",
+    "type": "required"
+  },
+  {
+    "id": "identifies-orphans",
+    "text": "Identifies advanced/index.md as an orphan with no inbound navigation path, and the pages under it as unreachable through navigation",
+    "type": "includes"
+  },
+  {
+    "id": "relabels-opaque-names",
+    "text": "Proposes concrete renames for the opaque labels: stuff/, notes.md, old.md, tmp-2.md, and misc.md, using names a reader can predict content from",
+    "type": "required"
+  },
+  {
+    "id": "connects-support-tickets",
+    "text": "Connects the top three support tickets to the buried content (webhook verification in tmp-2.md, rate limits inside misc.md, v1 migration in old.md) and promotes those to findable locations",
+    "type": "includes"
+  },
+  {
+    "id": "splits-grab-bag",
+    "text": "Splits misc.md, since rate limits, SLAs, and deprecation policy are unrelated topics grouped by nothing",
+    "type": "includes"
+  },
+  {
+    "id": "search-terms",
+    "text": "Addresses whether file names and headings match the words users actually search for, not only where files sit",
+    "type": "required"
+  },
+  {
+    "id": "format-label-arrows",
+    "text": "Labeling fixes are given as concrete current-to-proposed pairs, not vague advice to use better names",
+    "type": "required"
+  },
+  {
+    "id": "format-target-tree",
+    "text": "Output includes a concrete target file or directory tree",
+    "type": "required"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "rejects-duplication",
+    "text": "Rejects pasting the content into multiple homes, and names the cost: duplicated content drifts and readers cannot tell which copy is authoritative",
+    "type": "required"
+  },
+  {
+    "id": "picks-single-home",
+    "text": "Picks one canonical home and names it explicitly, rather than leaving the choice open",
+    "type": "required"
+  },
+  {
+    "id": "applies-diataxis",
+    "text": "Justifies the choice by Diataxis mode, classifying the content (largely reference, describing fixed behavior) rather than by preference",
+    "type": "required"
+  },
+  {
+    "id": "cross-reference-strategy",
+    "text": "Proposes linking or cross-referencing from the other candidate locations to the canonical page, instead of copying",
+    "type": "required"
+  },
+  {
+    "id": "splits-by-mode",
+    "text": "Recognizes that parts of the write-up may belong to different modes, for example the never-retried error list belonging with error codes, or the at-least-once rationale belonging in the explanation page",
+    "type": "includes"
+  },
+  {
+    "id": "addresses-npm-readme",
+    "text": "Addresses the npm README separately, since it is a different audience and surface than the docs site",
+    "type": "includes"
+  },
+  {
+    "id": "format-stated-rule",
+    "text": "States the placement rule used, so the next similar question resolves the same way",
+    "type": "required"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "format-nygard-sections",
+    "text": "Output contains the ADR section headers: Context, Decision, Consequences, and Alternatives Considered",
+    "type": "required"
+  },
+  {
+    "id": "flags-missing-rationale",
+    "text": "Explicitly flags that the why is absent from the source material rather than inventing a rationale and presenting it as recorded fact",
+    "type": "required"
+  },
+  {
+    "id": "no-fabricated-alternatives",
+    "text": "Does not present made-up rejected alternatives as if they were actually considered; any alternatives listed are marked as reconstructed, inferred, or unknown",
+    "type": "required"
+  },
+  {
+    "id": "names-open-questions",
+    "text": "Names specific unknowns worth recovering, for example whether session loss on Redis restart was accepted, or whether persistence and replication were configured",
+    "type": "includes"
+  },
+  {
+    "id": "status-honest",
+    "text": "Sets Status to something honest for a reconstructed record (Accepted with a note that it is retroactive, or Proposed) rather than silently asserting a clean Accepted",
+    "type": "recommended"
+  },
+  {
+    "id": "derivable-consequences-kept",
+    "text": "Still captures the consequences derivable from the commit itself: TTL-based expiry replaces the nightly cleanup job, and session data now lives in a store that may not be durable",
+    "type": "includes"
+  },
+  {
+    "id": "format-metadata-block",
+    "text": "Output includes a metadata block with Date, Status, and Deciders fields, with Deciders marked unknown or as the departed engineer",
+    "type": "required"
+  }
+]

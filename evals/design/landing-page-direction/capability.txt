@@ -1,0 +1,1 @@
+Commit to an explicit design direction (purpose, tone, differentiation) instead of producing generic AI-default aesthetics

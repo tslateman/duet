@@ -1,0 +1,1 @@
+Recognize when Mermaid is the better tool and say so, rather than producing verbose Excalidraw JSON by default

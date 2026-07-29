@@ -1,0 +1,42 @@
+[
+  {
+    "id": "names-the-tradeoff",
+    "text": "States the trade-off explicitly rather than answering yes or no alone: read latency bought with write complexity, storage, and staleness",
+    "type": "required"
+  },
+  {
+    "id": "quantifies-gain",
+    "text": "Quantifies the gain against the target: 340ms to 210ms clears the 300ms goal with headroom",
+    "type": "includes"
+  },
+  {
+    "id": "flags-cross-team-coupling",
+    "text": "Flags the two write paths owned by another team as a coordination and correctness risk, not just a scheduling cost",
+    "type": "includes"
+  },
+  {
+    "id": "flags-staleness-semantics",
+    "text": "Flags nightly-stale review snippets and seller ratings as a correctness question for the product, not only a performance detail",
+    "type": "includes"
+  },
+  {
+    "id": "proposes-cheaper-alternative",
+    "text": "Proposes at least one cheaper alternative to test first, for example indexing, query tuning, materialized view, or caching, given the gap is 40ms",
+    "type": "required"
+  },
+  {
+    "id": "addresses-deadline-risk",
+    "text": "Addresses the three-week peak deadline, noting that a 6x table and five new write paths landing right before peak traffic carries its own risk",
+    "type": "includes"
+  },
+  {
+    "id": "gives-recommendation",
+    "text": "Gives a clear recommendation rather than only listing considerations",
+    "type": "required"
+  },
+  {
+    "id": "format-analysis-sections",
+    "text": "Output is structured as a performance analysis with Goal, Baseline, and Recommendations sections",
+    "type": "required"
+  }
+]

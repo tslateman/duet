@@ -1,0 +1,47 @@
+[
+  {
+    "id": "reads-log-first",
+    "text": "Begins by reading and using the prior log rather than starting a fresh audit from scratch",
+    "type": "required"
+  },
+  {
+    "id": "does-not-repeat-fixed-work",
+    "text": "Does not re-select or rebuild the already-solved success-reporting problem from cycles 1 and 2",
+    "type": "required"
+  },
+  {
+    "id": "respects-failed-approach",
+    "text": "Does not retry the cycle-3 approach of editing the launchd plist directly, and states why that path is closed",
+    "type": "required"
+  },
+  {
+    "id": "selects-new-problem",
+    "text": "Selects the new sync-tokens failure, or another genuinely unaddressed item, as this cycle's problem",
+    "type": "required"
+  },
+  {
+    "id": "recognizes-held-blockers",
+    "text": "Recognizes that the absent backup mount and the nix rebuild remain blocked on the user, and does not silently re-hold them as new findings",
+    "type": "includes"
+  },
+  {
+    "id": "token-reauth-held",
+    "text": "Treats the expired token re-authentication as requiring user action or new credentials rather than something to auto-execute",
+    "type": "required"
+  },
+  {
+    "id": "appends-log-entry",
+    "text": "Produces a cycle 4 log entry to append, recording what was audited, what changed, and what was held",
+    "type": "required"
+  },
+  {
+    "id": "format-three-part-report",
+    "text": "Output closes with a report covering what was audited, why this problem over alternatives, and how to run the tool",
+    "type": "required"
+  },
+  {
+    "id": "separates-verified",
+    "text": "States separately what was verified and what was not",
+    "type": "required"
+  }
+]

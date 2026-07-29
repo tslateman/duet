@@ -1,0 +1,42 @@
+[
+  {
+    "id": "uses-generator-library",
+    "text": "Writes Python that imports from the excalidraw generator library (Diagram, ArchitectureDiagram, or Flowchart) rather than hand-authoring raw Excalidraw JSON",
+    "type": "required"
+  },
+  {
+    "id": "no-ascii-art",
+    "text": "Does not deliver the diagram as ASCII art or a text sketch",
+    "type": "required"
+  },
+  {
+    "id": "no-mermaid-substitute",
+    "text": "Does not substitute a Mermaid diagram for the requested Excalidraw output",
+    "type": "required"
+  },
+  {
+    "id": "format-saves-file",
+    "text": "Calls save() with the requested filename architecture.excalidraw",
+    "type": "required"
+  },
+  {
+    "id": "format-runnable-script",
+    "text": "Output includes a complete runnable script in a fenced code block, including the sys.path insert for the generator scripts directory",
+    "type": "required"
+  },
+  {
+    "id": "all-nodes-present",
+    "text": "All named components appear: web client, iOS app, gateway, auth, catalog, orders, Postgres, Elasticsearch, indexer, SQS queue, fulfilment worker",
+    "type": "includes"
+  },
+  {
+    "id": "shared-db-edges",
+    "text": "Draws both auth and orders connecting to the shared Postgres cluster, rather than giving each its own database",
+    "type": "includes"
+  },
+  {
+    "id": "names-viewing-path",
+    "text": "Tells the user how to open or export the result, for example dragging into excalidraw.com or exporting to PNG or SVG",
+    "type": "recommended"
+  }
+]

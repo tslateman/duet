@@ -1,0 +1,1 @@
+Demand a baseline and profile before optimizing, and refuse to act on unmeasured intuition

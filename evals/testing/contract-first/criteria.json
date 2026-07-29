@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-strategy-sections",
+    "text": "Output is structured as a test strategy with Contract, Priority Properties, Test Plan, and Tradeoffs Accepted sections",
+    "type": "required"
+  },
+  {
+    "id": "states-contract",
+    "text": "States the contract explicitly: what the function promises (exactly-once capture per idempotency key) and what it requires of callers",
+    "type": "required"
+  },
+  {
+    "id": "names-desiderata",
+    "text": "Names specific Beck desiderata being prioritized and why, rather than listing test cases with no property reasoning",
+    "type": "required"
+  },
+  {
+    "id": "covers-idempotency",
+    "text": "Includes a test for the idempotency short-circuit, that a repeated key returns the existing capture without calling the gateway again",
+    "type": "includes"
+  },
+  {
+    "id": "covers-timeout-succeeded",
+    "text": "Covers the stated failure mode where the gateway times out after succeeding, and addresses whether the code handles it (it does not; the capture row is never written, so a retry re-captures)",
+    "type": "includes"
+  },
+  {
+    "id": "covers-guard-branches",
+    "text": "Covers both guard branches: wrong order status, and amount exceeding the authorization",
+    "type": "includes"
+  },
+  {
+    "id": "covers-partial-failure",
+    "text": "Addresses the non-atomic sequence, that insert and mark_captured can fail independently after the gateway call succeeds",
+    "type": "includes"
+  },
+  {
+    "id": "names-tradeoffs",
+    "text": "Names properties deliberately sacrificed and why, for example accepting slower or less isolated tests to gain confidence on the money path",
+    "type": "required"
+  }
+]

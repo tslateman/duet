@@ -1,0 +1,1 @@
+Detect distinguishability and consistency failures across a set of names, not just weakness in any one name

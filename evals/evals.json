@@ -1,46 +1,174 @@
 {
   "version": 1,
   "skills": {
-    "vibe-check": {
+    "adr": {
       "scenarios": [
         {
-          "id": "api-handler",
-          "capability": "Missing skepticism, shallow naming, cargo-culted patterns",
-          "assertions": 8
+          "id": "queue-selection",
+          "capability": "Produce a full Nygard-format ADR from a decision conversation, capturing rejected alternatives and their reasons",
+          "assertions": 9
         },
         {
-          "id": "react-component",
-          "capability": "Earned complexity, prompt-shaped code, integration blindness",
+          "id": "superseding",
+          "capability": "Write a superseding ADR that links both directions and preserves the original decision's context rather than deleting it",
           "assertions": 7
         },
         {
-          "id": "data-pipeline",
-          "capability": "Missing skepticism, shallow naming, silent failures",
-          "assertions": 8
-        },
-        {
-          "id": "config-sprawl",
-          "capability": "Cargo-culted patterns, earned complexity, prompt-shaped code",
+          "id": "thin-decision",
+          "capability": "Resist producing a hollow ADR when the input records a decision but omits the reasoning, and name what is missing",
           "assertions": 7
         }
       ]
     },
-    "review": {
+    "automagic-problem-discovery": {
       "scenarios": [
         {
-          "id": "security-oversight",
-          "capability": "Security vulnerability detection and severity classification",
-          "assertions": 6
+          "id": "blast-radius",
+          "capability": "Execute the safe part and hold destructive or irreversible actions for the user with exact commands",
+          "assertions": 9
         },
         {
-          "id": "missing-context",
-          "capability": "Context gathering before review, anti-rubber-stamping",
+          "id": "leverage-over-easy-win",
+          "capability": "Pick the high-leverage root cause over the cheap surface fix, with 5 Whys reasoning and a stated runner-up",
+          "assertions": 9
+        },
+        {
+          "id": "loop-continuity",
+          "capability": "Read the prior cycle log first and build on it, rather than restarting the audit or repeating completed work",
+          "assertions": 9
+        }
+      ]
+    },
+    "debugging": {
+      "scenarios": [
+        {
+          "id": "flaky-test",
+          "capability": "Apply the observe-hypothesize-test loop to an intermittent test failure instead of jumping to a fix",
+          "assertions": 8
+        },
+        {
+          "id": "prod-timeout",
+          "capability": "Gather facts and check the obvious before theorizing on an intermittent production failure",
+          "assertions": 8
+        },
+        {
+          "id": "regression-bisect",
+          "capability": "Narrow a regression by delta debugging rather than reading every candidate commit",
+          "assertions": 8
+        }
+      ]
+    },
+    "design": {
+      "scenarios": [
+        {
+          "id": "api-surface",
+          "capability": "Apply Bloch's API maxims to an inconsistent, over-exposed interface and justify what to leave out",
+          "assertions": 8
+        },
+        {
+          "id": "landing-page-direction",
+          "capability": "Commit to an explicit design direction (purpose, tone, differentiation) instead of producing generic AI-default aesthetics",
+          "assertions": 8
+        },
+        {
+          "id": "module-boundaries",
+          "capability": "Diagnose system-design boundary failures (hidden coupling, global state, irreversible decisions) rather than proposing cosmetic reorganization",
+          "assertions": 8
+        }
+      ]
+    },
+    "excalidraw": {
+      "scenarios": [
+        {
+          "id": "decision-flowchart",
+          "capability": "Model branching logic with the Flowchart or decision constructs of the generator, with labeled branch edges",
+          "assertions": 8
+        },
+        {
+          "id": "service-architecture",
+          "capability": "Generate an editable .excalidraw file via the Python generator rather than ASCII art or a Mermaid substitute",
+          "assertions": 8
+        },
+        {
+          "id": "tool-choice",
+          "capability": "Recognize when Mermaid is the better tool and say so, rather than producing verbose Excalidraw JSON by default",
+          "assertions": 7
+        }
+      ]
+    },
+    "ia": {
+      "scenarios": [
+        {
+          "id": "growing-readme",
+          "capability": "Split an overgrown README along Diataxis modes and give every extracted page a navigation path",
+          "assertions": 8
+        },
+        {
+          "id": "orphan-and-label",
+          "capability": "Find orphaned content and unpredictable labels in a docs tree, and fix labels rather than only relocating files",
+          "assertions": 8
+        },
+        {
+          "id": "placement-decision",
+          "capability": "Resolve a single placement question with a stated rule rather than duplicating content into several plausible homes",
+          "assertions": 7
+        }
+      ]
+    },
+    "mermaid": {
+      "scenarios": [
+        {
+          "id": "auth-sequence",
+          "capability": "Produce valid Mermaid sequence-diagram syntax for a multi-party flow, including the failure path",
           "assertions": 7
         },
         {
-          "id": "trade-off-documentation",
-          "capability": "Architectural trade-off capture and assumption documentation",
+          "id": "oversized-flowchart",
+          "capability": "Split an over-dense diagram request into focused diagrams instead of producing one unreadable chart",
           "assertions": 7
+        },
+        {
+          "id": "state-machine",
+          "capability": "Choose stateDiagram-v2 over a flowchart for lifecycle modeling and encode start, terminal, and self-transitions",
+          "assertions": 7
+        }
+      ]
+    },
+    "naming": {
+      "scenarios": [
+        {
+          "id": "consistency-drift",
+          "capability": "Detect distinguishability and consistency failures across a set of names, not just weakness in any one name",
+          "assertions": 8
+        },
+        {
+          "id": "domain-language",
+          "capability": "Align code names with the domain's ubiquitous language instead of implementation or database vocabulary",
+          "assertions": 8
+        },
+        {
+          "id": "vague-handlers",
+          "capability": "Identify names that hide responsibility and propose replacements that state what the code actually does",
+          "assertions": 8
+        }
+      ]
+    },
+    "performance": {
+      "scenarios": [
+        {
+          "id": "measured-regression",
+          "capability": "Read a real profile, target the dominant cost, and quantify the ceiling on any proposed fix",
+          "assertions": 8
+        },
+        {
+          "id": "premature-optimization",
+          "capability": "Demand a baseline and profile before optimizing, and refuse to act on unmeasured intuition",
+          "assertions": 8
+        },
+        {
+          "id": "tradeoff-pressure",
+          "capability": "Make the performance trade-off explicit and decline the optimization when the cost outweighs the measured gain",
+          "assertions": 8
         }
       ]
     },
@@ -48,18 +176,99 @@
       "scenarios": [
         {
           "id": "bloated-readme",
-          "capability": "Passive voice, hedge words, needless qualifiers, vague language",
-          "assertions": 5
-        },
-        {
-          "id": "error-messages",
-          "capability": "Active voice, positive form, actionable language",
+          "capability": "Tighten documentation prose by eliminating passive voice, hedge words, needless qualifiers, and vague language per Strunk's rules",
           "assertions": 5
         },
         {
           "id": "commit-messages",
-          "capability": "Conventional prefixes, active voice, emphatic placement, concision",
+          "capability": "Rewrite commit messages using active voice, conventional prefixes, definite language, and emphatic word placement per Strunk's rules",
           "assertions": 5
+        },
+        {
+          "id": "error-messages",
+          "capability": "Rewrite user-facing error messages to be direct, active, and actionable per Strunk's rules on positive form, active voice, and definite language",
+          "assertions": 5
+        }
+      ]
+    },
+    "research": {
+      "scenarios": [
+        {
+          "id": "conflicting-sources",
+          "capability": "Resolve contradictory sources by weighing recency and authority, rather than averaging them or picking one silently",
+          "assertions": 9
+        },
+        {
+          "id": "library-comparison",
+          "capability": "Synthesize provided evidence into a decision-shaped comparison with a clear recommendation and named open questions",
+          "assertions": 9
+        },
+        {
+          "id": "scope-and-stop",
+          "capability": "Answer the question actually asked instead of expanding into an unbounded survey",
+          "assertions": 8
+        }
+      ]
+    },
+    "review": {
+      "scenarios": [
+        {
+          "id": "missing-context",
+          "capability": "Asks for missing context before diving into review when PR description is absent or insufficient",
+          "assertions": 7
+        },
+        {
+          "id": "security-oversight",
+          "capability": "Detects security vulnerabilities in code changes and classifies them as must-address blocking issues",
+          "assertions": 6
+        },
+        {
+          "id": "trade-off-documentation",
+          "capability": "Captures architectural trade-offs, rejected alternatives, and assumptions in the for-the-record section",
+          "assertions": 7
+        }
+      ]
+    },
+    "testing": {
+      "scenarios": [
+        {
+          "id": "contract-first",
+          "capability": "Derive a test plan from the code's contract and name which Beck desiderata are prioritized and which are traded away",
+          "assertions": 8
+        },
+        {
+          "id": "over-mocked-suite",
+          "capability": "Diagnose tests that assert implementation rather than behavior, and say what confidence they fail to provide",
+          "assertions": 8
+        },
+        {
+          "id": "test-level-choice",
+          "capability": "Choose the right test level for the risk rather than defaulting to end-to-end coverage of everything",
+          "assertions": 8
+        }
+      ]
+    },
+    "vibe-check": {
+      "scenarios": [
+        {
+          "id": "api-handler",
+          "capability": "Detects missing skepticism, shallow naming, and cargo-culted patterns in an Express API handler",
+          "assertions": 8
+        },
+        {
+          "id": "config-sprawl",
+          "capability": "Detects cargo-culted patterns, earned complexity, and prompt-shaped code in generated configuration code",
+          "assertions": 7
+        },
+        {
+          "id": "data-pipeline",
+          "capability": "Detects missing skepticism, shallow naming, and security surface issues in a Python data pipeline script",
+          "assertions": 8
+        },
+        {
+          "id": "react-component",
+          "capability": "Detects earned complexity, prompt-shaped code, and integration blindness in a React component",
+          "assertions": 7
         }
       ]
     }

@@ -1,0 +1,1 @@
+Make the performance trade-off explicit and decline the optimization when the cost outweighs the measured gain

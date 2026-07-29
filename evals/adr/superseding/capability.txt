@@ -1,0 +1,1 @@
+Write a superseding ADR that links both directions and preserves the original decision's context rather than deleting it

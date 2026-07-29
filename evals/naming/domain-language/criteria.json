@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-naming-review",
+    "text": "Output is structured as a naming review with tiers such as Must Rename and Consider Renaming",
+    "type": "required"
+  },
+  {
+    "id": "format-arrow-pairs",
+    "text": "Each finding is given as a current-to-proposed pair with a reason",
+    "type": "required"
+  },
+  {
+    "id": "applies-ubiquitous-language",
+    "text": "Explicitly maps code names onto the business vocabulary (booking, stay, guest, check-in, check-out, folio balance) rather than inventing a third vocabulary",
+    "type": "required"
+  },
+  {
+    "id": "flags-opaque-statuses",
+    "text": "Flags FLAG_1 and FLAG_2 as meaningless, mapping them to the real domain events, early departure and no-show",
+    "type": "includes"
+  },
+  {
+    "id": "flags-abbreviations",
+    "text": "Flags the abbreviations resId, startDt, endDt, uid, and tblVersion as failing understandability for no real concision gain",
+    "type": "includes"
+  },
+  {
+    "id": "flags-user-vs-guest",
+    "text": "Flags user as the wrong domain term where the business says guest",
+    "type": "includes"
+  },
+  {
+    "id": "flags-leaky-persistence",
+    "text": "Flags Record and tblVersion as leaking persistence vocabulary into the domain model",
+    "type": "includes"
+  },
+  {
+    "id": "consistency-check",
+    "text": "Checks consistency across the set, so the renamed functions and the renamed type use the same terms",
+    "type": "required"
+  }
+]

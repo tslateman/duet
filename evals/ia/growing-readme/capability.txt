@@ -1,0 +1,1 @@
+Split an overgrown README along Diataxis modes and give every extracted page a navigation path

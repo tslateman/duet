@@ -1,0 +1,1 @@
+Resist producing a hollow ADR when the input records a decision but omits the reasoning, and name what is missing

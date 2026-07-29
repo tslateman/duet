@@ -1,0 +1,1 @@
+Align code names with the domain's ubiquitous language instead of implementation or database vocabulary

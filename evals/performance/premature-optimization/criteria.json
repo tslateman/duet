@@ -1,0 +1,42 @@
+[
+  {
+    "id": "demands-baseline",
+    "text": "Refuses to rank the five until a baseline measurement exists, naming the specific metric and target needed",
+    "type": "required"
+  },
+  {
+    "id": "identifies-n-plus-one",
+    "text": "Identifies the N+1 query pattern in the per-project loop (four queries per project) as the dominant likely cost, which none of the five proposals addresses",
+    "type": "required"
+  },
+  {
+    "id": "proposes-orm-fix",
+    "text": "Proposes the query-level fix (select_related, prefetch_related, or annotate for the counts) as the change with real expected impact",
+    "type": "includes"
+  },
+  {
+    "id": "dismisses-micro-optimizations",
+    "text": "States that the comprehension rewrite, orjson swap, and __slots__ are micro-optimizations unlikely to matter against database round-trip time",
+    "type": "required"
+  },
+  {
+    "id": "cache-is-not-first",
+    "text": "Argues against leading with the Redis cache, since caching an unmeasured slow query hides the cost and adds invalidation complexity",
+    "type": "required"
+  },
+  {
+    "id": "names-profiling-method",
+    "text": "Names a concrete way to profile, for example query logging or counting, django-debug-toolbar, or an APM trace, rather than saying to profile generically",
+    "type": "required"
+  },
+  {
+    "id": "format-analysis-sections",
+    "text": "Output is structured as a performance analysis with Goal, Baseline, Profile Summary, and Recommendations sections",
+    "type": "required"
+  },
+  {
+    "id": "format-tradeoffs-named",
+    "text": "Each recommendation names its expected improvement and its trade-off",
+    "type": "required"
+  }
+]

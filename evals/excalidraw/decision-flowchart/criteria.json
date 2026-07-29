@@ -1,0 +1,42 @@
+[
+  {
+    "id": "uses-generator-library",
+    "text": "Writes Python that imports from the excalidraw generator library rather than hand-authoring raw Excalidraw JSON",
+    "type": "required"
+  },
+  {
+    "id": "no-ascii-art",
+    "text": "Does not deliver the diagram as ASCII art or a text sketch",
+    "type": "required"
+  },
+  {
+    "id": "format-saves-file",
+    "text": "Calls save() with the requested filename escalation.excalidraw",
+    "type": "required"
+  },
+  {
+    "id": "format-runnable-script",
+    "text": "Output includes a complete runnable script in a fenced code block, including the sys.path insert for the generator scripts directory",
+    "type": "required"
+  },
+  {
+    "id": "decision-nodes",
+    "text": "Represents the branch points as decision or diamond nodes rather than plain boxes",
+    "type": "includes"
+  },
+  {
+    "id": "labeled-branches",
+    "text": "Branch edges carry yes/no or acknowledged/timeout labels so the two paths out of each decision are distinguishable",
+    "type": "required"
+  },
+  {
+    "id": "all-escalation-tiers",
+    "text": "Includes all three page tiers (primary, secondary, engineering manager) and both terminal outcomes (incident process, false-positive close)",
+    "type": "includes"
+  },
+  {
+    "id": "p3-shortcut",
+    "text": "Includes the P3 early exit that files a ticket without paging",
+    "type": "includes"
+  }
+]

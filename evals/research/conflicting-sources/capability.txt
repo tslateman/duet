@@ -1,0 +1,1 @@
+Resolve contradictory sources by weighing recency and authority, rather than averaging them or picking one silently

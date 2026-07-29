@@ -1,0 +1,37 @@
+[
+  {
+    "id": "format-nygard-sections",
+    "text": "Output contains the ADR section headers: Context, Decision, Consequences, and Alternatives Considered",
+    "type": "required"
+  },
+  {
+    "id": "format-numbering",
+    "text": "The new ADR is numbered 0008 (or ADR-8)",
+    "type": "required"
+  },
+  {
+    "id": "supersedes-link-forward",
+    "text": "The new ADR states that it supersedes the earlier decision, referencing it by number in the References section or a Supersedes field",
+    "type": "required"
+  },
+  {
+    "id": "supersedes-link-back",
+    "text": "Instructs that the earlier ADR's Status be changed to Superseded rather than edited away or deleted",
+    "type": "required"
+  },
+  {
+    "id": "preserves-original-context",
+    "text": "Explains why the original decision was reasonable when made, rather than framing it as simply wrong",
+    "type": "includes"
+  },
+  {
+    "id": "names-what-changed",
+    "text": "Names the specific facts that changed: measured LCP of 4.8s on mobile, SEO becoming the primary goal, and the shared-component savings not materializing because components diverged",
+    "type": "includes"
+  },
+  {
+    "id": "format-metadata-block",
+    "text": "Output includes a metadata block with Date, Status, and Deciders, naming Sam and Jordan",
+    "type": "required"
+  }
+]

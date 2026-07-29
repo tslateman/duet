@@ -1,0 +1,42 @@
+[
+  {
+    "id": "format-naming-review",
+    "text": "Output is structured as a naming review with tiers such as Must Rename and Consider Renaming",
+    "type": "required"
+  },
+  {
+    "id": "format-arrow-pairs",
+    "text": "Each finding is given as a current-to-proposed pair with a reason, not vague advice",
+    "type": "required"
+  },
+  {
+    "id": "flags-process",
+    "text": "Flags process as hiding the responsibility, and proposes a name stating the actual work (validating and posting line items to the ledger)",
+    "type": "includes"
+  },
+  {
+    "id": "flags-do-stuff",
+    "text": "Flags _do_stuff and _check as placeholder names, proposing names for the real operations (posting to the ledger plus notifying, and validating amount and currency)",
+    "type": "includes"
+  },
+  {
+    "id": "flags-boolean-flag",
+    "text": "Flags the boolean flag parameter on handle as unnameable at the call site, and proposes splitting into two named methods or a named enum",
+    "type": "includes"
+  },
+  {
+    "id": "flags-class-name",
+    "text": "Flags DataManager as a name whose vagueness signals a design problem, and connects the naming struggle to the class doing validation, persistence, and notification",
+    "type": "required"
+  },
+  {
+    "id": "design-concern-raised",
+    "text": "Raises the multi-responsibility design concern explicitly, not only the surface renames",
+    "type": "required"
+  },
+  {
+    "id": "flags-abbreviation",
+    "text": "Flags the abbreviated ledger key amt as inconsistent with the amount attribute it stores",
+    "type": "recommended"
+  }
+]

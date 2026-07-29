@@ -1,0 +1,1 @@
+Find orphaned content and unpredictable labels in a docs tree, and fix labels rather than only relocating files

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "splits-diagram",
+    "text": "Splits the content into multiple focused diagrams rather than emitting one chart with every element, and says why",
+    "type": "required"
+  },
+  {
+    "id": "cites-complexity-threshold",
+    "text": "Justifies the split against a stated complexity threshold (breaking up diagrams at roughly 15+ elements)",
+    "type": "required"
+  },
+  {
+    "id": "format-fenced-mermaid",
+    "text": "Every diagram is wrapped in a fenced code block tagged mermaid",
+    "type": "required"
+  },
+  {
+    "id": "format-multiple-blocks",
+    "text": "Output contains more than one mermaid code block",
+    "type": "required"
+  },
+  {
+    "id": "coverage-preserved",
+    "text": "The set of diagrams still covers all the named stages, including returns re-entry, reconciliation, and the webhook consumer, rather than silently dropping them",
+    "type": "includes"
+  },
+  {
+    "id": "named-linking",
+    "text": "Names how the diagrams relate, for example a top-level overview diagram whose nodes correspond to the detail diagrams",
+    "type": "includes"
+  },
+  {
+    "id": "subgraph-or-grouping",
+    "text": "Uses subgraphs or equivalent grouping for the multi-fulfilment-center and channel fan-in, and closes each subgraph with end",
+    "type": "recommended"
+  }
+]

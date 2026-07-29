@@ -1,0 +1,1 @@
+Execute the safe part and hold destructive or irreversible actions for the user with exact commands
