@@ -2,6 +2,12 @@
 
 Reflection, writing, and design skills for Claude Code.
 
+> **Most of these skills now live in [tslateman/skills](https://github.com/tslateman/skills),**
+> which carries a larger catalog and is where new work happens. Duet still owns
+> the ones the move left behind: `agent-watchdog`, `caveman`, `debrief`,
+> `debugging`, `grill-with-docs`, `performance`, and `review`. Install both if
+> you want the whole set.
+
 ## Install
 
 ```bash
